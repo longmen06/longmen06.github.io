@@ -1,0 +1,11 @@
+Origin: Long Mến
+Label: Long Mến's Repo❤️
+Suite: stable
+Version: 1.0
+Codename: ios
+Architecture: iphoneos-arm
+Components: main
+Description: Long Mến Repository
+MD5Sum:
+ d1dc2c22ee47048677351a37dc6a6435 363374 Packages
+ 4e87193f9e07cdde0777809f342ae649 99766 Packages.bz2

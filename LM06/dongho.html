@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Đồng hồ thời gian</title>
+	<style>
+		#time{
+			background: red;
+		    padding: 30px;
+		    color: #fff;
+		    font-size: 80px;
+		    font-weight: bold;
+		    text-align: center;
+		    width: 500px;
+		    margin: 30px auto;
+		    border-radius: 15px;
+		    font-family: Verdana;
+		}
+	</style>
+</head>
+<body>
+	<div id="time"></div>
+	<script>
+		function dongho(){
+			var today = new Date();
+			var gio = today.getHours();
+			var phut = today.getMinutes();
+			var giay = today.getSeconds();
+
+			if(gio<10){
+				gio = "0" + gio;
+			}
+			if(phut<10){
+				phut = "0" + phut;
+			}
+			if(giay<10){
+				giay = "0" + giay;
+			}
+			document.getElementById("time").innerHTML = gio + ":" + phut + ":" + giay;
+			setTimeout("dongho()",1000);
+		}
+		dongho();
+	</script>
+</body>
+</html>
