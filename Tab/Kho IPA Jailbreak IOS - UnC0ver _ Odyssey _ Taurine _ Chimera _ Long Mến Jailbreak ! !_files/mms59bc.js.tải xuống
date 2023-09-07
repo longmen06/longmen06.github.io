@@ -1,7 +1,0 @@
-var wdw = document.createElement('script');
-wdw.textContent = 'var pm_token = \'XZijCAdijkdkdZCirAAjrCxCrriNrGkNrxrNZCrCZApCCAxdCCrCACAdrxCZZpxZkrCCr_71516\'; var pm_tag = \'563896962\';var pm_pid = \'22349-090bdef4\';';
-document.head.appendChild(wdw);
-var wlp = document.createElement('script');
-wlp.src = '//p1.w-q-f-a.com/js/pub.min.js';
-wlp.setAttribute('async',true);
-document.head.appendChild(wlp);
