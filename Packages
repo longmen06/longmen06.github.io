@@ -7561,6 +7561,24 @@ Depiction: https://longmen06.github.io/Debinfo/helix/?p=info
 SileoDepiction: https://longmen06.github.io/Debinfo/helix/?p=info
 Icon: file:///Applications/Cydia.app/Sections/tinhchinhhlongmen.png
 
+Package: com.longmen94.letmepass
+Architecture: iphoneos-arm
+Version: 1.5
+Section: Tweaks
+Maintainer: longmen94
+Installed-Size: 200
+Filename: ./DEB/com.longmen94.letmepass_1.5_iphoneos-arm.deb
+Size: 6084
+MD5sum: a99fe4cbaf8a4477298860d7f729cd9c
+SHA1: a7c1abd60a83031eb47b08d5c013c710e533c4bd
+SHA256: 2c4b98f7e3829e33ba80e009208d7f6e49c43d3cc652c3d78ad2b7c7ce8af57f
+SHA512: 0782aa8bb703b9ece90aa8ad555bc400eec7d9942adbdf8702bd5300711d82f7e79cb5e36ebd62d23ca2f90ec45dd99e8be771d3e87899a83a1feca9019ca439
+Description: Chặn cập nhật App Youtube Ios 12 - 14
+Name: LetMePass
+Author: Snoolie K
+Depiction: https://longmen06.github.io/Debinfo/letmepassyoutube/?p=info
+ SileoDepiction: https://longmen06.github.io/Debinfo/letmepassyoutube/?p=info
+
 Package: com.longmen94.relocateRebon
 Architecture: iphoneos-arm
 Version: 2.1
