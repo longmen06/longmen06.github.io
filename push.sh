@@ -54,7 +54,7 @@ apt-ftparchive packages ./DEB > ./Packages;
 #sed -i -e '/^SHA/d' ./Packages;
 bzip2 -c9k ./Packages > ./Packages.bz2;
 echo "------------------"
-echo "Long Mến❤️ !"
+echo "Done !"
 echo "------------------"
-echo "Mod by Long Mến❤️ !"
+echo "Mod by Long Mến !"
 exit 0
