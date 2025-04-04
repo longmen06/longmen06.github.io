@@ -7579,6 +7579,25 @@ Author: Snoolie K
 Depiction: https://longmen06.github.io/Debinfo/letmepassyoutube/?p=info
  SileoDepiction: https://longmen06.github.io/Debinfo/letmepassyoutube/?p=info
 
+Package: com.longmen94.precise-time
+Architecture: iphoneos-arm
+Version: 0.0.1
+Section: Tweaks
+Maintainer: BigBoss <bigboss@thebigboss.org>
+Installed-Size: 210
+Depends: firmware (>= 10.0), mobilesubstrate (>= 0.9.5000), preferenceloader
+Filename: ./DEB/com.longmen94.precise-time_0.0.1_iphoneos-arm.deb
+Size: 11034
+MD5sum: 6d54cbdf963d9727be7853e477e4d3a7
+SHA1: b70dc15fc6c4d04499bfbf54116cf67a59b630ae
+SHA256: b510576dbabaccf28c1ca253cddc8914397799952952530062ab225ddfdbef40
+SHA512: cc28868638fbca5f1aeff72751a9c6c89bbb2db91342702f9152e9b051bc33e7be14caa62c13cdc36c7a8ae16d78d7bcf098b9428e7268e497ebe334cb7b6b27
+Description: Thanh trạng thái hiển thị số giây của thời điểm hiện tại
+Tag: purpose::extension
+Author: witchan <witchan028@126.com>
+Name: Precise Time
+dev: witchan
+
 Package: com.longmen94.relocateRebon
 Architecture: iphoneos-arm
 Version: 2.1
