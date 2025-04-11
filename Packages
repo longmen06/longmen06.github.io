@@ -7429,6 +7429,42 @@ Name: Filza Compiler
 Author: SsS136
 Icon: file:///Applications/Cydia.app/Sections/tinhchinhhlongmen.png
 
+Package: com.longmen94.Timemark
+Architecture: iphoneos-arm
+Version: 1.0.0
+Section: Tweak
+Maintainer: longmen94
+Installed-Size: 11648
+Depends: mobilesubstrate
+Filename: ./DEB/com.longmen94.Timemark_1.0.0_iphoneos-arm.deb
+Size: 54178
+MD5sum: 5fb16d23541e14ff2356e9445d57259d
+SHA1: bbbf831b900835522f403a65f0245169da463099
+SHA256: bf9279a1afe19400a953be34e117c722c9d5ffccfa6de03852428c9cac066a2d
+SHA512: 7a96cef29f20a8685b27b7ad771dc26573d63e9edaaa21ee7bfd7ee03b402ac740dbedb9eb89daa5a9e543b639aa34daef4a243f3e1cf9eab22f0840fe85842b
+Description: Xoá Logo App Timemark No Watermark
+Name: Timemark No Watermark
+Author: Lê Tí
+
+Package: com.longmen94.aemulo
+Architecture: iphoneos-arm
+Version: 1.2.5
+Section: Tweaks
+Maintainer: Amy While <support@anamy.gay>
+Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)
+Conflicts: com.amywhile.aemulotrial
+Filename: ./DEB/com.longmen94.aemulo_1.2.5_iphoneos-arm.deb
+Size: 815376
+MD5sum: f8c1844b3cd49d39169a82475cfd362e
+SHA1: 82920a42ae0933590af1ef2f8549cbc0997f634a
+SHA256: 0cef00a8bd74e74d40f7ecadbc148d12d1fa6fbf6ffd1fb731afbccf35c9f42c
+SHA512: 7a9d1e82cfd08627ea0c36ef811c12d0e3498cb45d83714d6bcf06922a3c9e1ce2705b9c5bcdfba452034c30721e35ffa93947fdedb5d5e86578555d2e8801c9
+Description: NFC Frickery
+Name: Aemulo VH
+Author: Amy While <support@anamy.gay>
+Header: https://elihwyma.github.io/Aemulo/assets/Depiction-Header.png
+Native-Depiction: https://elihwyma.github.io/Aemulo/NativeDepiction.json
+
 Package: com.longmen94.aim
 Architecture: iphoneos-arm
 Version: 1.2.9

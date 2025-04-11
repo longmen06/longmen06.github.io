@@ -7,5 +7,5 @@ Architecture: iphoneos-arm
 Components: main
 Description: Long Mến's Repository
 MD5Sum:
- 777d782af7d1b6810253b039c478f4fe 367084 Packages
- b5c93acc5a3938f1683fa1d1e869c3d4 100646 Packages.bz2
+ eadfab82fa7c5dbcd930ad3f3be24385 368528 Packages
+ 546b188e4f9b4b366dc7bdc0033627ff 101130 Packages.bz2
