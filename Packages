@@ -7597,6 +7597,27 @@ Depiction: https://longmen06.github.io/Debinfo/helix/?p=info
 SileoDepiction: https://longmen06.github.io/Debinfo/helix/?p=info
 Icon: file:///Applications/Cydia.app/Sections/tinhchinhhlongmen.png
 
+Package: com.longmen94.ios10theme
+Architecture: iphoneos-arm
+Version: 2.1
+Priority: optional
+Section: Themes
+Maintainer: longmen94 <>
+Installed-Size: 21323
+Depends: firmware (>= 11.0), com.anemonetheming.anemone
+Filename: ./DEB/com.longmen94.ios10theme_2.1_iphoneos-arm.deb
+Size: 142858
+MD5sum: f0d8db1dc1987ab8d073cc9cfa614159
+SHA1: 457751087275d079d624b6dd94b982953d7601e0
+SHA256: 5259e85d3c5de2a1cf0628cb74ef77356c7f361147e4242a798b12a6ca91b489
+SHA512: 78cd55eef209eb55fbb9e8589d7a1f379ddde8382cb12234d7e42e316b11e221454397098711270f911b175e10476668234baf3f0c1e16929cfa5af657df80e9
+Description: Theme iOS 10 Cho IOS 11 - 14!
+Tag: compatible::ios11
+Name: iOS 10 Theme
+Depiction: https://longmen06.github.io/Debinfo/ios10theme/?p=info
+Author: Long Mến <longmenjailbreak@gmail.com>
+dev: longmen94
+
 Package: com.longmen94.letmepass
 Architecture: iphoneos-arm
 Version: 1.5
