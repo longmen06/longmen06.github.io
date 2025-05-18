@@ -7486,6 +7486,23 @@ SileoDepiction: https://longmen06.github.io/Debinfo/aim/?p=info
 Icon: file:///Applications/Cydia.app/Sections/tinhchinhhlongmen.png
 Author: alimaulana
 
+Package: com.longmen94.batteryinfo
+Architecture: iphoneos-arm
+Version: 1.1.8
+Section: Utilities
+Maintainer: longmen94
+Installed-Size: 1464
+Depends: firmware (>= 12.2) | org.swift.libswift (>= 5.0)
+Filename: ./DEB/com.longmen94.batteryinfo_1.1.8_iphoneos-arm.deb
+Size: 158528
+MD5sum: ddf7ed0a1c3eefdd3b4a3fcf3f90f0a0
+SHA1: ff81afb71176646ef600218bc910f17812ff6f33
+SHA256: 307030374d1cc4b8db9b66d0f2877bd77035dd7a8df6d01195694be2bbd03fa9
+SHA512: 82ec14472b1c114c62bff5bbe2543e672216234acc40064a58d8abfd311b2e1fd2f28b287f07622d964ad07ac96331d1d73eb4ebd4979998369597a05bce2109
+Description: Thông tin về pin
+Name: Battery Info VN
+Author: developlab
+
 Package: com.longmen94.batteryios16
 Architecture: iphoneos-arm
 Version: 1.0.5
@@ -7503,6 +7520,23 @@ Description: Hiện thị phần trăm pin ios 16 trên thiết bị ios 13-14.
 Name: Battery IOS
 Depiction: Hiện thị phần trăm pin ios 16 trên thiết bị ios 13-14.
 Author: Long Mến94
+
+Package: com.longmen94.blur
+Architecture: iphoneos-arm
+Version: 1.0-8+debug
+Section: Tweaks
+Maintainer: longmen94
+Installed-Size: 1766
+Depends: mobilesubstrate (>= 0.9.5000)
+Filename: ./DEB/com.longmen94.blur_1.0-8+debug_iphoneos-arm.deb
+Size: 18698
+MD5sum: b6559f1eb8619734da42d1cd0c21a57a
+SHA1: fa0270bb25463249c2880181b4c8f88d1aa06188
+SHA256: 0afebb74caaceedd400fb21f1e1463bc2ededa27eee4ac30e45ac041b0cd8ddd
+SHA512: 3f8752552ed0763ec5cf53cb349fcd9aec071df2b870301e3b5451368387afefad33a0e6ca5406fb3f600a54510475858d4e00ffcf80f1ae6284839e3d0d3b72
+Description: Ẩn ảnh riêng trong thư viện của bạn. Mở khóa bằng ID mặt, ID cảm ứng hoặc mật mã
+Name: Blurify6 VN
+Author: MrDeNsor
 
 Package: com.longmen94.clockfonts
 Architecture: iphoneos-arm
@@ -7558,6 +7592,22 @@ Description: Fake 2 cột sóng như các máy đời cao dành cho Iphone 6-Iph
 Name: Fake 2 Sim
 Author: Long Mến
 Icon: file:///Applications/Cydia.app/Sections/tinhchinhhlongmen.png
+
+Package: com.longmen94.fakedualsim
+Architecture: iphoneos-arm64
+Version: 1.0.1
+Section: Tweaks
+Maintainer: Repo
+Depends: mobilesubstrate
+Filename: ./DEB/com.longmen94.fakedualsim_1.0.1_iphoneos-arm64.deb
+Size: 6252
+MD5sum: d7b2c25a6bc99ce9be5ae4c990e71303
+SHA1: e733af280862201e87ac2acc6a33f174a7452d52
+SHA256: 8b4a7a850efb2e34b8f37c05a06bc02f00a24a8cab3d03fbd382d1a403e6710e
+SHA512: bd0c6ed061b2e98e513bdf976e8910fba2f807ac9465322451f3276cd1dcb23039a29685a9111b6d8cc7e9470eb6383b12d6377bd167bc04477dac33192f6b48
+Description: Giả mạo 2 sim
+Name: FakeDualSIM (Rootless)
+Author: CydiaGeek <lucaluca86@aol.com>
 
 Package: com.longmen94.fakeios16
 Architecture: iphoneos-arm
@@ -7635,6 +7685,28 @@ Name: LetMePass
 Author: Snoolie K
 Depiction: https://longmen06.github.io/Debinfo/letmepassyoutube/?p=info
  SileoDepiction: https://longmen06.github.io/Debinfo/letmepassyoutube/?p=info
+
+Package: com.longmen94.noapplemobi
+Architecture: iphoneos-arm
+Version: 0.0.1-103
+Section: Tweaks
+Maintainer: xybp888
+Installed-Size: 2347
+Depends: mobilesubstrate (>= 0.9.5000)
+Conflicts: com.bvn.replaced, com.34306.replace, com.bvn.nopreferencetips
+Filename: ./DEB/com.longmen94.noapplemobi_0.0.1-103_iphoneos-arm.deb
+Size: 17856
+MD5sum: 0a7a63c27a630ec35c8e29a892343db4
+SHA1: a29209914ae2351de31eb280f6a9032fad3c6720
+SHA256: 72eaaa4ea7e31a2952ee3f07cdc184671544133c292011b934413cd0fbe29727
+SHA512: b9cf7cbdc6081f805d0757493307ab0326d162f61d587da8dcedf353d3dcf6b456ebc375a4cb32ba241888b5721fce3757df37db375d6e6f1da70f83d8ae2e20
+Description: Apple MobileRepair
+ 1. Sau khi thay thế pin của bên thứ ba, hãy bật và hiển thị giá trị sức khỏe của pin bình thường.
+ 2. Chặn các bản ghi của các bộ phận không xác định được hiển thị trên máy này.
+ 3. Cài đặt chặn hiển thị % Pin và thông tin nhắc nhở cập nhật pin.
+ 4. Tắt cảnh báo cập nhật phần mềm
+Name: No Apple MobileRepair
+Author: xybp888
 
 Package: com.longmen94.precise-time
 Architecture: iphoneos-arm
