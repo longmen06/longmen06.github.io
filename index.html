@@ -1,11 +1,10 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="vi">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Repository Cydia Sileo</title>
+    <title data-i18n="pageTitle">Repository Cydia Sileo</title>
     <meta name="rating" content="general" />
     <meta name="author" content="Repository Cydia Sileo" />
     <meta name="copyright" content="Repository Cydia Sileo" />
@@ -25,170 +24,439 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;900&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="newhomepage/css/style.css">
     <link rel="icon" href="https://longmen06.github.io/favicon.ico" type="image/x-icon">
-    </head>
-     <!-- Messenger Plugin chat Code -->
-     <div id="fb-root"></div>
 
-     <!-- Your Plugin chat code -->
-     <div id="fb-customer-chat" class="fb-customerchat">
-     </div>
- 
-     <script>
-       var chatbox = document.getElementById('fb-customer-chat');
-       chatbox.setAttribute("page_id", "106612891580157");
-       chatbox.setAttribute("attribution", "biz_inbox");
-     </script>
- 
-     <!-- Your SDK code -->
-     <script>
-       window.fbAsyncInit = function() {
-         FB.init({
-           xfbml            : true,
-           version          : 'v16.0'
-         });
-       };
- 
-       (function(d, s, id) {
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) return;
-         js = d.createElement(s); js.id = id;
-         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-     </script>
- 
-     <body onload="thongbaopopup()">
-         <!-- Thong bao pupup -->
- <div class="tbpopup" id="tbpopup-1">
-     <div class="tboverlay"></div>
-     <div class="tbcontent">
-     <div class="tbclose-btn" onclick="thongbaopopup()">&times;</div>
-     <div style="font-size:35px;color:#000;font-weight:bold">Xin Chào </div>
-     <p>Cảm ơn bạn đã ghé thăm trang web, chúc bạn một ngày mới vui vẻ và tràn đầy hạnh phúc!</p>
- 
-         <p>Liên hệ Facebook <a style="text-decoration: none" href="https://www.facebook.com/menlong94">Truy cập</a> khi bạn cần được hỗ trợ!</p>
-         
-        <p> 〠 Trang IPA : <a style="text-decoration: none" href="https://ipalongmen06.github.io">Truy Cập 〠 </a></p><a style="text-decoration: none" href="https://ipalongmen06.github.io"</p></a>
-         
-        <p><a> Facebook : </a><a style="text-decoration: none" href="https://www.facebook.com/longmen06"> Truy Cập</a>
-         
-             <p>Ngày Cập Nhật : 27/07/2016</p>
-         
-             <p>Copyright © 2016 All Rights Reserved</p>
-     <!-- js thong bao popup -->
- <script>
-     function thongbaopopup(){
-     document.getElementById("tbpopup-1").classList.toggle("active");
-     }
-     </script>
-     </div>
-     
+    <style>
+        /* Thông báo bật/tắt tính năng & chuyển ngôn ngữ */
+        .lm06-toast {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 100000;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 77, 109, 0.45);
+            background: rgba(20, 20, 26, 0.95);
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: opacity 0.22s ease, transform 0.22s ease;
+            max-width: calc(100vw - 36px);
+        }
+        .lm06-toast.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .lm06-toast-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ff4d6d;
+            flex-shrink: 0;
+        }
+
+        /* Cụm nút điều khiển nổi */
+        .lm06-controls {
+            position: fixed;
+            left: 16px;
+            bottom: 16px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 265px;
+        }
+        .lm06-panel-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .lm06-controls.is-collapsed .lm06-panel-body {
+            display: none;
+        }
+        .lm06-btn,
+        .lm06-select {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 13px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(20, 20, 24, 0.92);
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(6px);
+            transition: transform 0.15s ease, background 0.2s ease, opacity 0.2s ease;
+        }
+        .lm06-select {
+            border-radius: 14px;
+            padding: 7px 10px;
+            text-align: center;
+        }
+        .lm06-select option {
+            background: #18181d;
+            color: #ffffff;
+        }
+        .lm06-btn:hover,
+        .lm06-select:hover {
+            transform: translateY(-2px);
+            background: rgba(35, 35, 42, 0.98);
+        }
+        .lm06-btn.is-off {
+            opacity: 0.62;
+        }
+
+        /* Bảng nhận diện thiết bị, phần mềm, màn hình & mạng */
+        .lm06-diag-box {
+            background: rgba(24, 24, 30, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: #f1f1f5;
+            margin: 18px 0 26px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+        }
+        .lm06-diag-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .lm06-diag-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .lm06-live-heart {
+            display: inline-block;
+            color: #ff4d6d;
+            font-size: 18px;
+            animation: lm06HeartBeat 1.1s infinite ease-in-out;
+        }
+        .lm06-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 10px;
+        }
+        .lm06-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+        .lm06-item-label {
+            font-size: 12px;
+            opacity: 0.75;
+            margin-bottom: 3px;
+        }
+        .lm06-item-val {
+            font-size: 14px;
+            font-weight: 600;
+            word-break: break-word;
+        }
+        .lm06-item-sub {
+            font-size: 11px;
+            opacity: 0.72;
+            margin-top: 3px;
+        }
+        .lm06-note {
+            margin-top: 10px;
+            font-size: 12px;
+            opacity: 0.72;
+        }
+
+        /* Trái tim bay nền */
+        .lm06-ambient-hearts {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 99996;
+            overflow: hidden;
+        }
+        .lm06-ambient-heart {
+            position: absolute;
+            bottom: -24px;
+            color: #ff4d6d;
+            opacity: 0;
+            animation: lm06AmbientRise var(--dur, 6s) linear infinite;
+            animation-delay: var(--delay, 0s);
+            font-size: var(--sz, 16px);
+            left: var(--left, 50%);
+        }
+        @keyframes lm06AmbientRise {
+            0% {
+                transform: translateY(0) scale(0.8) rotate(-8deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.45;
+            }
+            80% {
+                opacity: 0.35;
+            }
+            100% {
+                transform: translateY(-105vh) scale(1.2) rotate(14deg);
+                opacity: 0;
+            }
+        }
+        @keyframes lm06HeartBeat {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.28); }
+            55% { transform: scale(0.95); }
+            75% { transform: scale(1.16); }
+        }
+
+        /* Chế độ Sáng (Light Mode) */
+        html.lm06-light-mode {
+            filter: invert(1) hue-rotate(180deg);
+        }
+        html.lm06-light-mode img,
+        html.lm06-light-mode video,
+        html.lm06-light-mode iframe,
+        html.lm06-light-mode .lm06-controls,
+        html.lm06-light-mode .lm06-toast,
+        html.lm06-light-mode .heart-particle,
+        html.lm06-light-mode .lm06-ambient-hearts {
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        /* Trái tim bay theo chuột & bung khi click */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99998;
+            user-select: none;
+            transform: translate(-50%, -50%);
+            animation: heartFloatUp 0.9s ease-out forwards;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        }
+        @keyframes heartFloatUp {
+            0% {
+                opacity: 0.95;
+                transform: translate(-50%, -50%) scale(0.75) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(-50% + var(--drift-x, 0px)), calc(-50% - var(--drift-y, 48px))) scale(1.25) rotate(var(--rot, 15deg));
+            }
+        }
+    </style>
+</head>
+
+<body onload="thongbaopopup()">
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat"></div>
+
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "106612891580157");
+        chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                xfbml: true,
+                version: 'v16.0'
+            });
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- Thong bao pupup -->
+    <div class="tbpopup" id="tbpopup-1">
+        <div class="tboverlay"></div>
+        <div class="tbcontent">
+            <div class="tbclose-btn" onclick="thongbaopopup()">&times;</div>
+            <div style="font-size:35px;color:#000;font-weight:bold" data-i18n="popupHello">Xin Chào</div>
+            <p data-i18n="popupGreeting">Cảm ơn bạn đã ghé thăm trang web, chúc bạn một ngày mới vui vẻ và tràn đầy hạnh phúc!</p>
+            <p><span data-i18n="popupContactFb">Liên hệ Facebook</span> <a style="text-decoration: none" href="https://www.facebook.com/menlong94" data-i18n="accessLink">Truy cập</a> <span data-i18n="popupSupportSuffix">khi bạn cần được hỗ trợ!</span></p>
+            <p>〠 <span data-i18n="popupIpaPage">Trang IPA</span> : <a style="text-decoration: none" href="https://ipalongmen06.github.io"><span data-i18n="accessLink">Truy Cập</span> 〠</a></p>
+            <p><a><span data-i18n="fbLabel">Facebook</span> :</a> <a style="text-decoration: none" href="https://www.facebook.com/longmen06" data-i18n="accessLink">Truy Cập</a></p>
+            <p><span data-i18n="popupUpdatedDate">Ngày Cập Nhật</span> : 27/07/2016</p>
+            <p data-i18n="popupCopyright">Copyright © 2016 All Rights Reserved</p>
+        </div>
+    </div>
+
+    <!-- js thong bao popup -->
+    <script>
+        function thongbaopopup() {
+            document.getElementById("tbpopup-1").classList.toggle("active");
+        }
+    </script>
+
+    <!-- Thông báo trạng thái khi bật/tắt tính năng hoặc đổi ngôn ngữ -->
+    <div id="lm06Toast" class="lm06-toast" role="status" aria-live="polite">
+        <span class="lm06-toast-dot"></span>
+        <span id="lm06ToastText"></span>
+    </div>
+
+    <!-- Trái tim bay nền -->
+    <div id="ambientHearts" class="lm06-ambient-hearts" aria-hidden="true"></div>
+
+    <!-- Cụm nút điều khiển Sáng Tối, Trái Tim Bay, Tim Chuột & Ngôn Ngữ -->
+    <div id="lm06Controls" class="lm06-controls" aria-label="Tùy chỉnh giao diện">
+        <button type="button" id="togglePanelBtn" class="lm06-btn" title="Thu gọn / Mở rộng bảng điều khiển">
+            <span id="panelToggleIcon">▾</span>
+            <span id="panelToggleLabel">Bảng điều khiển</span>
+        </button>
+        <div class="lm06-panel-body">
+            <select id="langSelect" class="lm06-select" title="Chọn ngôn ngữ / Language">
+                <option value="vi">🇻🇳 Tiếng Việt</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="zh">🇨🇳 中文 (简体)</option>
+                <option value="ko">🇰🇷 한국어</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+            <button type="button" id="toggleThemeBtn" class="lm06-btn" title="Đổi chế độ Sáng / Tối">
+                <span id="themeIcon">☀️</span>
+                <span id="themeLabel">Chế độ Sáng</span>
+            </button>
+            <button type="button" id="toggleFlyingHeartBtn" class="lm06-btn" title="Bật / Tắt trái tim bay">
+                <span id="flyingHeartIcon">💘</span>
+                <span id="flyingHeartLabel">Tim bay: Bật</span>
+            </button>
+            <button type="button" id="toggleHeartBtn" class="lm06-btn" title="Bật / Tắt trái tim theo chuột & click">
+                <span id="heartIcon">♥</span>
+                <span id="heartLabel">Tim chuột: Bật</span>
+            </button>
+        </div>
+    </div>
 
     <!-- End Google Tag Manager (noscript) -->
     <input type="hidden" id="rootPath" value="index.html" />
     <div class="top-navbar bg-dark">
-    <div class="container-fluid">
-        </div>
+        <div class="container-fluid"></div>
     </div>
-</div>
-<nav id="navbar" class="navbar navbar-expand-lg bg-dark navbar-dark">
-    <div class="container">
-        <a class="navbar-brand fadeInLeft animated nav-top-logo" href="#"><img src="https://longmen06.github.io/icon.png" alt=""></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-top-menu mr-auto text-uppercase fadeInLeft animated">
-                <li class="nav-item active">
-                    <a class="nav-link link-top" href="https://longmen06.github.io/index.html">Trang chủ <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link-top" href="https://longmen06.github.io/Landing.html">Tin tức</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link-top" href="https://longmen06.github.io/LM06/sever/404.html">Trang Nghe Nhạc DJ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link-top" href="https://longmen06.github.io/LM06/sever/404.html">Kí Chứng Chỉ</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdownMenuLink" class="nav-link link-top dropdown-toggle" aria-labelledby="navbarDropdownShop" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cẩm Nang
-                        <svg height="10" width="10" class="blinking">
-                          <circle cx="5" cy="5" r="5" fill="red"></circle>  
-                        </svg>
-                    </a>
-                    <div class="dropdown-menu dr-mn-gb bg-rdn" aria-labelledby="navbarDropdownShop">
-                        <a class="dropdown-item it-lk" href="https://www.facebook.com/groups/longmen06/">
-                            Trao đổi kinh nghiệm
+
+    <nav id="navbar" class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fadeInLeft animated nav-top-logo" href="#"><img src="https://longmen06.github.io/icon.png" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav nav-top-menu mr-auto text-uppercase fadeInLeft animated">
+                    <li class="nav-item active">
+                        <a class="nav-link link-top" href="https://longmen06.github.io/index.html"><span data-i18n="navHome">Trang chủ</span> <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-top" href="https://longmen06.github.io/Landing.html" data-i18n="navNews">Tin tức</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-top" href="https://longmen06.github.io/LM06/sever/404.html" data-i18n="navDj">Trang Nghe Nhạc DJ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-top" href="https://longmen06.github.io/LM06/sever/404.html" data-i18n="navSignCert">Kí Chứng Chỉ</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdownMenuLink" class="nav-link link-top dropdown-toggle" aria-labelledby="navbarDropdownShop" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span data-i18n="navGuide">Cẩm Nang</span>
                             <svg height="10" width="10" class="blinking">
                                 <circle cx="5" cy="5" r="5" fill="red"></circle>
-                                Sorry, your browser does not support inline SVG.
                             </svg>
                         </a>
-                        <a class="dropdown-item it-lk" href="https://www.facebook.com/longmenjailbreak/">
-                            Fanpage Repository Long Mến
+                        <div class="dropdown-menu dr-mn-gb bg-rdn" aria-labelledby="navbarDropdownShop">
+                            <a class="dropdown-item it-lk" href="https://www.facebook.com/groups/longmen06/">
+                                <span data-i18n="navShareExp">Trao đổi kinh nghiệm</span>
+                                <svg height="10" width="10" class="blinking">
+                                    <circle cx="5" cy="5" r="5" fill="red"></circle>
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </a>
+                            <a class="dropdown-item it-lk" href="https://www.facebook.com/longmenjailbreak/">
+                                <span data-i18n="navFanpage">Fanpage Repository Long Mến</span>
+                                <svg height="10" width="10" class="blinking">
+                                    <circle cx="5" cy="5" r="5" fill="red"></circle>
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdownMenuLink2" class="nav-link link-top dropdown-toggle" aria-labelledby="navbarDropdownShop" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span data-i18n="navOtherPages">Các Trang Khác</span>
                             <svg height="10" width="10" class="blinking">
                                 <circle cx="5" cy="5" r="5" fill="red"></circle>
-                                Sorry, your browser does not support inline SVG.
                             </svg>
                         </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdownMenuLink" class="nav-link link-top dropdown-toggle" aria-labelledby="navbarDropdownShop" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Các Trang Khác
-                        <svg height="10" width="10" class="blinking">
-                          <circle cx="5" cy="5" r="5" fill="red"></circle>  
-                        </svg>
-                    </a>
-                    <div class="dropdown-menu dr-mn-gb bg-rdn" aria-labelledby="navbarDropdownShop">
-                        <a class="dropdown-item it-lk" href="https://ipalongmen06.github.io/">
-                            Trang Tải IPA
-                            <svg height="10" width="10" class="blinking">
-                                <circle cx="5" cy="5" r="5" fill="red"></circle>
-                                Sorry, your browser does not support inline SVG.
-                            </svg>
-                        </a>
-                        <a class="dropdown-item it-lk" href="https://longmen06.github.io/LM06/sever/404.html">
-                            Trang Nghe Nhạc DJ
-                            <svg height="10" width="10" class="blinking">
-                                <circle cx="5" cy="5" r="5" fill="red"></circle>
-                                Sorry, your browser does not support inline SVG.
-                            </svg>
-                        </a>
-                        <a class="dropdown-item it-lk" href="https://longmen06.github.io/LM06/sever/404.html">
-                            Web 2.0
-                            <svg height="10" width="10" class="blinking">
-                                <circle cx="5" cy="5" r="5" fill="red"></circle>
-                                Sorry, your browser does not support inline SVG.
-                            </svg>
-                        </a>
-                        <a class="dropdown-item it-lk" href="https://gtav-vi.github.io/">
-                            Trang chủ GTA V - Vi-vn
-                            <svg height="10" width="10" class="blinking">
-                                <circle cx="5" cy="5" r="5" fill="red"></circle>
-                                Sorry, your browser does not support inline SVG.
-                            </svg>
-                        </a>
-                        <a class="dropdown-item it-lk" href="https://longmen06.github.io/LM06/sever/baotri.html">
-                            Fake Bill  X
-                            <svg height="10" width="10" class="blinking">
-                                <circle cx="5" cy="5" r="5" fill="red"></circle>
-                                Sorry, your browser does not support inline SVG.
-                            </svg>
-                        </a>
-                    </div>
-                </li>
-            </ul>
+                        <div class="dropdown-menu dr-mn-gb bg-rdn" aria-labelledby="navbarDropdownShop">
+                            <a class="dropdown-item it-lk" href="https://ipalongmen06.github.io/">
+                                <span data-i18n="navIpaStore">Trang Tải IPA</span>
+                                <svg height="10" width="10" class="blinking">
+                                    <circle cx="5" cy="5" r="5" fill="red"></circle>
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </a>
+                            <a class="dropdown-item it-lk" href="https://longmen06.github.io/LM06/sever/404.html">
+                                <span data-i18n="navDj">Trang Nghe Nhạc DJ</span>
+                                <svg height="10" width="10" class="blinking">
+                                    <circle cx="5" cy="5" r="5" fill="red"></circle>
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </a>
+                            <a class="dropdown-item it-lk" href="https://longmen06.github.io/LM06/sever/404.html">
+                                <span data-i18n="navWeb20">Web 2.0</span>
+                                <svg height="10" width="10" class="blinking">
+                                    <circle cx="5" cy="5" r="5" fill="red"></circle>
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </a>
+                            <a class="dropdown-item it-lk" href="https://gtav-vi.github.io/">
+                                <span data-i18n="navGta5Home">Trang chủ GTA V - Vi-vn</span>
+                                <svg height="10" width="10" class="blinking">
+                                    <circle cx="5" cy="5" r="5" fill="red"></circle>
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </a>
+                            <a class="dropdown-item it-lk" href="https://longmen06.github.io/LM06/sever/baotri.html">
+                                <span data-i18n="navFakeBill">Fake Bill X</span>
+                                <svg height="10" width="10" class="blinking">
+                                    <circle cx="5" cy="5" r="5" fill="red"></circle>
+                                    Sorry, your browser does not support inline SVG.
+                                </svg>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-                    </div>
-        </div>
+    </nav>
+
     <!-- Add Pagination -->
     <div class="swiper-pagination"></div>
-</div>
 
-
-    </div>
     <div class="cta">
         <div class="container">
             <div class="row justify-content-center">
@@ -203,245 +471,283 @@
                         <li class="cta_Btn_item">
                             <a class="cta-Btn-link" href="https://www.facebook.com/menlong94"><img class="flash" src="newhomepage/images/fb.PNG" alt="" /></a>
                         </li>
-
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    
-<section class="sec1">
-    <div class="container pb-5">
-        <h3 class="fadeInDown animated text-uppercase">TIN TỨC &#45; SỰ KIỆN</h3>
-        <div class="row">
-                    <a href="https://longmen06.github.io/loadingup.html" class="col-md-4 border-right animated fadeInUp">
-                        <div class="card">
-                            <img src="icons/longmenlogo.JPG" alt="" class="img-fluid">
-                            <div class="card-body ct-bd-tb">
-                                <h5 class="card-title">Repository Cydia Sileo</h5>
-                                <p class="card-text text-uppercase d_m_news">26/06/2016</p>
-                            </div>
-                        </div>
-                    </a>
- <!--box news 1-->
-                <div class="col-md-4 border-right animated fadeInUp">
-                            <div class="card mb-3 bg-transparent">
-                                <a href="https://gtav-vi.github.io/">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-5 card-img-news">
-                                            <img src="https://cdn.sforum.vn/sforum/wp-content/uploads/2023/01/gta-5-thumb.jpg" alt="" class="img-fluid" >
-                                        </div>
-                                        <div class="col-md-7">
-                                            <div class="card-body pb-1 ct-bd-tb">
-                                                <h6 class="card-title">Trang Chủ GTA V - Vi-vn</h6>
-                                                <p class="card-text text-uppercase d_m_news">05/09/2022</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="card mb-3 bg-transparent">
-                                <a href="https://github.com/longmen06/longmen06.github.io/raw/master/LM06Store/longmen06store.mobileconfig">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-5 card-img-news">
-                                            <img src="newhomepage/images/longmenbox.jpg" alt="" class="img-fluid" >
-                                        </div>
-                                        <div class="col-md-7">
-                                            <div class="card-body pb-1 ct-bd-tb">
-                                                <h6 class="card-title">Ra Mắt Kho Tiện Ích</h6>
-                                                <p class="card-text text-uppercase d_m_news">12/08/2021</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="card mb-3 bg-transparent">
-                                <a href="https://drive.google.com/file/d/1Phq2jAAjXzXWO08EsFh9tfYY1onbmmps/view?usp=drive_link">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-5 card-img-news">
-                                            <img src="newhomepage/images/gtajp.png" alt="" class="img-fluid" >
-                                        </div>
-                                        <div class="col-md-7">
-                                            <div class="card-body pb-1 ct-bd-tb">
-                                                <h6 class="card-title">GTA SA Bản Full HD Kèm Tiếng Việt Siêu Xe Map Phong Cách California & Japan</h6>
-                                                <p class="card-text text-uppercase d_m_news">12/06/2023</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                            <div class="col-md-4 animated fadeInUp">
-                                        <div class="card mb-4 bg-transparent">
-                                            <a href="https://ipalongmen06.github.io/">
-                                                <div class="row no-gutters">
-                                                    <div class="col-md-5 card-img-news">
-                                                        <img src="newhomepage/images/ipa.longmen.jpg" alt="" class="img-fluid" >
-                                                    </div>
-                                                    <div class="col-md-7">
-                                                        <div class="card-body pb-1 ct-bd-tb">
-                                                            <h6 class="card-title">Ra Mắt Kho Ipa </h6>
-                                                            <p class="card-text text-uppercase d_m_news">24/04/2019</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                        </a>
-                                                    </div>
-                                                        
-                                                                    <div class="card mb-3 bg-transparent">
-                                                                        <a href="https://drive.google.com/file/d/17Z7lJGg-32igSwbH_C0snv279CSJGP6e/view?usp=drive_link">
-                                                                            <div class="row no-gutters">
-                                                                                <div class="col-md-5 card-img-news">
-                                                                                    <img src="newhomepage/images/gtafix.JPEG" alt="" class="img-fluid" >
-                                                                                </div>
-                                                                                <div class="col-md-7">
-                                                                                    <div class="card-body pb-1 ct-bd-tb">
-                                                                                        <h6 class="card-title">GTA SAN MOD & FIX </h6>
-                                                                                        <p class="card-text text-uppercase d_m_news">25/05/2023</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                        </div>
-                                    </a>
-                                </div>
+
+    <!-- Khung nhận diện thiết bị, phần mềm, màn hình, Root/Jailbreak & Mạng -->
+    <section class="sec1">
+        <div class="container">
+            <div class="lm06-diag-box">
+                <div class="lm06-diag-header">
+                    <h4 class="lm06-diag-title">
+                        <span class="lm06-live-heart">♥</span>
+                        <span id="diagTitleText">Nhận diện Thiết bị & Mạng</span>
+                    </h4>
+                    <button type="button" id="refreshDiagBtn" class="lm06-btn" style="padding: 5px 11px; font-size: 12px;">
+                        ↻ <span id="refreshDiagText">Cập nhật lại</span>
+                    </button>
+                </div>
+                <div class="lm06-grid">
+                    <div class="lm06-item">
+                        <div class="lm06-item-label" id="lblDevice">Thiết bị</div>
+                        <div class="lm06-item-val" id="valDevice">...</div>
+                        <div class="lm06-item-sub" id="subDevice"></div>
                     </div>
-        </div>
-    </div>
-</section>
-
-<section class="sec2">
-    <div class="container">
-        <div class="row">
-            <a href="cydia://url/https://cydia.saurik.com/api/share#?source=https://longmen06.github.io" class="col-md-3 webshop animated fadeInUp">
-                <img class="img-fluid" src="newhomepage/images/addcydia.JPEG" alt="">
-            </a>
-            <a href="sileo://source/https://longmen06.github.io" class="col-md-3 webshop animated fadeInUp">
-                <img class="img-fluid" src="newhomepage/images/addsileo.JPEG" alt="">
-            </a>
-            <a href="zbra://sources/add/https://longmen06.github.io" class="col-md-3 webshop animated fadeInUp">
-                <img class="img-fluid" src="newhomepage/images/addzebar.JPEG" alt="">
-            </a>
-            <a href="installer://add/https://longmen06.github.io" class="col-md-3 webshop animated fadeInUp">
-                <img class="img-fluid" src="newhomepage/images/addintsaller.JPEG" alt="">
-            </a>
-        </div>
-    </div>
-</section>
-<br>
-<!--Section 3-->
-
-<section class="sec1">
-    <div class="container pb-5">
-        <h3 class="animated fadeInDown text-uppercase">Videos Nổi bật</h3>
-        <div class="row">
-            <div class="col-md-8 border-right animated fadeInUp">
-                <div class="card" style="max-width:100% !important">
-                        <a href="https://youtu.be/ds3P0DRwwIs">
-                            <img src="newhomepage/images/hackffios.JPG" alt="" class="img-fluid"/>
-                            <span class="lg-news_play"></span>
-                        </a>
+                    <div class="lm06-item">
+                        <div class="lm06-item-label" id="lblOs">Hệ điều hành & Phiên bản</div>
+                        <div class="lm06-item-val" id="valOs">...</div>
+                        <div class="lm06-item-sub" id="subOs"></div>
+                    </div>
+                    <div class="lm06-item">
+                        <div class="lm06-item-label" id="lblScreen">Tỷ lệ & Độ phân giải màn hình</div>
+                        <div class="lm06-item-val" id="valScreen">...</div>
+                        <div class="lm06-item-sub" id="subScreen"></div>
+                    </div>
+                    <div class="lm06-item">
+                        <div class="lm06-item-label" id="lblJailbreak">Root / Jailbreak</div>
+                        <div class="lm06-item-val" id="valJailbreak">...</div>
+                        <div class="lm06-item-sub" id="subJailbreak"></div>
+                    </div>
+                    <div class="lm06-item">
+                        <div class="lm06-item-label" id="lblNetworkType">Loại kết nối mạng</div>
+                        <div class="lm06-item-val" id="valNetworkType">...</div>
+                        <div class="lm06-item-sub" id="subNetworkType"></div>
+                    </div>
+                    <div class="lm06-item">
+                        <div class="lm06-item-label" id="lblCarrier">Nhà mạng / ISP</div>
+                        <div class="lm06-item-val" id="valCarrier">...</div>
+                        <div class="lm06-item-sub" id="subCarrier"></div>
+                    </div>
+                </div>
+                <div class="lm06-note" id="diagNoteText">
+                    * Trình duyệt web chạy trong hộp cát bảo mật nên không thể đọc trực tiếp phân vùng hệ thống/SIM; Root/Jailbreak và tên nhà mạng được tổng hợp từ Client Hints, kết nối mạng và tra cứu ISP.
                 </div>
             </div>
-
-            <div class="col-md-4 animated fadeInUp">
-                        <div class="card mb-4 bg-transparent">
-                            <a href="https://youtu.be/TFTfjCtyYlU">
-                                <div class="row no-gutters">
-                                    <div class="col-md-5">
-                                        <img src="newhomepage/images/fixcc.JPG" alt="" class="img-fluid">
-                                        <span class="small-news_play"></span>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="card-body pb-1 ct-bd-tb">
-                                            <h6 class="card-title">Cách Tải Unc0ver Khi Bị Thu Hồi Chứng Chỉ 100% Thành Công |</h6>
-                                            <p class="card-text text-uppercase d_m_news">&nbsp;</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="card mb-4 bg-transparent">
-                            <a href="https://youtu.be/dJRXNUkIJ5U">
-                                <div class="row no-gutters">
-                                    <div class="col-md-5">
-                                        <img src="newhomepage/images/gtasanmod.JPG" alt="" class="img-fluid">
-                                        <span class="small-news_play"></span>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="card-body pb-1 ct-bd-tb">
-                                            <h6 class="card-title">Hướng Dẫn Mod Xe Độ GTA San cho Desktop,Laptop 2023</h6>
-                                            <p class="card-text text-uppercase d_m_news">&nbsp;</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="card mb-4 bg-transparent">
-                            <a href="https://youtu.be/1Qpi6Fsup6A">
-                                <div class="row no-gutters">
-                                    <div class="col-md-5">
-                                        <img src="newhomepage/images/djlongmen2016.JPG" alt="" class="img-fluid">
-                                        <span class="small-news_play"></span>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <div class="card-body pb-1 ct-bd-tb">
-                                            <h6 class="card-title">Im Folle De Toi Remix (2016) - Long Mến Remix</h6>
-                                            <p class="card-text text-uppercase d_m_news">&nbsp;</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-            </div>
-
-
         </div>
-    </div>
-</section>
+    </section>
 
+    <section class="sec1">
+        <div class="container pb-5">
+            <h3 class="fadeInDown animated text-uppercase" data-i18n="secNewsEvents">TIN TỨC &#45; SỰ KIỆN</h3>
+            <div class="row">
+                <a href="https://longmen06.github.io/loadingup.html" class="col-md-4 border-right animated fadeInUp">
+                    <div class="card">
+                        <img src="icons/longmenlogo.JPG" alt="" class="img-fluid">
+                        <div class="card-body ct-bd-tb">
+                            <h5 class="card-title" data-i18n="newsRepoTitle">Repository Cydia Sileo</h5>
+                            <p class="card-text text-uppercase d_m_news">26/06/2016</p>
+                        </div>
+                    </div>
+                </a>
 
+                <!--box news 1-->
+                <div class="col-md-4 border-right animated fadeInUp">
+                    <div class="card mb-3 bg-transparent">
+                        <a href="https://gtav-vi.github.io/">
+                            <div class="row no-gutters">
+                                <div class="col-md-5 card-img-news">
+                                    <img src="https://cdn.sforum.vn/sforum/wp-content/uploads/2023/01/gta-5-thumb.jpg" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body pb-1 ct-bd-tb">
+                                        <h6 class="card-title" data-i18n="newsGta5Home">Trang Chủ GTA V - Vi-vn</h6>
+                                        <p class="card-text text-uppercase d_m_news">05/09/2022</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card mb-3 bg-transparent">
+                        <a href="https://github.com/longmen06/longmen06.github.io/raw/master/LM06Store/longmen06store.mobileconfig">
+                            <div class="row no-gutters">
+                                <div class="col-md-5 card-img-news">
+                                    <img src="newhomepage/images/longmenbox.jpg" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body pb-1 ct-bd-tb">
+                                        <h6 class="card-title" data-i18n="newsUtilityStore">Ra Mắt Kho Tiện Ích</h6>
+                                        <p class="card-text text-uppercase d_m_news">12/08/2021</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card mb-3 bg-transparent">
+                        <a href="https://drive.google.com/file/d/1Phq2jAAjXzXWO08EsFh9tfYY1onbmmps/view?usp=drive_link">
+                            <div class="row no-gutters">
+                                <div class="col-md-5 card-img-news">
+                                    <img src="newhomepage/images/gtajp.png" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body pb-1 ct-bd-tb">
+                                        <h6 class="card-title" data-i18n="newsGtaSaFull">GTA SA Bản Full HD Kèm Tiếng Việt Siêu Xe Map Phong Cách California & Japan</h6>
+                                        <p class="card-text text-uppercase d_m_news">12/06/2023</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-4 animated fadeInUp">
+                    <div class="card mb-4 bg-transparent">
+                        <a href="https://ipalongmen06.github.io/">
+                            <div class="row no-gutters">
+                                <div class="col-md-5 card-img-news">
+                                    <img src="newhomepage/images/ipa.longmen.jpg" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body pb-1 ct-bd-tb">
+                                        <h6 class="card-title" data-i18n="newsIpaStore">Ra Mắt Kho Ipa</h6>
+                                        <p class="card-text text-uppercase d_m_news">24/04/2019</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="card mb-3 bg-transparent">
+                        <a href="https://drive.google.com/file/d/17Z7lJGg-32igSwbH_C0snv279CSJGP6e/view?usp=drive_link">
+                            <div class="row no-gutters">
+                                <div class="col-md-5 card-img-news">
+                                    <img src="newhomepage/images/gtafix.JPEG" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body pb-1 ct-bd-tb">
+                                        <h6 class="card-title" data-i18n="newsGtaSanModFix">GTA SAN MOD & FIX</h6>
+                                        <p class="card-text text-uppercase d_m_news">25/05/2023</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec2">
+        <div class="container">
+            <div class="row">
+                <a href="cydia://url/https://cydia.saurik.com/api/share#?source=https://longmen06.github.io" class="col-md-3 webshop animated fadeInUp">
+                    <img class="img-fluid" src="newhomepage/images/addcydia.JPEG" alt="">
+                </a>
+                <a href="sileo://source/https://longmen06.github.io" class="col-md-3 webshop animated fadeInUp">
+                    <img class="img-fluid" src="newhomepage/images/addsileo.JPEG" alt="">
+                </a>
+                <a href="zbra://sources/add/https://longmen06.github.io" class="col-md-3 webshop animated fadeInUp">
+                    <img class="img-fluid" src="newhomepage/images/addzebar.JPEG" alt="">
+                </a>
+                <a href="installer://add/https://longmen06.github.io" class="col-md-3 webshop animated fadeInUp">
+                    <img class="img-fluid" src="newhomepage/images/addintsaller.JPEG" alt="">
+                </a>
+            </div>
+        </div>
+    </section>
+    <br>
+
+    <!--Section 3-->
+    <section class="sec1">
+        <div class="container pb-5">
+            <h3 class="animated fadeInDown text-uppercase" data-i18n="secFeaturedVideos">Videos Nổi bật</h3>
+            <div class="row">
+                <div class="col-md-8 border-right animated fadeInUp">
+                    <div class="card" style="max-width:100% !important">
+                        <a href="https://youtu.be/ds3P0DRwwIs">
+                            <img src="newhomepage/images/hackffios.JPG" alt="" class="img-fluid" />
+                            <span class="lg-news_play"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-4 animated fadeInUp">
+                    <div class="card mb-4 bg-transparent">
+                        <a href="https://youtu.be/TFTfjCtyYlU">
+                            <div class="row no-gutters">
+                                <div class="col-md-5">
+                                    <img src="newhomepage/images/fixcc.JPG" alt="" class="img-fluid">
+                                    <span class="small-news_play"></span>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body pb-1 ct-bd-tb">
+                                        <h6 class="card-title" data-i18n="vidUnc0ver">Cách Tải Unc0ver Khi Bị Thu Hồi Chứng Chỉ 100% Thành Công |</h6>
+                                        <p class="card-text text-uppercase d_m_news">&nbsp;</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card mb-4 bg-transparent">
+                        <a href="https://youtu.be/dJRXNUkIJ5U">
+                            <div class="row no-gutters">
+                                <div class="col-md-5">
+                                    <img src="newhomepage/images/gtasanmod.JPG" alt="" class="img-fluid">
+                                    <span class="small-news_play"></span>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body pb-1 ct-bd-tb">
+                                        <h6 class="card-title" data-i18n="vidGtaSanMod">Hướng Dẫn Mod Xe Độ GTA San cho Desktop,Laptop 2023</h6>
+                                        <p class="card-text text-uppercase d_m_news">&nbsp;</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="card mb-4 bg-transparent">
+                        <a href="https://youtu.be/1Qpi6Fsup6A">
+                            <div class="row no-gutters">
+                                <div class="col-md-5">
+                                    <img src="newhomepage/images/djlongmen2016.JPG" alt="" class="img-fluid">
+                                    <span class="small-news_play"></span>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body pb-1 ct-bd-tb">
+                                        <h6 class="card-title" data-i18n="vidDjRemix">Im Folle De Toi Remix (2016) - Long Mến Remix</h6>
+                                        <p class="card-text text-uppercase d_m_news">&nbsp;</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!--btn event-->
-        </div>
-    </div>
     <section class="bg-dark">
-    <div class="container">
-        <div class="cta-fanpage">
-            <div class="cta-fanpage-item">
-                <a href="mailto:longmenjailbreak@gmail.com"><img class="img-fluid" src="newhomepage/images/btn-HOTRO.png" alt=""></a>
-            </div>
-            <div class="cta-fanpage-item">
-                <a href="https://www.facebook.com/longmenjailbreak"><img class="img-fluid" src="newhomepage/images/btn-FANPAGE.png" alt=""></a>
-            </div>
-            <div class="cta-fanpage-item">
-                <a href="https://www.facebook.com/groups/longmen06"><img class="img-fluid" src="newhomepage/images/btn-GROUP.png" alt=""></a>
-            </div>
-            <div class="cta-fanpage-item">
-                <a href="https://www.instagram.com/longmenjb/"><img class="img-fluid" src="newhomepage/images/btn-INSTA.png" alt=""></a>
-            </div>
-            <div class="cta-fanpage-item">
-                <a href="https://www.youtube.com/@LongMen94"><img class="img-fluid" src="newhomepage/images/btn-YOUTUBE.png" alt=""></a>
+        <div class="container">
+            <div class="cta-fanpage">
+                <div class="cta-fanpage-item">
+                    <a href="mailto:longmenjailbreak@gmail.com"><img class="img-fluid" src="newhomepage/images/btn-HOTRO.png" alt=""></a>
+                </div>
+                <div class="cta-fanpage-item">
+                    <a href="https://www.facebook.com/longmenjailbreak"><img class="img-fluid" src="newhomepage/images/btn-FANPAGE.png" alt=""></a>
+                </div>
+                <div class="cta-fanpage-item">
+                    <a href="https://www.facebook.com/groups/longmen06"><img class="img-fluid" src="newhomepage/images/btn-GROUP.png" alt=""></a>
+                </div>
+                <div class="cta-fanpage-item">
+                    <a href="https://www.instagram.com/longmenjb/"><img class="img-fluid" src="newhomepage/images/btn-INSTA.png" alt=""></a>
+                </div>
+                <div class="cta-fanpage-item">
+                    <a href="https://www.youtube.com/@LongMen94"><img class="img-fluid" src="newhomepage/images/btn-YOUTUBE.png" alt=""></a>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<footer class="bg-dark">
-    <div class="col-12">
- 
+    </section>
+
+    <footer class="bg-dark">
+        <div class="col-12">
             <img src="newhomepage/images/longmen94.JPEG" style="width:100%" />
         </div>
-
-</footer>  
+    </footer>
 
     <script>
         function onNewRegisterUserGoogle() {
-            // gtag('event', 'NewRegisterHomepage', { 'event_category': 'Click Button', 'event_label': 'NewRegisterHomepage', 'value': 1, 'non_interaction': true });
             gtag_report_conversion('https://goplay.vn/goid/sso/LoginSuccess?ReturnUrl=/');
         }
         function onNewRegisterUserFB() {
@@ -465,11 +771,12 @@
             return false;
         }
     </script>
+
     <script src="newhomepage/js/jquery-3.2.1.min.js"></script>
     <script src="newhomepage/js/swiper.min.js"></script>
     <script src="newhomepage/js/bootstrap.min.js"></script>
-    <script>
 
+    <script>
         var swiper = new Swiper('.swiper-container', {
             direction: 'horizontal',
             slidesPerView: 'auto',
@@ -479,31 +786,1043 @@
                 delay: 6000,
                 disableOnInteraction: false,
             },
-            // If we need pagination
             pagination: {
                 el: '.swiper-pagination',
             },
-
         });
 
         window.onscroll = function () { myFunction() };
 
         var navbar = document.getElementById("navbar");
-        var sticky = navbar.offsetTop;
+        var sticky = navbar ? navbar.offsetTop : 0;
 
         function myFunction() {
+            if (!navbar) return;
             if (window.pageYOffset >= sticky) {
-                navbar.classList.add("sticky")
+                navbar.classList.add("sticky");
             } else {
                 navbar.classList.remove("sticky");
             }
         }
     </script>
-  
-    
 
+    <!-- Logic Sáng/Tối, Trái Tim bay + Chuột + Click, Nhận diện chuẩn Thiết bị/OS/Màn hình/Root-JB/Mạng, Đa ngôn ngữ & Thông báo trạng thái -->
+    <script>
+        (function () {
+            var THEME_KEY = 'lm06_theme_mode';
+            var FLYING_KEY = 'lm06_flying_hearts';
+            var HEART_KEY = 'lm06_heart_cursor';
+            var LANG_KEY = 'lm06_ui_lang';
+            var PANEL_KEY = 'lm06_panel_collapsed';
 
+            var I18N = {
+                vi: {
+                    pageTitle: 'Repository Cydia Sileo',
+                    panelTitle: 'Bảng điều khiển',
+                    lightMode: 'Chế độ Sáng',
+                    darkMode: 'Chế độ Tối',
+                    flyingOn: 'Tim bay: Bật',
+                    flyingOff: 'Tim bay: Tắt',
+                    heartOn: 'Tim chuột: Bật',
+                    heartOff: 'Tim chuột: Tắt',
+                    langName: 'Tiếng Việt',
+                    toastThemeLight: 'Đã bật chế độ Sáng (Light Mode)',
+                    toastThemeDark: 'Đã bật chế độ Tối (Dark Mode)',
+                    toastFlyingOn: 'Đã bật hiệu ứng trái tim bay',
+                    toastFlyingOff: 'Đã tắt hiệu ứng trái tim bay',
+                    toastHeartOn: 'Đã bật trái tim theo chuột & click',
+                    toastHeartOff: 'Đã tắt trái tim theo chuột & click',
+                    toastLangChanged: 'Đã chuyển ngôn ngữ sang: Tiếng Việt',
+                    toastPanelExpanded: 'Đã mở rộng bảng điều khiển',
+                    toastPanelCollapsed: 'Đã thu gọn bảng điều khiển',
+                    popupHello: 'Xin Chào',
+                    popupGreeting: 'Cảm ơn bạn đã ghé thăm trang web, chúc bạn một ngày mới vui vẻ và tràn đầy hạnh phúc!',
+                    popupContactFb: 'Liên hệ Facebook',
+                    accessLink: 'Truy cập',
+                    popupSupportSuffix: 'khi bạn cần được hỗ trợ!',
+                    popupIpaPage: 'Trang IPA',
+                    fbLabel: 'Facebook',
+                    popupUpdatedDate: 'Ngày Cập Nhật',
+                    popupCopyright: 'Copyright © 2016 All Rights Reserved',
+                    navHome: 'Trang chủ',
+                    navNews: 'Tin tức',
+                    navDj: 'Trang Nghe Nhạc DJ',
+                    navSignCert: 'Kí Chứng Chỉ',
+                    navGuide: 'Cẩm Nang',
+                    navShareExp: 'Trao đổi kinh nghiệm',
+                    navFanpage: 'Fanpage Repository Long Mến',
+                    navOtherPages: 'Các Trang Khác',
+                    navIpaStore: 'Trang Tải IPA',
+                    navWeb20: 'Web 2.0',
+                    navGta5Home: 'Trang chủ GTA V - Vi-vn',
+                    navFakeBill: 'Fake Bill X',
+                    secNewsEvents: 'TIN TỨC - SỰ KIỆN',
+                    newsRepoTitle: 'Repository Cydia Sileo',
+                    newsGta5Home: 'Trang Chủ GTA V - Vi-vn',
+                    newsUtilityStore: 'Ra Mắt Kho Tiện Ích',
+                    newsGtaSaFull: 'GTA SA Bản Full HD Kèm Tiếng Việt Siêu Xe Map Phong Cách California & Japan',
+                    newsIpaStore: 'Ra Mắt Kho Ipa',
+                    newsGtaSanModFix: 'GTA SAN MOD & FIX',
+                    secFeaturedVideos: 'Videos Nổi bật',
+                    vidUnc0ver: 'Cách Tải Unc0ver Khi Bị Thu Hồi Chứng Chỉ 100% Thành Công |',
+                    vidGtaSanMod: 'Hướng Dẫn Mod Xe Độ GTA San cho Desktop,Laptop 2023',
+                    vidDjRemix: 'Im Folle De Toi Remix (2016) - Long Mến Remix',
+                    diagTitle: 'Nhận diện Thiết bị & Mạng',
+                    refresh: 'Cập nhật lại',
+                    device: 'Thiết bị',
+                    os: 'Hệ điều hành & Phiên bản',
+                    screen: 'Tỷ lệ & Độ phân giải màn hình',
+                    jb: 'Root / Jailbreak',
+                    netType: 'Loại kết nối mạng',
+                    carrier: 'Nhà mạng / ISP',
+                    note: '* Trình duyệt web chạy trong hộp cát bảo mật nên không thể đọc trực tiếp phân vùng hệ thống/SIM; Root/Jailbreak và tên nhà mạng được tổng hợp từ Client Hints, kết nối mạng và tra cứu ISP.',
+                    devPhone: 'Điện thoại',
+                    devTablet: 'Máy tính bảng',
+                    devLaptop: 'Laptop',
+                    devPc: 'PC / Máy tính để bàn',
+                    osUnknown: 'Không rõ phiên bản',
+                    jbNoSignal: 'Chưa thấy dấu hiệu trên trình duyệt',
+                    jbSuspect: 'Có dấu hiệu môi trường tùy biến / Root hoặc Jailbreak',
+                    jbNotApplicable: 'Không áp dụng trên PC/Laptop chuẩn',
+                    jbWebLimit: 'Trình duyệt không thể xác minh sâu phân vùng OS/SIM',
+                    netOffline: 'Mất kết nối (Offline)',
+                    netEthernet: 'Mạng cắm dây LAN (Ethernet)',
+                    netWifi: 'Mạng Wi-Fi',
+                    net5g: 'Mạng di động 5G',
+                    net4g: 'Mạng di động 4G (LTE)',
+                    net3g: 'Mạng di động 3G',
+                    netMobile: 'Mạng di động (Cellular)',
+                    netUnknown: 'Đang kết nối (Trình duyệt ẩn kiểu mạng)',
+                    carrierUnknown: 'Không xác định được nhà mạng / ISP',
+                    scaleLabel: 'Scale (DPR)',
+                    physResLabel: 'Thực',
+                    cssResLabel: 'Hiển thị',
+                    ispSourceSub: 'Tra cứu qua mạng / ASN'
+                },
+                en: {
+                    pageTitle: 'Repository Cydia Sileo',
+                    panelTitle: 'Controls',
+                    lightMode: 'Light Mode',
+                    darkMode: 'Dark Mode',
+                    flyingOn: 'Flying Hearts: On',
+                    flyingOff: 'Flying Hearts: Off',
+                    heartOn: 'Cursor Hearts: On',
+                    heartOff: 'Cursor Hearts: Off',
+                    langName: 'English',
+                    toastThemeLight: 'Switched to Light Mode',
+                    toastThemeDark: 'Switched to Dark Mode',
+                    toastFlyingOn: 'Flying hearts enabled',
+                    toastFlyingOff: 'Flying hearts disabled',
+                    toastHeartOn: 'Cursor & click hearts enabled',
+                    toastHeartOff: 'Cursor & click hearts disabled',
+                    toastLangChanged: 'Language switched to: English',
+                    toastPanelExpanded: 'Controls panel expanded',
+                    toastPanelCollapsed: 'Controls panel collapsed',
+                    popupHello: 'Hello',
+                    popupGreeting: 'Thank you for visiting our website. Wishing you a happy and joyful day!',
+                    popupContactFb: 'Contact Facebook',
+                    accessLink: 'Visit',
+                    popupSupportSuffix: 'whenever you need support!',
+                    popupIpaPage: 'IPA Page',
+                    fbLabel: 'Facebook',
+                    popupUpdatedDate: 'Updated Date',
+                    popupCopyright: 'Copyright © 2016 All Rights Reserved',
+                    navHome: 'Home',
+                    navNews: 'News',
+                    navDj: 'DJ Music Player',
+                    navSignCert: 'Certificate Signing',
+                    navGuide: 'Guides',
+                    navShareExp: 'Experience Sharing',
+                    navFanpage: 'Long Men Repository Fanpage',
+                    navOtherPages: 'Other Pages',
+                    navIpaStore: 'IPA Library',
+                    navWeb20: 'Web 2.0',
+                    navGta5Home: 'GTA V - Vi-vn Homepage',
+                    navFakeBill: 'Fake Bill X',
+                    secNewsEvents: 'NEWS & EVENTS',
+                    newsRepoTitle: 'Repository Cydia Sileo',
+                    newsGta5Home: 'GTA V - Vi-vn Homepage',
+                    newsUtilityStore: 'Utility Store Launch',
+                    newsGtaSaFull: 'GTA SA Full HD Vietnamese Edition with Supercars & California / Japan Map',
+                    newsIpaStore: 'IPA Library Launch',
+                    newsGtaSanModFix: 'GTA SAN MOD & FIX',
+                    secFeaturedVideos: 'Featured Videos',
+                    vidUnc0ver: 'How to Install Unc0ver When Certificates Are Revoked 100% Working |',
+                    vidGtaSanMod: 'Guide to Modding Custom Cars in GTA San for Desktop & Laptop 2023',
+                    vidDjRemix: 'Im Folle De Toi Remix (2016) - Long Men Remix',
+                    diagTitle: 'Device & Network Detection',
+                    refresh: 'Refresh',
+                    device: 'Device',
+                    os: 'OS & Version',
+                    screen: 'Aspect Ratio & Screen Resolution',
+                    jb: 'Root / Jailbreak',
+                    netType: 'Connection Type',
+                    carrier: 'Carrier / ISP',
+                    note: '* Browsers run in a security sandbox and cannot directly inspect OS partitions or SIM cards; Root/Jailbreak and carrier info come from Client Hints, Network APIs, and ISP lookup.',
+                    devPhone: 'Phone',
+                    devTablet: 'Tablet',
+                    devLaptop: 'Laptop',
+                    devPc: 'Desktop PC',
+                    osUnknown: 'Version unknown',
+                    jbNoSignal: 'No browser indicator detected',
+                    jbSuspect: 'Possible custom / rooted or jailbroken environment',
+                    jbNotApplicable: 'Not applicable on standard PC/Laptop',
+                    jbWebLimit: 'Browsers cannot verify deep OS/SIM integrity',
+                    netOffline: 'Offline',
+                    netEthernet: 'Wired LAN (Ethernet)',
+                    netWifi: 'Wi-Fi',
+                    net5g: '5G Mobile Data',
+                    net4g: '4G (LTE) Mobile Data',
+                    net3g: '3G Mobile Data',
+                    netMobile: 'Mobile Data (Cellular)',
+                    netUnknown: 'Connected (Connection type hidden by browser)',
+                    carrierUnknown: 'Carrier / ISP unavailable',
+                    scaleLabel: 'Scale (DPR)',
+                    physResLabel: 'Physical',
+                    cssResLabel: 'Viewport',
+                    ispSourceSub: 'Detected via network / ASN'
+                },
+                zh: {
+                    pageTitle: 'Repository Cydia Sileo',
+                    panelTitle: '控制面板',
+                    lightMode: '浅色模式',
+                    darkMode: '深色模式',
+                    flyingOn: '飘心特效：开启',
+                    flyingOff: '飘心特效：关闭',
+                    heartOn: '鼠标爱心：开启',
+                    heartOff: '鼠标爱心：关闭',
+                    langName: '中文 (简体)',
+                    toastThemeLight: '已切换为浅色模式',
+                    toastThemeDark: '已切换为深色模式',
+                    toastFlyingOn: '已开启飘心特效',
+                    toastFlyingOff: '已关闭飘心特效',
+                    toastHeartOn: '已开启鼠标与点击爱心',
+                    toastHeartOff: '已关闭鼠标与点击爱心',
+                    toastLangChanged: '已切换语言为：中文 (简体)',
+                    toastPanelExpanded: '已展开控制面板',
+                    toastPanelCollapsed: '已收起控制面板',
+                    popupHello: '你好',
+                    popupGreeting: '感谢您访问本网站，祝您度过愉快且幸福的一天！',
+                    popupContactFb: '联系 Facebook',
+                    accessLink: '访问',
+                    popupSupportSuffix: '如需帮助请随时联系！',
+                    popupIpaPage: 'IPA 页面',
+                    fbLabel: 'Facebook',
+                    popupUpdatedDate: '更新日期',
+                    popupCopyright: 'Copyright © 2016 All Rights Reserved',
+                    navHome: '首页',
+                    navNews: '新闻动态',
+                    navDj: 'DJ 音乐站',
+                    navSignCert: '证书签名',
+                    navGuide: '使用指南',
+                    navShareExp: '经验交流',
+                    navFanpage: 'Long Men 源主页',
+                    navOtherPages: '其他页面',
+                    navIpaStore: 'IPA 下载站',
+                    navWeb20: 'Web 2.0',
+                    navGta5Home: 'GTA V - Vi-vn 主页',
+                    navFakeBill: 'Fake Bill X',
+                    secNewsEvents: '新闻与活动',
+                    newsRepoTitle: 'Repository Cydia Sileo',
+                    newsGta5Home: 'GTA V - Vi-vn 主页',
+                    newsUtilityStore: '实用工具库上线',
+                    newsGtaSaFull: 'GTA SA 全高清越语版 跑车与加州及日本风格地图',
+                    newsIpaStore: 'IPA 库上线',
+                    newsGtaSanModFix: 'GTA SAN MOD 与修复',
+                    secFeaturedVideos: '精选视频',
+                    vidUnc0ver: '证书被吊销时安装 Unc0ver 100% 成功教程 |',
+                    vidGtaSanMod: '2023 电脑端 GTA San 改装车辆模组教程',
+                    vidDjRemix: 'Im Folle De Toi Remix (2016) - Long Men Remix',
+                    diagTitle: '设备与网络识别',
+                    refresh: '刷新检测',
+                    device: '设备类型',
+                    os: '系统与版本',
+                    screen: '屏幕比例与分辨率',
+                    jb: 'Root / 越狱状态',
+                    netType: '网络连接方式',
+                    carrier: '运营商 / ISP',
+                    note: '* 浏览器处于安全沙箱中，无法直接读取底层系统分区或 SIM 卡；Root/越狱与运营商信息结合 Client Hints、网络接口及 ISP 查询得出。',
+                    devPhone: '手机',
+                    devTablet: '平板电脑',
+                    devLaptop: '笔记本电脑 (Laptop)',
+                    devPc: '台式机 (PC)',
+                    osUnknown: '版本未知',
+                    jbNoSignal: '浏览器端未见异常特征',
+                    jbSuspect: '检测到疑似越狱/Root 或自定义环境特征',
+                    jbNotApplicable: '常规电脑不适用',
+                    jbWebLimit: '浏览器无法深度校验系统/SIM 完整性',
+                    netOffline: '离线 (无网络)',
+                    netEthernet: '有线局域网 LAN (以太网)',
+                    netWifi: 'Wi-Fi 网络',
+                    net5g: '5G 移动网络',
+                    net4g: '4G (LTE) 移动网络',
+                    net3g: '3G 移动网络',
+                    netMobile: '移动蜂窝网络',
+                    netUnknown: '已联网（浏览器隐藏连接类型）',
+                    carrierUnknown: '无法获取运营商 / ISP',
+                    scaleLabel: '缩放比 (DPR)',
+                    physResLabel: '物理',
+                    cssResLabel: '逻辑',
+                    ispSourceSub: '通过网络 / ASN 识别'
+                },
+                ko: {
+                    pageTitle: 'Repository Cydia Sileo',
+                    panelTitle: '제어 패널',
+                    lightMode: '라이트 모드',
+                    darkMode: '다크 모드',
+                    flyingOn: '날아가는 하트: 켜짐',
+                    flyingOff: '날아가는 하트: 꺼짐',
+                    heartOn: '마우스 하트: 켜짐',
+                    heartOff: '마우스 하트: 꺼짐',
+                    langName: '한국어',
+                    toastThemeLight: '라이트 모드로 변경되었습니다',
+                    toastThemeDark: '다크 모드로 변경되었습니다',
+                    toastFlyingOn: '날아가는 하트 효과가 켜졌습니다',
+                    toastFlyingOff: '날아가는 하트 효과가 꺼졌습니다',
+                    toastHeartOn: '마우스 및 클릭 하트가 켜졌습니다',
+                    toastHeartOff: '마우스 및 클릭 하트가 꺼졌습니다',
+                    toastLangChanged: '언어가 한국어로 변경되었습니다',
+                    toastPanelExpanded: '제어 패널이 펼쳐졌습니다',
+                    toastPanelCollapsed: '제어 패널이 접혔습니다',
+                    popupHello: '안녕하세요',
+                    popupGreeting: '웹사이트를 방문해 주셔서 감사합니다. 행복하고 즐거운 하루 되세요!',
+                    popupContactFb: 'Facebook 문의',
+                    accessLink: '바로가기',
+                    popupSupportSuffix: '도움이 필요할 때 연락하세요!',
+                    popupIpaPage: 'IPA 페이지',
+                    fbLabel: 'Facebook',
+                    popupUpdatedDate: '업데이트 날짜',
+                    popupCopyright: 'Copyright © 2016 All Rights Reserved',
+                    navHome: '홈',
+                    navNews: '소식',
+                    navDj: 'DJ 음악 재생',
+                    navSignCert: '인증서 서명',
+                    navGuide: '가이드',
+                    navShareExp: '경험 공유',
+                    navFanpage: 'Long Men 저장소 팬페이지',
+                    navOtherPages: '기타 페이지',
+                    navIpaStore: 'IPA 다운로드',
+                    navWeb20: 'Web 2.0',
+                    navGta5Home: 'GTA V - Vi-vn 홈',
+                    navFakeBill: 'Fake Bill X',
+                    secNewsEvents: '뉴스 및 이벤트',
+                    newsRepoTitle: 'Repository Cydia Sileo',
+                    newsGta5Home: 'GTA V - Vi-vn 홈',
+                    newsUtilityStore: '유틸리티 저장소 공개',
+                    newsGtaSaFull: 'GTA SA 풀HD 베트남어판 슈퍼카 및 캘리포니아·일본 맵',
+                    newsIpaStore: 'IPA 저장소 공개',
+                    newsGtaSanModFix: 'GTA SAN MOD & FIX',
+                    secFeaturedVideos: '추천 동영상',
+                    vidUnc0ver: '인증서 취소 시 Unc0ver 설치 100% 성공 방법 |',
+                    vidGtaSanMod: '2023 데스크톱/노트북 GTA San 차량 모드 가이드',
+                    vidDjRemix: 'Im Folle De Toi Remix (2016) - Long Men Remix',
+                    diagTitle: '기기 및 네트워크 감지',
+                    refresh: '새로고침',
+                    device: '기기',
+                    os: '운영체제 및 버전',
+                    screen: '화면 비율 및 해상도',
+                    jb: '루팅 / 탈옥 여부',
+                    netType: '네트워크 연결 방식',
+                    carrier: '통신사 / ISP',
+                    note: '* 브라우저는 보안 샌드박스에서 실행되어 OS 파티션이나 SIM 정보를 직접 읽을 수 없으며, 루팅/탈옥 및 통신사 정보는 Client Hints, 네트워크 API 및 ISP 조회로 표시됩니다.',
+                    devPhone: '스마트폰',
+                    devTablet: '태블릿',
+                    devLaptop: '노트북',
+                    devPc: '데스크톱 PC',
+                    osUnknown: '버전 미확인',
+                    jbNoSignal: '브라우저 징후 없음',
+                    jbSuspect: '탈옥/루팅 또는 커스텀 환경 의심 신호',
+                    jbNotApplicable: '일반 PC/노트북 해당 없음',
+                    jbWebLimit: '브라우저에서 OS/SIM 심층 무결성 확인 불가',
+                    netOffline: '오프라인',
+                    netEthernet: '유선 LAN (이더넷)',
+                    netWifi: 'Wi-Fi',
+                    net5g: '5G 모바일 데이터',
+                    net4g: '4G (LTE) 모바일 데이터',
+                    net3g: '3G 모바일 데이터',
+                    netMobile: '모바일 네트워크',
+                    netUnknown: '연결됨 (브라우저가 연결 방식 숨김)',
+                    carrierUnknown: '통신사 / ISP 확인 불가',
+                    scaleLabel: '배율 (DPR)',
+                    physResLabel: '물리',
+                    cssResLabel: '논리',
+                    ispSourceSub: '네트워크 / ASN 조회 결과'
+                },
+                ja: {
+                    pageTitle: 'Repository Cydia Sileo',
+                    panelTitle: 'コントロール',
+                    lightMode: 'ライトモード',
+                    darkMode: 'ダークモード',
+                    flyingOn: '舞うハート：オン',
+                    flyingOff: '舞うハート：オフ',
+                    heartOn: 'カーソルハート：オン',
+                    heartOff: 'カーソルハート：オフ',
+                    langName: '日本語',
+                    toastThemeLight: 'ライトモードに切り替えました',
+                    toastThemeDark: 'ダークモードに切り替えました',
+                    toastFlyingOn: '舞うハートをオンにしました',
+                    toastFlyingOff: '舞うハートをオフにしました',
+                    toastHeartOn: 'カーソル＆クリックハートをオンにしました',
+                    toastHeartOff: 'カーソル＆クリックハートをオフにしました',
+                    toastLangChanged: '言語を「日本語」に切り替えました',
+                    toastPanelExpanded: 'コントロールパネルを開きました',
+                    toastPanelCollapsed: 'コントロールパネルを閉じました',
+                    popupHello: 'こんにちは',
+                    popupGreeting: 'ご訪問ありがとうございます。素敵で幸せな一日をお過ごしください！',
+                    popupContactFb: 'Facebook で連絡',
+                    accessLink: 'アクセス',
+                    popupSupportSuffix: 'サポートが必要な際はこちらへ！',
+                    popupIpaPage: 'IPA ページ',
+                    fbLabel: 'Facebook',
+                    popupUpdatedDate: '更新日',
+                    popupCopyright: 'Copyright © 2016 All Rights Reserved',
+                    navHome: 'ホーム',
+                    navNews: 'ニュース',
+                    navDj: 'DJ ミュージック',
+                    navSignCert: '証明書署名',
+                    navGuide: 'ガイド',
+                    navShareExp: '情報共有',
+                    navFanpage: 'Long Men リポジトリ公式ページ',
+                    navOtherPages: 'その他のページ',
+                    navIpaStore: 'IPA ダウンロード',
+                    navWeb20: 'Web 2.0',
+                    navGta5Home: 'GTA V - Vi-vn ホーム',
+                    navFakeBill: 'Fake Bill X',
+                    secNewsEvents: 'ニュース＆イベント',
+                    newsRepoTitle: 'Repository Cydia Sileo',
+                    newsGta5Home: 'GTA V - Vi-vn ホーム',
+                    newsUtilityStore: 'ユーティリティストア公開',
+                    newsGtaSaFull: 'GTA SA フルHD ベトナム語版 スーパーカー＆カリフォルニア・日本マップ',
+                    newsIpaStore: 'IPA ストア公開',
+                    newsGtaSanModFix: 'GTA SAN MOD & FIX',
+                    secFeaturedVideos: '注目動画',
+                    vidUnc0ver: '証明書が失効した時に Unc0ver を導入する100%成功手順 |',
+                    vidGtaSanMod: '2023 PC/ノート向け GTA San 車両 MOD 導入ガイド',
+                    vidDjRemix: 'Im Folle De Toi Remix (2016) - Long Men Remix',
+                    diagTitle: '端末・ネットワーク検出',
+                    refresh: '再検出',
+                    device: '端末',
+                    os: 'OS・バージョン',
+                    screen: '画面比率・解像度',
+                    jb: 'Root / 脱獄 (Jailbreak)',
+                    netType: 'ネットワーク種別',
+                    carrier: '通信キャリア / ISP',
+                    note: '* ブラウザはサンドボックス環境のためOS領域やSIM情報を直接取得できず、Root/脱獄やキャリア情報はClient Hints・通信API・ISP照会から表示しています。',
+                    devPhone: 'スマートフォン',
+                    devTablet: 'タブレット',
+                    devLaptop: 'ノートPC (Laptop)',
+                    devPc: 'デスクトップPC',
+                    osUnknown: 'バージョン不明',
+                    jbNoSignal: 'ブラウザ上の兆候なし',
+                    jbSuspect: '脱獄/Root または改変環境の兆候あり',
+                    jbNotApplicable: '通常のPCには非該当',
+                    jbWebLimit: 'ブラウザではOS/SIMの深層確認不可',
+                    netOffline: 'オフライン',
+                    netEthernet: '有線LAN（イーサネット）',
+                    netWifi: 'Wi-Fi',
+                    net5g: '5G モバイル通信',
+                    net4g: '4G (LTE) モバイル通信',
+                    net3g: '3G モバイル通信',
+                    netMobile: 'モバイル通信',
+                    netUnknown: '接続中（ブラウザが種別を非表示）',
+                    carrierUnknown: '通信キャリア / ISP を取得できません',
+                    scaleLabel: '倍率 (DPR)',
+                    physResLabel: '物理',
+                    cssResLabel: '論理',
+                    ispSourceSub: 'ネットワーク / ASN 照会'
+                }
+            };
 
+            var htmlEl = document.documentElement;
+            var controlsBox = document.getElementById('lm06Controls');
+            var togglePanelBtn = document.getElementById('togglePanelBtn');
+            var panelToggleIcon = document.getElementById('panelToggleIcon');
+            var panelToggleLabel = document.getElementById('panelToggleLabel');
 
+            var langSelect = document.getElementById('langSelect');
+            var toggleThemeBtn = document.getElementById('toggleThemeBtn');
+            var themeIcon = document.getElementById('themeIcon');
+            var themeLabel = document.getElementById('themeLabel');
+
+            var toggleFlyingHeartBtn = document.getElementById('toggleFlyingHeartBtn');
+            var flyingHeartIcon = document.getElementById('flyingHeartIcon');
+            var flyingHeartLabel = document.getElementById('flyingHeartLabel');
+
+            var toggleHeartBtn = document.getElementById('toggleHeartBtn');
+            var heartIcon = document.getElementById('heartIcon');
+            var heartLabel = document.getElementById('heartLabel');
+
+            var toastEl = document.getElementById('lm06Toast');
+            var toastTextEl = document.getElementById('lm06ToastText');
+            var toastTimer = null;
+
+            var ambientContainer = document.getElementById('ambientHearts');
+            var refreshDiagBtn = document.getElementById('refreshDiagBtn');
+
+            var currentLang = I18N[localStorage.getItem(LANG_KEY)] ? localStorage.getItem(LANG_KEY) : 'vi';
+            var isLight = localStorage.getItem(THEME_KEY) === 'light';
+            var isPanelCollapsed = localStorage.getItem(PANEL_KEY) === 'true';
+
+            var savedFlying = localStorage.getItem(FLYING_KEY);
+            var isFlyingEnabled = savedFlying === null ? true : savedFlying === 'on';
+
+            var savedHeart = localStorage.getItem(HEART_KEY);
+            var isHeartEnabled = savedHeart === null ? true : savedHeart === 'on';
+
+            var heartColors = ['#ff4d6d', '#ff758f', '#ff2a55', '#f72585', '#ff595e'];
+            var lastHeartTime = 0;
+            var resolvedIsp = '';
+            var resolvedAsn = '';
+            var highEntropyData = null;
+
+            function t(key) {
+                return (I18N[currentLang] && I18N[currentLang][key]) || I18N.vi[key] || key;
+            }
+
+            function showToast(message) {
+                if (!toastEl || !toastTextEl) return;
+                toastTextEl.textContent = message;
+                toastEl.classList.add('is-visible');
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function () {
+                    toastEl.classList.remove('is-visible');
+                }, 2400);
+            }
+
+            function gcd(a, b) {
+                a = Math.abs(Math.round(a));
+                b = Math.abs(Math.round(b));
+                while (b) {
+                    var temp = b;
+                    b = a % b;
+                    a = temp;
+                }
+                return a || 1;
+            }
+
+            function formatAspectRatio(w, h) {
+                if (!w || !h) return 'N/A';
+                var ratio = w / h;
+                var knownRatios = [
+                    { name: '16:9', val: 16 / 9 },
+                    { name: '16:10', val: 16 / 10 },
+                    { name: '21:9', val: 21 / 9 },
+                    { name: '32:9', val: 32 / 9 },
+                    { name: '4:3', val: 4 / 3 },
+                    { name: '3:2', val: 3 / 2 },
+                    { name: '18:9', val: 18 / 9 },
+                    { name: '19.5:9', val: 19.5 / 9 },
+                    { name: '20:9', val: 20 / 9 },
+                    { name: '9:16', val: 9 / 16 },
+                    { name: '9:19.5', val: 9 / 19.5 },
+                    { name: '9:20', val: 9 / 20 }
+                ];
+                for (var i = 0; i < knownRatios.length; i++) {
+                    if (Math.abs(ratio - knownRatios[i].val) < 0.035) {
+                        return knownRatios[i].name;
+                    }
+                }
+                var divisor = gcd(w, h);
+                var rw = Math.round(w / divisor);
+                var rh = Math.round(h / divisor);
+                if (rw > 40 || rh > 40) {
+                    return ratio.toFixed(2) + ':1';
+                }
+                return rw + ':' + rh;
+            }
+
+            function applyStaticTranslations() {
+                var nodes = document.querySelectorAll('[data-i18n]');
+                nodes.forEach(function (el) {
+                    var k = el.getAttribute('data-i18n');
+                    if (k) {
+                        el.textContent = t(k);
+                    }
+                });
+                if (panelToggleLabel) {
+                    panelToggleLabel.textContent = t('panelTitle');
+                }
+            }
+
+            function applyPanelCollapsed(collapsed) {
+                isPanelCollapsed = collapsed;
+                if (!controlsBox) return;
+                if (collapsed) {
+                    controlsBox.classList.add('is-collapsed');
+                    if (panelToggleIcon) panelToggleIcon.textContent = '▴';
+                } else {
+                    controlsBox.classList.remove('is-collapsed');
+                    if (panelToggleIcon) panelToggleIcon.textContent = '▾';
+                }
+                localStorage.setItem(PANEL_KEY, collapsed ? 'true' : 'false');
+            }
+
+            function buildAmbientHearts() {
+                if (!ambientContainer) return;
+                ambientContainer.innerHTML = '';
+                var total = window.innerWidth <= 768 ? 8 : 16;
+                for (var i = 0; i < total; i++) {
+                    var span = document.createElement('span');
+                    span.className = 'lm06-ambient-heart';
+                    span.textContent = i % 2 === 0 ? '♥' : '♡';
+                    span.style.setProperty('--left', Math.floor(Math.random() * 96) + 2 + '%');
+                    span.style.setProperty('--sz', Math.floor(Math.random() * 10) + 14 + 'px');
+                    span.style.setProperty('--dur', (Math.random() * 4 + 5).toFixed(1) + 's');
+                    span.style.setProperty('--delay', (Math.random() * 5).toFixed(1) + 's');
+                    span.style.color = heartColors[i % heartColors.length];
+                    ambientContainer.appendChild(span);
+                }
+            }
+
+            function applyTheme(light) {
+                isLight = light;
+                if (light) {
+                    htmlEl.classList.add('lm06-light-mode');
+                    themeIcon.textContent = '🌙';
+                    themeLabel.textContent = t('darkMode');
+                } else {
+                    htmlEl.classList.remove('lm06-light-mode');
+                    themeIcon.textContent = '☀️';
+                    themeLabel.textContent = t('lightMode');
+                }
+                localStorage.setItem(THEME_KEY, light ? 'light' : 'dark');
+            }
+
+            function applyFlyingState(enabled) {
+                isFlyingEnabled = enabled;
+                if (enabled) {
+                    flyingHeartIcon.textContent = '💘';
+                    flyingHeartLabel.textContent = t('flyingOn');
+                    toggleFlyingHeartBtn.classList.remove('is-off');
+                    if (ambientContainer) ambientContainer.style.display = 'block';
+                } else {
+                    flyingHeartIcon.textContent = '🤍';
+                    flyingHeartLabel.textContent = t('flyingOff');
+                    toggleFlyingHeartBtn.classList.add('is-off');
+                    if (ambientContainer) ambientContainer.style.display = 'none';
+                }
+                localStorage.setItem(FLYING_KEY, enabled ? 'on' : 'off');
+            }
+
+            function applyHeartState(enabled) {
+                isHeartEnabled = enabled;
+                if (enabled) {
+                    heartIcon.textContent = '♥';
+                    heartLabel.textContent = t('heartOn');
+                    toggleHeartBtn.classList.remove('is-off');
+                } else {
+                    heartIcon.textContent = '♡';
+                    heartLabel.textContent = t('heartOff');
+                    toggleHeartBtn.classList.add('is-off');
+                }
+                localStorage.setItem(HEART_KEY, enabled ? 'on' : 'off');
+            }
+
+            function createSingleHeart(x, y, driftX, driftY, size) {
+                var heart = document.createElement('span');
+                heart.className = 'heart-particle';
+                heart.textContent = '♥';
+
+                var rot = Math.floor(Math.random() * 50) - 25;
+                var color = heartColors[Math.floor(Math.random() * heartColors.length)];
+
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
+                heart.style.fontSize = size + 'px';
+                heart.style.color = color;
+                heart.style.setProperty('--drift-x', driftX + 'px');
+                heart.style.setProperty('--drift-y', driftY + 'px');
+                heart.style.setProperty('--rot', rot + 'deg');
+
+                document.body.appendChild(heart);
+
+                setTimeout(function () {
+                    if (heart && heart.parentNode) {
+                        heart.parentNode.removeChild(heart);
+                    }
+                }, 920);
+            }
+
+            function spawnHeart(x, y) {
+                if (!isHeartEnabled) return;
+                if (window.innerWidth <= 768) return;
+
+                var now = Date.now();
+                if (now - lastHeartTime < 45) return;
+                lastHeartTime = now;
+
+                var size = Math.floor(Math.random() * 10) + 14;
+                var driftX = Math.floor(Math.random() * 36) - 18;
+                createSingleHeart(x, y, driftX, 48, size);
+            }
+
+            function burstHearts(x, y) {
+                if (!isHeartEnabled) return;
+
+                var count = 10;
+                for (var i = 0; i < count; i++) {
+                    var angle = (Math.PI * 2 * i) / count + (Math.random() * 0.35 - 0.175);
+                    var distance = Math.floor(Math.random() * 38) + 32;
+                    var driftX = Math.round(Math.cos(angle) * distance);
+                    var driftY = Math.round(-Math.sin(angle) * distance + 28);
+                    var size = Math.floor(Math.random() * 8) + 15;
+
+                    createSingleHeart(x, y, driftX, driftY, size);
+                }
+            }
+
+            function requestHighEntropyHints() {
+                if (navigator.userAgentData && typeof navigator.userAgentData.getHighEntropyValues === 'function') {
+                    navigator.userAgentData.getHighEntropyValues([
+                        'architecture',
+                        'model',
+                        'platform',
+                        'platformVersion',
+                        'formFactors'
+                    ]).then(function (hints) {
+                        highEntropyData = hints || null;
+                        renderDiagnostics();
+                    }).catch(function () {});
+                }
+            }
+
+            function detectDeviceAndOs() {
+                var ua = navigator.userAgent || '';
+                var platform = (highEntropyData && highEntropyData.platform) || navigator.platform || '';
+                var uaModel = (highEntropyData && highEntropyData.model) ? String(highEntropyData.model).trim() : '';
+                var platformVersion = (highEntropyData && highEntropyData.platformVersion) ? String(highEntropyData.platformVersion).trim() : '';
+                var formFactors = (highEntropyData && Array.isArray(highEntropyData.formFactors)) ? highEntropyData.formFactors : [];
+                var maxTouch = navigator.maxTouchPoints || 0;
+
+                var isIPad = /iPad/i.test(ua) || (/Macintosh/i.test(ua) && maxTouch > 1);
+                var isIPhone = /iPhone/i.test(ua) && !isIPad;
+                var isAndroidTablet = /Android/i.test(ua) && !/Mobile/i.test(ua);
+                var isAndroidPhone = /Android/i.test(ua) && /Mobile/i.test(ua);
+
+                var deviceType = t('devPc');
+                var modelName = '';
+                var extraSpecs = [];
+
+                if (navigator.hardwareConcurrency) {
+                    extraSpecs.push(navigator.hardwareConcurrency + ' cores');
+                }
+                if (typeof navigator.deviceMemory === 'number') {
+                    extraSpecs.push(navigator.deviceMemory + ' GB RAM');
+                }
+
+                if (isIPhone) {
+                    deviceType = t('devPhone');
+                    modelName = uaModel || 'iPhone';
+                } else if (isIPad) {
+                    deviceType = t('devTablet');
+                    modelName = uaModel || 'iPad';
+                } else if (isAndroidPhone) {
+                    deviceType = t('devPhone');
+                    var mPhone = ua.match(/;\s*([^;)]+)\s+Build\//i);
+                    modelName = uaModel || (mPhone && mPhone[1] ? mPhone[1].trim() : 'Android Phone');
+                } else if (isAndroidTablet || formFactors.indexOf('Tablet') !== -1) {
+                    deviceType = t('devTablet');
+                    var mTab = ua.match(/;\s*([^;)]+)\s+Build\//i);
+                    modelName = uaModel || (mTab && mTab[1] ? mTab[1].trim() : 'Android Tablet');
+                } else if (/Mac OS X|Macintosh/i.test(ua) || /mac/i.test(platform)) {
+                    var isMacBook = (maxTouch === 0) && (screen.width <= 1920);
+                    deviceType = isMacBook ? ('MacBook (' + t('devLaptop') + ')') : ('Mac (' + t('devPc') + ')');
+                    modelName = uaModel || (isMacBook ? 'MacBook' : 'Mac');
+                } else if (/Windows/i.test(ua) || /win/i.test(platform)) {
+                    var isWinLaptop = (typeof navigator.getBattery === 'function') || (maxTouch > 0 && screen.width <= 1920);
+                    deviceType = isWinLaptop ? ('Windows ' + t('devLaptop')) : ('Windows ' + t('devPc'));
+                    modelName = uaModel || 'Windows';
+                } else if (/Linux/i.test(ua) || /linux/i.test(platform)) {
+                    var isLinuxLaptop = typeof navigator.getBattery === 'function';
+                    deviceType = isLinuxLaptop ? ('Linux ' + t('devLaptop')) : ('Linux ' + t('devPc'));
+                    modelName = uaModel || 'Linux';
+                }
+
+                var osVersionText = t('osUnknown');
+                var iosMatch = ua.match(/(?:iPhone|iPad|iPod).*OS\s+([\d_]+)/i);
+                var androidMatch = ua.match(/Android\s+([\d.]+)/i);
+                var winMatch = ua.match(/Windows NT\s+([\d.]+)/i);
+                var macMatch = ua.match(/Mac OS X\s+([\d_]+)/i);
+
+                if (isIPhone) {
+                    osVersionText = iosMatch && iosMatch[1] ? ('iOS ' + iosMatch[1].replace(/_/g, '.')) : 'iOS';
+                } else if (isIPad) {
+                    osVersionText = iosMatch && iosMatch[1] ? ('iPadOS ' + iosMatch[1].replace(/_/g, '.')) : 'iPadOS';
+                } else if (isAndroidPhone || isAndroidTablet) {
+                    osVersionText = androidMatch && androidMatch[1]
+                        ? ('Android ' + androidMatch[1])
+                        : (platformVersion ? ('Android ' + platformVersion) : 'Android');
+                } else if (/Windows/i.test(ua) || /win/i.test(platform)) {
+                    var majorWin = platformVersion ? parseInt(platformVersion.split('.')[0], 10) : NaN;
+                    if (!isNaN(majorWin) && majorWin >= 13) {
+                        osVersionText = 'Windows 11 (' + platformVersion + ')';
+                    } else if (!isNaN(majorWin) && majorWin > 0) {
+                        osVersionText = 'Windows 10 (' + platformVersion + ')';
+                    } else if (winMatch && winMatch[1]) {
+                        osVersionText = winMatch[1] === '10.0' ? 'Windows 10 / 11' : ('Windows NT ' + winMatch[1]);
+                    } else {
+                        osVersionText = 'Windows';
+                    }
+                } else if (/Mac OS X|Macintosh/i.test(ua) || /mac/i.test(platform)) {
+                    if (platformVersion && platformVersion !== '0.0.0') {
+                        osVersionText = 'macOS ' + platformVersion;
+                    } else if (macMatch && macMatch[1]) {
+                        osVersionText = 'macOS ' + macMatch[1].replace(/_/g, '.');
+                    } else {
+                        osVersionText = 'macOS';
+                    }
+                } else if (/Linux/i.test(ua)) {
+                    osVersionText = platformVersion ? ('Linux ' + platformVersion) : 'Linux';
+                }
+
+                var isMobileOrTablet = isIPhone || isIPad || isAndroidPhone || isAndroidTablet;
+                var jbText = isMobileOrTablet ? t('jbNoSignal') : t('jbNotApplicable');
+                var jbSub = t('jbWebLimit');
+
+                if (/cydia|sileo|zebra|unc0ver|checkra1n|palera1n|dopamine|magisk|kernelsu|supersu|rootcloak/i.test(ua)) {
+                    jbText = t('jbSuspect');
+                }
+
+                return {
+                    deviceText: modelName && deviceType.toLowerCase().indexOf(modelName.toLowerCase()) === -1
+                        ? (deviceType + ' — ' + modelName)
+                        : deviceType,
+                    deviceSub: extraSpecs.join(' • '),
+                    osText: osVersionText,
+                    osSub: highEntropyData && highEntropyData.architecture ? ('Arch: ' + highEntropyData.architecture) : '',
+                    jbText: jbText,
+                    jbSub: jbSub
+                };
+            }
+
+            function detectScreenInfo() {
+                var scrW = screen.width || window.innerWidth || 0;
+                var scrH = screen.height || window.innerHeight || 0;
+                var dpr = window.devicePixelRatio || 1;
+                var physW = Math.round(scrW * dpr);
+                var physH = Math.round(scrH * dpr);
+
+                var ratioStr = formatAspectRatio(physW, physH);
+                var dprFormatted = Number.isInteger(dpr) ? dpr : dpr.toFixed(2);
+
+                return {
+                    screenText: ratioStr + ' (' + physW + '×' + physH + 'px)',
+                    screenSub: t('scaleLabel') + ': ' + dprFormatted + 'x • ' + t('cssResLabel') + ': ' + scrW + '×' + scrH + 'px'
+                };
+            }
+
+            function detectNetworkInfo() {
+                if (!navigator.onLine) {
+                    return {
+                        netText: t('netOffline'),
+                        netSub: '',
+                        carrierText: t('carrierUnknown'),
+                        carrierSub: ''
+                    };
+                }
+
+                var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || null;
+                var type = conn && conn.type ? String(conn.type).toLowerCase() : '';
+                var effectiveType = conn && conn.effectiveType ? String(conn.effectiveType).toLowerCase() : '';
+                var downlink = conn && typeof conn.downlink === 'number' ? conn.downlink : null;
+                var rtt = conn && typeof conn.rtt === 'number' ? conn.rtt : null;
+
+                var netText = t('netUnknown');
+                if (type === 'ethernet' || type === 'wired') {
+                    netText = t('netEthernet');
+                } else if (type === 'wifi') {
+                    netText = t('netWifi');
+                } else if (type === 'cellular') {
+                    if (effectiveType === '4g' && downlink !== null && downlink >= 20) {
+                        netText = t('net5g');
+                    } else if (effectiveType === '4g') {
+                        netText = t('net4g');
+                    } else if (effectiveType === '3g' || effectiveType === '2g' || effectiveType === 'slow-2g') {
+                        netText = t('net3g');
+                    } else {
+                        netText = t('netMobile');
+                    }
+                } else if (effectiveType) {
+                    if (effectiveType === '4g') netText = t('net4g');
+                    else if (effectiveType === '3g') netText = t('net3g');
+                    else netText = netText + ' (' + effectiveType.toUpperCase() + ')';
+                }
+
+                var netSubParts = [];
+                if (downlink !== null) netSubParts.push(downlink + ' Mbps');
+                if (rtt !== null) netSubParts.push('RTT ' + rtt + ' ms');
+
+                var carrierText = resolvedIsp || t('carrierUnknown');
+                var carrierSub = resolvedAsn ? ('ASN: ' + resolvedAsn) : (resolvedIsp ? t('ispSourceSub') : '');
+
+                var connInfoStr = '';
+                try {
+                    connInfoStr = JSON.stringify(conn || {});
+                } catch (err) {
+                    connInfoStr = '';
+                }
+
+                var mncMap = {
+                    '45204': 'Viettel',
+                    '45201': 'MobiFone',
+                    '45202': 'Vinaphone',
+                    '45205': 'Vietnamobile',
+                    '45207': 'Gmobile',
+                    '45208': 'iTel'
+                };
+                Object.keys(mncMap).forEach(function (code) {
+                    if (!resolvedIsp && connInfoStr.indexOf(code) !== -1) {
+                        carrierText = mncMap[code];
+                    }
+                });
+
+                return {
+                    netText: netText,
+                    netSub: netSubParts.join(' • '),
+                    carrierText: carrierText,
+                    carrierSub: carrierSub
+                };
+            }
+
+            function fetchIspInfo() {
+                if (!navigator.onLine || typeof fetch !== 'function') return;
+
+                fetch('https://ipapi.co/json/')
+                    .then(function (res) { return res.ok ? res.json() : null; })
+                    .then(function (data) {
+                        if (data && (data.org || data.asn)) {
+                            resolvedIsp = data.org || resolvedIsp;
+                            resolvedAsn = data.asn || resolvedAsn;
+                            renderDiagnostics();
+                            return null;
+                        }
+                        return fetch('https://ipwho.is/');
+                    })
+                    .then(function (res2) { return res2 && res2.ok ? res2.json() : null; })
+                    .then(function (data2) {
+                        if (data2 && data2.connection && (data2.connection.isp || data2.connection.org)) {
+                            resolvedIsp = data2.connection.isp || data2.connection.org;
+                            resolvedAsn = data2.connection.asn ? String(data2.connection.asn) : resolvedAsn;
+                            renderDiagnostics();
+                        }
+                    })
+                    .catch(function () {});
+            }
+
+            function renderDiagnostics() {
+                document.getElementById('diagTitleText').textContent = t('diagTitle');
+                document.getElementById('refreshDiagText').textContent = t('refresh');
+                document.getElementById('lblDevice').textContent = t('device');
+                document.getElementById('lblOs').textContent = t('os');
+                document.getElementById('lblScreen').textContent = t('screen');
+                document.getElementById('lblJailbreak').textContent = t('jb');
+                document.getElementById('lblNetworkType').textContent = t('netType');
+                document.getElementById('lblCarrier').textContent = t('carrier');
+                document.getElementById('diagNoteText').textContent = t('note');
+
+                var dev = detectDeviceAndOs();
+                var scr = detectScreenInfo();
+                var net = detectNetworkInfo();
+
+                document.getElementById('valDevice').textContent = dev.deviceText;
+                document.getElementById('subDevice').textContent = dev.deviceSub;
+
+                document.getElementById('valOs').textContent = dev.osText;
+                document.getElementById('subOs').textContent = dev.osSub;
+
+                document.getElementById('valScreen').textContent = scr.screenText;
+                document.getElementById('subScreen').textContent = scr.screenSub;
+
+                document.getElementById('valJailbreak').textContent = dev.jbText;
+                document.getElementById('subJailbreak').textContent = dev.jbSub;
+
+                document.getElementById('valNetworkType').textContent = net.netText;
+                document.getElementById('subNetworkType').textContent = net.netSub;
+
+                document.getElementById('valCarrier').textContent = net.carrierText;
+                document.getElementById('subCarrier').textContent = net.carrierSub;
+            }
+
+            function setLanguage(lang, notifyUser) {
+                if (!I18N[lang]) lang = 'vi';
+                currentLang = lang;
+                langSelect.value = lang;
+                htmlEl.setAttribute('lang', lang);
+                localStorage.setItem(LANG_KEY, lang);
+                applyStaticTranslations();
+                applyTheme(isLight);
+                applyFlyingState(isFlyingEnabled);
+                applyHeartState(isHeartEnabled);
+                renderDiagnostics();
+                if (notifyUser) {
+                    showToast(t('toastLangChanged'));
+                }
+            }
+
+            togglePanelBtn.addEventListener('click', function () {
+                var nextState = !isPanelCollapsed;
+                applyPanelCollapsed(nextState);
+                showToast(nextState ? t('toastPanelCollapsed') : t('toastPanelExpanded'));
+            });
+
+            langSelect.addEventListener('change', function () {
+                setLanguage(this.value, true);
+            });
+
+            toggleThemeBtn.addEventListener('click', function () {
+                var nextLight = !isLight;
+                applyTheme(nextLight);
+                showToast(nextLight ? t('toastThemeLight') : t('toastThemeDark'));
+            });
+
+            toggleFlyingHeartBtn.addEventListener('click', function () {
+                var nextFlying = !isFlyingEnabled;
+                applyFlyingState(nextFlying);
+                showToast(nextFlying ? t('toastFlyingOn') : t('toastFlyingOff'));
+            });
+
+            toggleHeartBtn.addEventListener('click', function () {
+                var nextHeart = !isHeartEnabled;
+                applyHeartState(nextHeart);
+                showToast(nextHeart ? t('toastHeartOn') : t('toastHeartOff'));
+            });
+
+            refreshDiagBtn.addEventListener('click', function () {
+                requestHighEntropyHints();
+                fetchIspInfo();
+                renderDiagnostics();
+            });
+
+            document.addEventListener('mousemove', function (e) {
+                spawnHeart(e.clientX, e.clientY);
+            });
+
+            document.addEventListener('click', function (e) {
+                if (e.target.closest && e.target.closest('.lm06-controls')) return;
+                burstHearts(e.clientX, e.clientY);
+            });
+
+            window.addEventListener('online', function () {
+                fetchIspInfo();
+                renderDiagnostics();
+            });
+            window.addEventListener('offline', renderDiagnostics);
+            window.addEventListener('resize', function () {
+                buildAmbientHearts();
+                renderDiagnostics();
+            });
+
+            var connObj = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (connObj && typeof connObj.addEventListener === 'function') {
+                connObj.addEventListener('change', renderDiagnostics);
+            }
+
+            buildAmbientHearts();
+            applyPanelCollapsed(isPanelCollapsed);
+            setLanguage(currentLang, false);
+            requestHighEntropyHints();
+            fetchIspInfo();
+        })();
+    </script>
 </body>
 </html>
