@@ -1,258 +1,2044 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Repository Cydia Sileo Long Mến - Đăng nhập & Đăng kí </title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="https://longmen06.github.io/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <link rel="stylesheet" href="LM06/dongho.html" />
+    <title>Repository Cydia Sileo Long Mến - Đăng nhập &amp; Đăng kí</title>
+    <link rel="icon" href="https://longmen06.github.io/favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://connect.facebook.net/en_US/sdk.js" async defer></script>
+    <style>
+      :root[data-theme="light"] {
+        --bg-canvas: #eef2ff;
+        --bg-grad-a: rgba(99, 102, 241, 0.16);
+        --bg-grad-b: rgba(14, 165, 233, 0.14);
+        --surface: #ffffff;
+        --surface-2: #f8fafc;
+        --surface-side: linear-gradient(160deg, #1e1b4b 0%, #0f172a 100%);
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --primary-ink: #ffffff;
+        --chip-bg: #f1f5f9;
+        --chip-hover: #e2e8f0;
+        --ok-bg: #ecfdf5;
+        --ok-text: #065f46;
+        --ok-border: #a7f3d0;
+        --err-bg: #fef2f2;
+        --err-text: #991b1b;
+        --err-border: #fecaca;
+        --shadow: 0 24px 64px rgba(15, 23, 42, 0.12);
+      }
+
+      :root[data-theme="dark"] {
+        --bg-canvas: #070b14;
+        --bg-grad-a: rgba(79, 70, 229, 0.22);
+        --bg-grad-b: rgba(6, 182, 212, 0.16);
+        --surface: #111827;
+        --surface-2: #1f2937;
+        --surface-side: linear-gradient(160deg, #111827 0%, #030712 100%);
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --border: #283548;
+        --primary: #6366f1;
+        --primary-hover: #818cf8;
+        --primary-ink: #ffffff;
+        --chip-bg: #1e293b;
+        --chip-hover: #334155;
+        --ok-bg: rgba(16, 185, 129, 0.15);
+        --ok-text: #6ee7b7;
+        --ok-border: rgba(16, 185, 129, 0.35);
+        --err-bg: rgba(239, 68, 68, 0.15);
+        --err-text: #fca5a5;
+        --err-border: rgba(239, 68, 68, 0.35);
+        --shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: radial-gradient(circle at 12% 15%, var(--bg-grad-a), transparent 45%),
+          radial-gradient(circle at 88% 85%, var(--bg-grad-b), transparent 45%),
+          var(--bg-canvas);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        transition: background 0.25s ease, color 0.25s ease;
+      }
+
+      .app-frame {
+        width: 100%;
+        max-width: 1140px;
+        min-height: 690px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 26px;
+        box-shadow: var(--shadow);
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        overflow: hidden;
+      }
+
+      .pane-auth {
+        padding: 26px 32px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .top-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .brand-only-logo {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .brand-only-logo img {
+        width: 38px;
+        height: 38px;
+        object-fit: contain;
+        border-radius: 10px;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .lang-select {
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--surface-2);
+        color: var(--text);
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        outline: none;
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--surface-2);
+        color: var(--text);
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .theme-toggle:hover {
+        background: var(--chip-hover);
+      }
+
+      .session-badge {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 11px;
+        border-radius: 999px;
+        background: var(--ok-bg);
+        color: var(--ok-text);
+        border: 1px solid var(--ok-border);
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .session-badge.show {
+        display: inline-flex;
+      }
+
+      .session-badge button {
+        border: none;
+        background: var(--primary);
+        color: var(--primary-ink);
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        cursor: pointer;
+      }
+
+      .seg-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        background: var(--chip-bg);
+        padding: 5px;
+        border-radius: 14px;
+      }
+
+      .seg-tab {
+        border: none;
+        background: transparent;
+        color: var(--muted);
+        padding: 9px 10px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .seg-tab.active {
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      .view-box {
+        display: none;
+        flex-direction: column;
+        gap: 11px;
+      }
+
+      .view-box.active {
+        display: flex;
+      }
+
+      .view-title {
+        font-size: 21px;
+        font-weight: 800;
+      }
+
+      .view-desc {
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-top: -5px;
+      }
+
+      .link-action {
+        background: none;
+        border: none;
+        padding: 0;
+        color: var(--primary);
+        font-size: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .field-group label {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .input-shell {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .input-shell input {
+        width: 100%;
+        padding: 10px 42px 10px 13px;
+        border-radius: 11px;
+        border: 1px solid var(--border);
+        background: var(--surface-2);
+        color: var(--text);
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      .input-shell input.no-eye {
+        padding-right: 13px;
+      }
+
+      .input-shell input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+      }
+
+      .eye-btn {
+        position: absolute;
+        right: 8px;
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .eye-btn:hover {
+        color: var(--text);
+        background: var(--chip-bg);
+      }
+
+      .pw-rule-hint {
+        font-size: 11.5px;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+
+      .options-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        font-size: 12.5px;
+      }
+
+      .check-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        cursor: pointer;
+        color: var(--text);
+        font-size: 12.5px;
+      }
+
+      .btn-primary {
+        width: 100%;
+        padding: 11px 16px;
+        border: none;
+        border-radius: 12px;
+        background: var(--primary);
+        color: var(--primary-ink);
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-hover);
+      }
+
+      .btn-ghost {
+        width: 100%;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--surface-2);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .notice-box {
+        display: none;
+        padding: 10px 13px;
+        border-radius: 11px;
+        font-size: 12.5px;
+        line-height: 1.45;
+      }
+
+      .notice-box.show {
+        display: block;
+      }
+
+      .notice-box.ok {
+        background: var(--ok-bg);
+        color: var(--ok-text);
+        border: 1px solid var(--ok-border);
+      }
+
+      .notice-box.err {
+        background: var(--err-bg);
+        color: var(--err-text);
+        border: 1px solid var(--err-border);
+      }
+
+      .social-sep {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .social-sep::before,
+      .social-sep::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .provider-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .provider-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 9px 12px;
+        border-radius: 11px;
+        border: 1px solid var(--border);
+        background: var(--surface-2);
+        color: var(--text);
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.15s;
+      }
+
+      .provider-btn:hover {
+        background: var(--chip-hover);
+        transform: translateY(-1px);
+      }
+
+      .provider-btn.fb i { color: #1877f2; }
+      .provider-btn.gg i { color: #ea4335; }
+      .provider-btn.x i { color: var(--text); }
+      .zalo-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 5px;
+        background: #0068ff;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .bottom-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+        padding-top: 11px;
+      }
+
+      .bottom-links {
+        display: inline-flex;
+        gap: 10px;
+      }
+
+      .bottom-links button {
+        background: none;
+        border: none;
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      /* CỘT PHẢI */
+      .pane-visual {
+        background: var(--surface-side);
+        color: #f8fafc;
+        padding: 26px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .media-card {
+        background: rgba(15, 23, 42, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 20px;
+        padding: 14px;
+      }
+
+      .media-viewport {
+        position: relative;
+        width: 100%;
+        height: 196px;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #090d16;
+      }
+
+      .media-viewport img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.45s ease;
+      }
+
+      .media-viewport img.active {
+        opacity: 1;
+      }
+
+      .clock-24h {
+        margin-top: 12px;
+        background: #020617;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #38bdf8;
+        border-radius: 12px;
+        padding: 10px 14px;
+        text-align: center;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 2px;
+      }
+
+      .slide-meta {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .slide-caption {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #f1f5f9;
+      }
+
+      .slide-dots {
+        display: flex;
+        gap: 6px;
+      }
+
+      .slide-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        border: none;
+        background: #475569;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .slide-dot.active {
+        width: 22px;
+        background: #38bdf8;
+      }
+
+      .diag-card {
+        background: rgba(15, 23, 42, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 20px;
+        padding: 14px 16px;
+      }
+
+      .diag-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .diag-head h3 {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .diag-refresh {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.08);
+        color: #f8fafc;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 11.5px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .diag-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .diag-cell {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 11px;
+        padding: 8px 10px;
+      }
+
+      .diag-cell.span-2 {
+        grid-column: 1 / -1;
+      }
+
+      .diag-k {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #93c5fd;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+
+      .diag-v {
+        font-size: 12px;
+        font-weight: 600;
+        color: #f8fafc;
+        word-break: break-word;
+      }
+
+      /* MODAL */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.68);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        z-index: 9999;
+      }
+
+      .modal-overlay.open {
+        display: flex;
+      }
+
+      .modal-dialog {
+        width: 100%;
+        max-width: 560px;
+        background: var(--surface);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px 24px;
+        box-shadow: var(--shadow);
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .modal-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 10px;
+      }
+
+      .modal-top h3 {
+        font-size: 17px;
+        font-weight: 800;
+      }
+
+      .modal-x {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: var(--surface-2);
+        color: var(--text);
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .modal-content {
+        overflow-y: auto;
+        font-size: 13.5px;
+        line-height: 1.6;
+        color: var(--muted);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .modal-content strong {
+        color: var(--text);
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        border-top: 1px solid var(--border);
+        padding-top: 12px;
+      }
+
+      @media (max-width: 920px) {
+        .app-frame {
+          grid-template-columns: 1fr;
+        }
+        .diag-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
-  <!-- Messenger Plugin chat Code -->
-  <div id="fb-root"></div>
+    <main class="app-frame">
+      <!-- CỘT TRÁI -->
+      <section class="pane-auth">
+        <div>
+          <div class="top-header">
+            <div class="brand-only-logo">
+              <img src="./img/logo.png" alt="Logo" />
+            </div>
 
-  <!-- Your Plugin chat code -->
-  <div id="fb-customer-chat" class="fb-customerchat">
-  </div>
-
-  <script>
-    var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "106612891580157");
-    chatbox.setAttribute("attribution", "biz_inbox");
-  </script>
-
-  <!-- Your SDK code -->
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        xfbml            : true,
-        version          : 'v16.0'
-      });
-    };
-
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
-    <main>
-      <div class="box">
-        <div class="inner-box">
-          <div class="forms-wrap">
-            <form action="https://longmen06.github.io/trangchu.html" autocomplete="off" class="sign-in-form">
-              <div class="logo">
-                <img src="./img/logo.png" alt="longmenjb" />
-                <h7>Long Mến</h7>
+            <div class="header-actions">
+              <div id="sessionBadge" class="session-badge">
+                <span id="sessionUser"></span>
+                <button type="button" id="logoutBtn" data-i18n="logout">Đăng xuất</button>
               </div>
 
-              <div class="heading">
-                <h4>Đăng nhập</h4>
-                <h6>Chưa có tài khoản?</h6>
-                <a href="#" class="toggle">Đăng kí ngay</a>
-              </div>
+              <select id="langSelect" class="lang-select" aria-label="Language selector">
+                <option value="vi">Tiếng Việt</option>
+                <option value="en">English</option>
+                <option value="zh">中文 (简体)</option>
+                <option value="ko">한국어</option>
+                <option value="ja">日本語</option>
+              </select>
 
-              <div class="actual-form">
-                <div class="input-wrap">
-                  <input
-                    type="text"
-                    minlength="4"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                  />
-                  <label>Tên đăng nhập/e-mail</label>
+              <button type="button" id="themeToggleBtn" class="theme-toggle">
+                <i id="themeIcon" class="fas fa-moon"></i>
+                <span id="themeText" data-i18n="dark_mode">Chế độ tối</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="seg-tabs" style="margin-top: 14px;">
+            <button type="button" class="seg-tab active" data-tab="login" data-i18n="tab_login">Đăng nhập</button>
+            <button type="button" class="seg-tab" data-tab="register" data-i18n="tab_register">Đăng ký</button>
+            <button type="button" class="seg-tab" data-tab="forgot" data-i18n="tab_forgot">Quên mật khẩu</button>
+          </div>
+
+          <!-- 1. ĐĂNG NHẬP -->
+          <form id="loginForm" class="view-box active" novalidate autocomplete="off" style="margin-top: 14px;">
+            <h1 class="view-title" data-i18n="login_title">Đăng nhập</h1>
+            <p class="view-desc">
+              <span data-i18n="no_account">Chưa có tài khoản?</span>
+              <button type="button" class="link-action" data-go-tab="register" data-i18n="register_now">Đăng ký ngay</button>
+            </p>
+
+            <div class="field-group">
+              <label for="loginAccount" data-i18n="lbl_account">Tên đăng nhập hoặc Email</label>
+              <div class="input-shell">
+                <input id="loginAccount" class="no-eye" type="text" data-i18n-ph="ph_account" placeholder="Nhập tên đăng nhập hoặc email" />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="loginPassword" data-i18n="lbl_password">Mật khẩu</label>
+              <div class="input-shell">
+                <input id="loginPassword" type="password" data-i18n-ph="ph_password" placeholder="Nhập mật khẩu" />
+                <button type="button" class="eye-btn" data-toggle-pw="loginPassword" aria-label="Hiện/ẩn mật khẩu">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="options-row">
+              <label class="check-item">
+                <input id="rememberSession" type="checkbox" />
+                <span data-i18n="remember_login">Lưu đăng nhập</span>
+              </label>
+              <button type="button" class="link-action" data-go-tab="forgot" data-i18n="forgot_link">Quên mật khẩu?</button>
+            </div>
+
+            <button type="submit" class="btn-primary" data-i18n="btn_login">Đăng nhập</button>
+          </form>
+
+          <!-- 2. ĐĂNG KÝ -->
+          <div id="registerBox" class="view-box" style="margin-top: 14px;">
+            <h2 class="view-title" data-i18n="register_title">Đăng ký tài khoản</h2>
+            <p class="view-desc">
+              <span data-i18n="have_account">Đã có tài khoản?</span>
+              <button type="button" class="link-action" data-go-tab="login" data-i18n="tab_login">Đăng nhập</button>
+            </p>
+
+            <form id="registerForm" class="view-box active" novalidate autocomplete="off">
+              <div class="field-group">
+                <label for="regName" data-i18n="lbl_username">Tên đăng nhập</label>
+                <div class="input-shell">
+                  <input id="regName" class="no-eye" type="text" data-i18n-ph="ph_username" placeholder="Nhập tên đăng nhập (vd: longmenjb)" />
                 </div>
+              </div>
 
-                <div class="input-wrap">
-                  <input
-                    type="password"
-                    minlength="4"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                  />
-                  <label>Mật khẩu</label>
-
+              <div class="field-group">
+                <label for="regEmail" data-i18n="lbl_reg_email">Email nhận mã xác nhận</label>
+                <div class="input-shell">
+                  <input id="regEmail" class="no-eye" type="email" data-i18n-ph="ph_email" placeholder="emailcuaban@example.com" />
                 </div>
-                <div class="remember">
-                  <input type="checkbox" id="formCheck-2" class="check">
-                  <text for="formCheck-2">Lưu đăng nhập</text>
               </div>
-              ㅤ
-              <p>
-                <input type="submit" value="Sign In" class="sign-btn" />
-                <a href="https://longmen06.github.io/Tab/qmk.html">Quên mật khẩu?</a>
-                <p>
-                <p class="text">
-                  Quên mật khẩu của bạn hoặc bạn đăng nhập?
-                  <a href="https://www.facebook.com/longmen06">Nhận trợ giúp</a> đăng nhập
-                </p>
+
+              <div class="field-group">
+                <label for="regPassword" data-i18n="lbl_password">Mật khẩu</label>
+                <div class="input-shell">
+                  <input id="regPassword" type="password" data-i18n-ph="ph_reg_pw" placeholder="Tối thiểu 8 ký tự: chữ, số và ký tự đặc biệt" />
+                  <button type="button" class="eye-btn" data-toggle-pw="regPassword" aria-label="Hiện/ẩn mật khẩu">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                <div class="pw-rule-hint" data-i18n="pw_rule">
+                  Mật khẩu phải gồm ít nhất 8 ký tự, có chữ cái, chữ số và ký tự đặc biệt (vd: Longmen@2026).
+                </div>
               </div>
-              <p class="mona_visitors_statistics" style="text-align: center;">------hoặc tiếp tục với------</p>
-              <div class="social-media">
-                <a href="https://www.facebook.com/menlong94" class="social-icon">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="https://twitter.com/LongMenDev" class="social-icon">
-                  <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="social-icon">
-                  <i class="fab fa-google"></i>
-                </a>
-                <a href="#" class="social-icon">
-                  <i class="fab fa-linkedin-in"></i>
-                </a>
-              </div>
-              <p class="mona_visitors_statistics" style="text-align: center;">Copyright © 2016 Long Mến All Rights Reserved</p>
+
+              <label class="check-item">
+                <input id="agreePolicy" type="checkbox" />
+                <span>
+                  <span data-i18n="agree_prefix">Tôi đồng ý với</span>
+                  <button type="button" class="link-action" id="openTermsFromRegister" data-i18n="terms_privacy">Điều khoản &amp; Bảo mật</button>
+                </span>
+              </label>
+
+              <button type="submit" class="btn-primary" data-i18n="btn_send_reg_code">Gửi mã &amp; Đăng ký</button>
             </form>
 
-            <form action="index.html" autocomplete="off" class="sign-up-form">
-              <div class="logo">
-                <img src="./img/logo.png" alt="easyclass" />
-                <h7>Long Mến</h7>
-              </div>
-
-              <div class="heading">
-                <h3>Đăng kí</h3>
-                <h6>Bạn đã sẵn sàng để tạo một tài khoản?</h6>
-                <a href="#" class="toggle">Đăng nhập</a>
-              </div>
-
-              <div class="actual-form">
-                <div class="input-wrap">
-                  <input
-                    type="text"
-                    minlength="4"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                  />
-                  <label>Tên</label>
+            <form id="registerOtpForm" class="view-box" novalidate autocomplete="off">
+              <div class="field-group">
+                <label for="regOtpCode" data-i18n="lbl_otp_6">Nhập mã xác nhận 6 số gửi tới email</label>
+                <div class="input-shell">
+                  <input id="regOtpCode" class="no-eye" type="text" maxlength="6" data-i18n-ph="ph_otp_6" placeholder="Nhập mã 6 số" />
                 </div>
-
-                <div class="input-wrap">
-                  <input
-                    type="email"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                  />
-                  <label>Email</label>
-                </div>
-
-                <div class="input-wrap">
-                  <input
-                    type="password"
-                    minlength="4"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                  />
-                  <label>Mật khẩu</label>
-                </div>
-
-                <input type="submit" value="Sign Up" class="sign-btn" />
-              <p class="mona_visitors_statistics" style="text-align: center;">------hoặc tiếp tục với------</p>
-              <div class="social-media">
-                <a href="https://www.facebook.com/menlong94" class="social-icon">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="https://twitter.com/LongMenDev" class="social-icon">
-                  <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="social-icon">
-                  <i class="fab fa-google"></i>
-                </a>
-                <a href="#" class="social-icon">
-                  <i class="fab fa-linkedin-in"></i>
-                </a>
               </div>
-              <p class="mona_visitors_statistics" style="text-align: center;">Copyright © Long Mến Corporation All Rights Reserved</p>
-
-                <p class="text">
-                  Bằng cách đăng ký, tôi đồng ý với
-                  <a href="https://longmen06.github.io/CONFIG.js">Điều khoản dịch vụ</a> và
-                  <a href="https://longmen06.github.io/LICENSE.md">Chính sách bảo mật</a>
-                </p>
-              </div>
+              <button type="submit" class="btn-primary" data-i18n="btn_confirm_reg">Xác nhận tạo tài khoản</button>
+              <button type="button" id="backRegisterBtn" class="btn-ghost" data-i18n="btn_back_edit">Quay lại chỉnh sửa</button>
             </form>
           </div>
 
-          <div class="carousel">
-            <div class="images-wrapper">
-              <meta charset="UTF-8">
-              <title>Đồng hồ thời gian</title>
-              <style>
-                #time{
-                  background: rgb(2, 0, 0);
-                    padding: 15px;
-                    color: #fff;
-                    font-size: 20px;
-                    font-weight: bold;
-                    text-align: center;
-                    width: 500px;
-                    margin: 30px auto;
-                    border-radius: 15px;
-                    font-family: Verdana;
-                }
-              </style>
-            </head>
-            <body>
-              <div id="time"></div>
-              <script>
-                function dongho(){
-                  var today = new Date();
-                  var gio = today.getHours();
-                  var phut = today.getMinutes();
-                  var giay = today.getSeconds();
-            
-                  if(gio<10){
-                    gio = "0" + gio;
-                  }
-                  if(phut<10){
-                    phut = "0" + phut;
-                  }
-                  if(giay<10){
-                    giay = "0" + giay;
-                  }
-                  document.getElementById("time").innerHTML = gio + ":" + phut + ":" + giay;
-                  setTimeout("dongho()",1000);
-                }
-                dongho();
-              </script>
-              <img src="icons/longmenlogo.JPG" class="image img-1 show" alt="" />
-              <img src="icons/hotro24.jpeg" class="image img-2" alt="" />
-              <img src="icons/ios16thuthuatjb.jpg" class="image img-3" alt="" />
-            </div>
+          <!-- 3. QUÊN MẬT KHẨU -->
+          <div id="forgotBox" class="view-box" style="margin-top: 14px;">
+            <h2 class="view-title" data-i18n="tab_forgot">Quên mật khẩu</h2>
+            <p class="view-desc">
+              <span data-i18n="forgot_desc">Nhập email để nhận mã xác nhận khôi phục.</span>
+              <button type="button" class="link-action" data-go-tab="login" data-i18n="back_login">Quay lại đăng nhập</button>
+            </p>
 
-            <div class="text-slider">
-              <div class="text-wrap">
-                <div class="text-group">
-                  <h2>Cập nhật các Tinh Chỉnh Thường Xuyên</h2>
-                  <h2>Hỗ Trợ Nhiệt Tình 24/24</h2>
-                  <h2>Nhóm Giải Đáp về Thủ thuật Jailbreak</h2>
+            <form id="forgotEmailForm" class="view-box active" novalidate autocomplete="off">
+              <div class="field-group">
+                <label for="forgotEmailInput" data-i18n="lbl_email">Địa chỉ Email</label>
+                <div class="input-shell">
+                  <input id="forgotEmailInput" class="no-eye" type="email" data-i18n-ph="ph_email" placeholder="Nhập email đã đăng ký" />
                 </div>
               </div>
+              <button type="submit" class="btn-primary" data-i18n="btn_send_to_email">Gửi mã về email</button>
+            </form>
 
-              <div class="bullets">
-                <span class="active" data-value="1"></span>
-                <span data-value="2"></span>
-                <span data-value="3"></span>
+            <form id="forgotResetForm" class="view-box" novalidate autocomplete="off">
+              <div class="field-group">
+                <label for="forgotOtpInput" data-i18n="lbl_otp_6">Mã xác nhận 6 số</label>
+                <div class="input-shell">
+                  <input id="forgotOtpInput" class="no-eye" type="text" maxlength="6" data-i18n-ph="ph_otp_6" placeholder="Nhập mã 6 số từ email" />
+                </div>
               </div>
+              <div class="field-group">
+                <label for="forgotNewPass" data-i18n="lbl_new_pw">Mật khẩu mới</label>
+                <div class="input-shell">
+                  <input id="forgotNewPass" type="password" data-i18n-ph="ph_reg_pw" placeholder="Tối thiểu 8 ký tự: chữ, số và ký tự đặc biệt" />
+                  <button type="button" class="eye-btn" data-toggle-pw="forgotNewPass" aria-label="Hiện/ẩn mật khẩu">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <button type="submit" class="btn-primary" data-i18n="btn_reset_pw">Đặt lại mật khẩu</button>
+              <button type="button" id="backForgotBtn" class="btn-ghost" data-i18n="btn_resend_code">Gửi lại mã khác</button>
+            </form>
+          </div>
+
+          <div id="noticeBox" class="notice-box"></div>
+
+          <div>
+            <div class="social-sep" data-i18n="or_continue_with">Hoặc tiếp tục với</div>
+            <div class="provider-grid">
+              <button type="button" class="provider-btn fb" data-provider="Facebook">
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+              </button>
+              <button type="button" class="provider-btn gg" data-provider="Google">
+                <i class="fab fa-google"></i>
+                <span>Google</span>
+              </button>
+              <button type="button" class="provider-btn x" data-provider="X">
+                <i class="fab fa-twitter"></i>
+                <span data-i18n="provider_x">Tài khoản X</span>
+              </button>
+              <button type="button" class="provider-btn zl" data-provider="Zalo">
+                <span class="zalo-pill">Z</span>
+                <span data-i18n="provider_zalo">Tài khoản Zalo</span>
+              </button>
             </div>
           </div>
         </div>
-      </div>
+
+        <footer class="bottom-bar">
+          <span>Copyright © 2016  All Rights Reserved</span>
+          <div class="bottom-links">
+            <button type="button" id="btnShowTerms" data-i18n="terms_service">Điều khoản dịch vụ</button>
+            <button type="button" id="btnShowPrivacy" data-i18n="privacy_policy">Chính sách bảo mật</button>
+          </div>
+        </footer>
+      </section>
+
+      <!-- CỘT PHẢI -->
+      <aside class="pane-visual">
+        <div class="media-card">
+          <div class="media-viewport">
+            <img src="icons/longmenlogo.JPG" class="hero-slide active" alt="Slide 1" />
+            <img src="icons/hotro24.jpeg" class="hero-slide" alt="Slide 2" />
+            <img src="icons/ios16thuthuatjb.jpg" class="hero-slide" alt="Slide 3" />
+          </div>
+
+          <div id="clock24" class="clock-24h">00:00:00</div>
+
+          <div class="slide-meta">
+            <span id="slideCaption" class="slide-caption">Cập nhật các Tinh Chỉnh Thường Xuyên</span>
+            <div class="slide-dots">
+              <button type="button" class="slide-dot active" data-idx="0" aria-label="Slide 1"></button>
+              <button type="button" class="slide-dot" data-idx="1" aria-label="Slide 2"></button>
+              <button type="button" class="slide-dot" data-idx="2" aria-label="Slide 3"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="diag-card">
+          <div class="diag-head">
+            <h3 data-i18n="diag_title">IP, Nhà mạng, Mạng, Thiết bị &amp; Root / Jailbreak</h3>
+            <button type="button" id="refreshDiagBtn" class="diag-refresh" data-i18n="refresh">Làm mới</button>
+          </div>
+
+          <div class="diag-grid">
+            <div class="diag-cell">
+              <div class="diag-k" data-i18n="diag_ip">Địa chỉ IP</div>
+              <div id="dIp" class="diag-v">...</div>
+            </div>
+            <div class="diag-cell">
+              <div class="diag-k" data-i18n="diag_isp">Nhà mạng (ISP)</div>
+              <div id="dIsp" class="diag-v">...</div>
+            </div>
+            <div class="diag-cell">
+              <div class="diag-k" data-i18n="diag_net">Loại mạng</div>
+              <div id="dNet" class="diag-v">...</div>
+            </div>
+            <div class="diag-cell">
+              <div class="diag-k" data-i18n="diag_dev">Thiết bị &amp; Phần mềm</div>
+              <div id="dDev" class="diag-v">...</div>
+            </div>
+            <div class="diag-cell span-2">
+              <div class="diag-k" data-i18n="diag_jb">Trạng thái Root / Jailbreak</div>
+              <div id="dJbRoot" class="diag-v">...</div>
+            </div>
+          </div>
+        </div>
+      </aside>
     </main>
 
-    <!-- Javascript file -->
+    <!-- MODAL ĐIỀU KHOẢN & BẢO MẬT -->
+    <div id="legalModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+      <div class="modal-dialog">
+        <div class="modal-top">
+          <h3 id="legalTitle">Điều khoản dịch vụ &amp; Chính sách bảo mật</h3>
+          <button type="button" id="closeLegalX" class="modal-x" aria-label="Close">×</button>
+        </div>
+        <div id="legalBody" class="modal-content"></div>
+        <div class="modal-actions">
+          <button type="button" id="closeLegalBtn" class="btn-ghost" style="width: auto; padding: 8px 14px;" data-i18n="close">Đóng</button>
+          <button type="button" id="agreeLegalBtn" class="btn-primary" style="width: auto; padding: 8px 16px;" data-i18n="agree">Đồng ý</button>
+        </div>
+      </div>
+    </div>
 
-    <script src="app.js"></script>
+    <script>
+      // 1. Cấu hình EmailJS & OAuth thật cho Facebook, Google, X, Zalo
+      const EMAIL_CFG = {
+        publicKey: "YOUR_EMAILJS_PUBLIC_KEY",
+        serviceId: "YOUR_EMAILJS_SERVICE_ID",
+        userOtpTemplateId: "YOUR_USER_OTP_TEMPLATE_ID",
+        adminNoticeTemplateId: "YOUR_ADMIN_NOTICE_TEMPLATE_ID",
+        adminEmail: "longmenjailbreak@gmail.com",
+      };
+
+      const OAUTH_CFG = {
+        googleClientId: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+        facebookAppId: "YOUR_FACEBOOK_APP_ID",
+        xClientId: "YOUR_X_CLIENT_ID",
+        xRedirectUri: window.location.origin + window.location.pathname,
+        zaloAppId: "YOUR_ZALO_APP_ID",
+        zaloCallbackUrl: window.location.origin + window.location.pathname,
+      };
+
+      const DEFAULT_SOCIAL_ACCOUNT_NAME = "longmenjb";
+      const KEY_USERS = "lm_v4_users";
+      const KEY_SESSION = "lm_v4_session";
+      const KEY_THEME = "lm_v4_theme";
+      const KEY_LANG = "lm_v4_lang";
+
+      let pendingReg = null;
+      let pendingForgot = null;
+
+      // 2. Từ điển 5 ngôn ngữ: vi, en, zh, ko, ja
+      const I18N = {
+        vi: {
+          dark_mode: "Chế độ tối",
+          light_mode: "Chế độ sáng",
+          logout: "Đăng xuất",
+          tab_login: "Đăng nhập",
+          tab_register: "Đăng ký",
+          tab_forgot: "Quên mật khẩu",
+          login_title: "Đăng nhập",
+          no_account: "Chưa có tài khoản?",
+          register_now: "Đăng ký ngay",
+          lbl_account: "Tên đăng nhập hoặc Email",
+          ph_account: "Nhập tên đăng nhập hoặc email",
+          lbl_password: "Mật khẩu",
+          ph_password: "Nhập mật khẩu",
+          remember_login: "Lưu đăng nhập",
+          forgot_link: "Quên mật khẩu?",
+          btn_login: "Đăng nhập",
+          register_title: "Đăng ký tài khoản",
+          have_account: "Đã có tài khoản?",
+          lbl_username: "Tên đăng nhập",
+          ph_username: "Nhập tên đăng nhập (vd: longmenjb)",
+          lbl_reg_email: "Email nhận mã xác nhận",
+          ph_email: "emailcuaban@example.com",
+          ph_reg_pw: "Tối thiểu 8 ký tự: chữ, số và ký tự đặc biệt",
+          pw_rule: "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ cái, chữ số và ký tự đặc biệt.",
+          agree_prefix: "Tôi đồng ý với",
+          terms_privacy: "Điều khoản & Bảo mật",
+          btn_send_reg_code: "Gửi mã & Đăng ký",
+          lbl_otp_6: "Nhập mã xác nhận 6 số gửi tới email",
+          ph_otp_6: "Nhập mã 6 số",
+          btn_confirm_reg: "Xác nhận tạo tài khoản",
+          btn_back_edit: "Quay lại chỉnh sửa",
+          forgot_desc: "Nhập email để nhận mã xác nhận khôi phục.",
+          back_login: "Quay lại đăng nhập",
+          lbl_email: "Địa chỉ Email",
+          btn_send_to_email: "Gửi mã về email",
+          lbl_new_pw: "Mật khẩu mới",
+          btn_reset_pw: "Đặt lại mật khẩu",
+          btn_resend_code: "Gửi lại mã khác",
+          or_continue_with: "Hoặc tiếp tục với",
+          provider_x: "Tài khoản X",
+          provider_zalo: "Tài khoản Zalo",
+          terms_service: "Điều khoản dịch vụ",
+          privacy_policy: "Chính sách bảo mật",
+          close: "Đóng",
+          agree: "Đồng ý",
+          diag_title: "IP, Nhà mạng, Mạng, Thiết bị & Root / Jailbreak",
+          refresh: "Làm mới",
+          diag_ip: "Địa chỉ IP",
+          diag_isp: "Nhà mạng (ISP)",
+          diag_net: "Loại mạng",
+          diag_dev: "Thiết bị & Phần mềm",
+          diag_jb: "Trạng thái Root / Jailbreak",
+          err_empty_login: "Vui lòng nhập đầy đủ tên đăng nhập/email và mật khẩu.",
+          err_empty_reg: "Vui lòng nhập đầy đủ tên đăng nhập, email và mật khẩu.",
+          err_invalid_email: "Địa chỉ email không hợp lệ.",
+          err_pw_policy: "Mật khẩu đăng ký phải ít nhất 8 ký tự và bao gồm chữ cái, chữ số cùng ký tự đặc biệt.",
+          err_agree_terms: "Vui lòng đồng ý Điều khoản & Bảo mật trước khi đăng ký.",
+          err_empty_forgot_email: "Vui lòng nhập địa chỉ email cần gửi mã khôi phục.",
+          err_empty_otp: "Vui lòng nhập đủ mã xác nhận 6 số.",
+          slides: [
+            "Cập nhật các Tinh Chỉnh Thường Xuyên",
+            "Hỗ Trợ Nhiệt Tình 24/24",
+            "Nhóm Giải Đáp về Thủ thuật Jailbreak",
+          ],
+        },
+        en: {
+          dark_mode: "Dark mode",
+          light_mode: "Light mode",
+          logout: "Log out",
+          tab_login: "Sign In",
+          tab_register: "Sign Up",
+          tab_forgot: "Forgot Password",
+          login_title: "Sign In",
+          no_account: "Don't have an account?",
+          register_now: "Sign up now",
+          lbl_account: "Username or Email",
+          ph_account: "Enter username or email",
+          lbl_password: "Password",
+          ph_password: "Enter password",
+          remember_login: "Remember me",
+          forgot_link: "Forgot password?",
+          btn_login: "Sign In",
+          register_title: "Create Account",
+          have_account: "Already have an account?",
+          lbl_username: "Username",
+          ph_username: "Enter username (e.g. longmenjb)",
+          lbl_reg_email: "Email for verification code",
+          ph_email: "you@example.com",
+          ph_reg_pw: "At least 8 chars: letters, numbers & symbol",
+          pw_rule: "Password must be at least 8 characters with letters, numbers, and a special character.",
+          agree_prefix: "I agree to",
+          terms_privacy: "Terms & Privacy",
+          btn_send_reg_code: "Send Code & Sign Up",
+          lbl_otp_6: "Enter the 6-digit code sent to email",
+          ph_otp_6: "Enter 6-digit code",
+          btn_confirm_reg: "Verify & Create Account",
+          btn_back_edit: "Back to edit",
+          forgot_desc: "Enter your email to receive a reset code.",
+          back_login: "Back to sign in",
+          lbl_email: "Email Address",
+          btn_send_to_email: "Send code to email",
+          lbl_new_pw: "New Password",
+          btn_reset_pw: "Reset Password",
+          btn_resend_code: "Send another code",
+          or_continue_with: "Or continue with",
+          provider_x: "X Account",
+          provider_zalo: "Zalo Account",
+          terms_service: "Terms of Service",
+          privacy_policy: "Privacy Policy",
+          close: "Close",
+          agree: "Agree",
+          diag_title: "IP, ISP, Network, Device & Root / Jailbreak",
+          refresh: "Refresh",
+          diag_ip: "IP Address",
+          diag_isp: "ISP",
+          diag_net: "Network Type",
+          diag_dev: "Device & Software",
+          diag_jb: "Root / Jailbreak Status",
+          err_empty_login: "Please fill in both username/email and password.",
+          err_empty_reg: "Please fill in username, email, and password.",
+          err_invalid_email: "Please enter a valid email address.",
+          err_pw_policy: "Password must be at least 8 characters and include letters, numbers, and a special character.",
+          err_agree_terms: "Please agree to Terms & Privacy before signing up.",
+          err_empty_forgot_email: "Please enter your email address to receive the reset code.",
+          err_empty_otp: "Please enter the 6-digit verification code.",
+          slides: [
+            "Frequent Tweak Updates",
+            "24/7 Dedicated Support",
+            "Jailbreak Tips & Q&A Group",
+          ],
+        },
+        zh: {
+          dark_mode: "深色模式",
+          light_mode: "浅色模式",
+          logout: "退出登录",
+          tab_login: "登录",
+          tab_register: "注册",
+          tab_forgot: "忘记密码",
+          login_title: "账号登录",
+          no_account: "还没有账号？",
+          register_now: "立即注册",
+          lbl_account: "用户名或邮箱",
+          ph_account: "输入用户名或邮箱",
+          lbl_password: "密码",
+          ph_password: "输入密码",
+          remember_login: "记住登录",
+          forgot_link: "忘记密码？",
+          btn_login: "登录",
+          register_title: "注册新账号",
+          have_account: "已有账号？",
+          lbl_username: "用户名",
+          ph_username: "输入用户名（如：longmenjb）",
+          lbl_reg_email: "接收验证码的邮箱",
+          ph_email: "name@example.com",
+          ph_reg_pw: "至少8位：包含字母、数字和特殊符号",
+          pw_rule: "密码至少8位，必须包含字母、数字和特殊字符。",
+          agree_prefix: "我同意",
+          terms_privacy: "服务条款与隐私政策",
+          btn_send_reg_code: "发送验证码并注册",
+          lbl_otp_6: "输入发送到邮箱的6位验证码",
+          ph_otp_6: "输入6位验证码",
+          btn_confirm_reg: "验证并完成注册",
+          btn_back_edit: "返回修改",
+          forgot_desc: "输入邮箱以接收找回密码验证码。",
+          back_login: "返回登录",
+          lbl_email: "电子邮箱",
+          btn_send_to_email: "发送验证码到邮箱",
+          lbl_new_pw: "新密码",
+          btn_reset_pw: "重置密码",
+          btn_resend_code: "重新发送验证码",
+          or_continue_with: "或使用以下方式继续",
+          provider_x: "X 账号",
+          provider_zalo: "Zalo 账号",
+          terms_service: "服务条款",
+          privacy_policy: "隐私政策",
+          close: "关闭",
+          agree: "同意",
+          diag_title: "IP、运营商、网络、设备与 Root / 越狱状态",
+          refresh: "刷新",
+          diag_ip: "IP 地址",
+          diag_isp: "网络运营商",
+          diag_net: "网络类型",
+          diag_dev: "设备与软件",
+          diag_jb: "Root / 越狱状态",
+          err_empty_login: "请完整填写用户名/邮箱和密码。",
+          err_empty_reg: "请完整填写用户名、邮箱和密码。",
+          err_invalid_email: "邮箱格式不正确。",
+          err_pw_policy: "注册密码至少8位，且必须包含字母、数字和特殊字符。",
+          err_agree_terms: "注册前请先同意服务条款与隐私政策。",
+          err_empty_forgot_email: "请输入要接收验证码的邮箱。",
+          err_empty_otp: "请输入6位验证码。",
+          slides: [
+            "定期更新插件与源",
+            "24/7 热情技术支持",
+            "越狱技巧与答疑群组",
+          ],
+        },
+        ko: {
+          dark_mode: "다크 모드",
+          light_mode: "라이트 모드",
+          logout: "로그아웃",
+          tab_login: "로그인",
+          tab_register: "회원가입",
+          tab_forgot: "비밀번호 찾기",
+          login_title: "로그인",
+          no_account: "계정이 없으신가요?",
+          register_now: "지금 가입",
+          lbl_account: "아이디 또는 이메일",
+          ph_account: "아이디 또는 이메일 입력",
+          lbl_password: "비밀번호",
+          ph_password: "비밀번호 입력",
+          remember_login: "로그인 유지",
+          forgot_link: "비밀번호 찾기",
+          btn_login: "로그인",
+          register_title: "계정 만들기",
+          have_account: "이미 계정이 있으신가요?",
+          lbl_username: "아이디",
+          ph_username: "아이디 입력 (예: longmenjb)",
+          lbl_reg_email: "인증번호 받을 이메일",
+          ph_email: "name@example.com",
+          ph_reg_pw: "8자 이상: 영문, 숫자, 특수문자 포함",
+          pw_rule: "비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 포함해야 합니다.",
+          agree_prefix: "다음에 동의합니다:",
+          terms_privacy: "이용약관 및 개인정보처리방침",
+          btn_send_reg_code: "인증번호 전송 및 가입",
+          lbl_otp_6: "이메일로 전송된 6자리 인증번호 입력",
+          ph_otp_6: "6자리 인증번호",
+          btn_confirm_reg: "인증 후 가입 완료",
+          btn_back_edit: "수정으로 돌아가기",
+          forgot_desc: "재설정 코드를 받을 이메일을 입력하세요.",
+          back_login: "로그인으로 돌아가기",
+          lbl_email: "이메일 주소",
+          btn_send_to_email: "이메일로 코드 전송",
+          lbl_new_pw: "새 비밀번호",
+          btn_reset_pw: "비밀번호 재설정",
+          btn_resend_code: "다른 코드 전송",
+          or_continue_with: "다른 계정으로 계속하기",
+          provider_x: "X 계정",
+          provider_zalo: "Zalo 계정",
+          terms_service: "이용약관",
+          privacy_policy: "개인정보처리방침",
+          close: "닫기",
+          agree: "동의",
+          diag_title: "IP, 통신사, 네트워크, 기기 및 루트 / 탈옥 상태",
+          refresh: "새로고침",
+          diag_ip: "IP 주소",
+          diag_isp: "통신사 (ISP)",
+          diag_net: "네트워크 유형",
+          diag_dev: "기기 및 소프트웨어",
+          diag_jb: "루트 / 탈옥 상태",
+          err_empty_login: "아이디/이메일과 비밀번호를 모두 입력하세요.",
+          err_empty_reg: "아이디, 이메일, 비밀번호를 모두 입력하세요.",
+          err_invalid_email: "올바른 이메일 주소를 입력하세요.",
+          err_pw_policy: "비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 모두 포함해야 합니다.",
+          err_agree_terms: "가입 전에 이용약관 및 개인정보처리방침에 동의해 주세요.",
+          err_empty_forgot_email: "재설정 코드를 받을 이메일을 입력하세요.",
+          err_empty_otp: "6자리 인증번호를 입력하세요.",
+          slides: [
+            "트윅 업데이트 상시 제공",
+            "24시간 친절한 지원",
+            "탈옥 팁 및 질문 그룹",
+          ],
+        },
+        ja: {
+          dark_mode: "ダークモード",
+          light_mode: "ライトモード",
+          logout: "ログアウト",
+          tab_login: "ログイン",
+          tab_register: "新規登録",
+          tab_forgot: "パスワード再設定",
+          login_title: "ログイン",
+          no_account: "アカウントをお持ちではありませんか？",
+          register_now: "今すぐ登録",
+          lbl_account: "ユーザー名またはメール",
+          ph_account: "ユーザー名またはメールを入力",
+          lbl_password: "パスワード",
+          ph_password: "パスワードを入力",
+          remember_login: "ログイン状態を保持",
+          forgot_link: "パスワードをお忘れですか？",
+          btn_login: "ログイン",
+          register_title: "アカウント作成",
+          have_account: "すでにアカウントをお持ちですか？",
+          lbl_username: "ユーザー名",
+          ph_username: "ユーザー名を入力（例: longmenjb）",
+          lbl_reg_email: "認証コード受信用メール",
+          ph_email: "name@example.com",
+          ph_reg_pw: "8文字以上：英字・数字・記号を含める",
+          pw_rule: "パスワードは8文字以上で、英字・数字・記号をすべて含める必要があります。",
+          agree_prefix: "以下に同意します：",
+          terms_privacy: "利用規約とプライバシーポリシー",
+          btn_send_reg_code: "コード送信して登録",
+          lbl_otp_6: "メールに送信された6桁のコードを入力",
+          ph_otp_6: "6桁の認証コード",
+          btn_confirm_reg: "認証して登録完了",
+          btn_back_edit: "入力画面に戻る",
+          forgot_desc: "再設定コードを受け取るメールアドレスを入力してください。",
+          back_login: "ログインに戻る",
+          lbl_email: "メールアドレス",
+          btn_send_to_email: "メールにコードを送信",
+          lbl_new_pw: "新しいパスワード",
+          btn_reset_pw: "パスワードを変更",
+          btn_resend_code: "別のコードを再送信",
+          or_continue_with: "または次で続行",
+          provider_x: "X アカウント",
+          provider_zalo: "Zalo アカウント",
+          terms_service: "利用規約",
+          privacy_policy: "プライバシーポリシー",
+          close: "閉じる",
+          agree: "同意する",
+          diag_title: "IP・通信事業者・回線・端末・Root / 脱獄状態",
+          refresh: "更新",
+          diag_ip: "IPアドレス",
+          diag_isp: "回線事業者 (ISP)",
+          diag_net: "ネットワーク種別",
+          diag_dev: "端末とソフトウェア",
+          diag_jb: "Root / 脱獄状態",
+          err_empty_login: "ユーザー名/メールとパスワードを両方入力してください。",
+          err_empty_reg: "ユーザー名・メール・パスワードをすべて入力してください。",
+          err_invalid_email: "有効なメールアドレスを入力してください。",
+          err_pw_policy: "パスワードは8文字以上で、英字・数字・記号を含める必要があります。",
+          err_agree_terms: "登録前に利用規約とプライバシーポリシーに同意してください。",
+          err_empty_forgot_email: "認証コードを送るメールアドレスを入力してください。",
+          err_empty_otp: "6桁の認証コードを入力してください。",
+          slides: [
+            "Tweakアップデートを随時配信",
+            "24時間サポート対応",
+            "脱獄テクニック・質問グループ",
+          ],
+        },
+      };
+
+      function t(key) {
+        const lang = document.getElementById("langSelect").value || "vi";
+        return (I18N[lang] && I18N[lang][key]) || I18N.vi[key] || key;
+      }
+
+      function applyLanguage(lang) {
+        const code = I18N[lang] ? lang : "vi";
+        document.documentElement.lang = code;
+        localStorage.setItem(KEY_LANG, code);
+
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const k = el.dataset.i18n;
+          if (I18N[code][k]) el.textContent = I18N[code][k];
+        });
+
+        document.querySelectorAll("[data-i18n-ph]").forEach((el) => {
+          const k = el.dataset.i18nPh;
+          if (I18N[code][k]) el.placeholder = I18N[code][k];
+        });
+
+        const curTheme = document.documentElement.getAttribute("data-theme") || "light";
+        document.getElementById("themeText").textContent =
+          curTheme === "dark" ? t("light_mode") : t("dark_mode");
+
+        showSlide(activeSlide);
+      }
+
+      document.getElementById("langSelect").addEventListener("change", (e) => {
+        applyLanguage(e.target.value);
+      });
+
+      // 3. Khởi tạo SDK nếu có khóa thật
+      if (window.emailjs && !EMAIL_CFG.publicKey.startsWith("YOUR_")) {
+        emailjs.init({ publicKey: EMAIL_CFG.publicKey });
+      }
+
+      window.fbAsyncInit = function () {
+        if (window.FB && !OAUTH_CFG.facebookAppId.startsWith("YOUR_FACEBOOK_APP_ID")) {
+          FB.init({
+            appId: OAUTH_CFG.facebookAppId,
+            cookie: true,
+            xfbml: false,
+            version: "v20.0",
+          });
+        }
+      };
+
+      // 4. Chế độ Sáng / Tối
+      function applyTheme(theme) {
+        const next = theme === "dark" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem(KEY_THEME, next);
+        const icon = document.getElementById("themeIcon");
+        const text = document.getElementById("themeText");
+        if (next === "dark") {
+          icon.className = "fas fa-sun";
+          text.textContent = t("light_mode");
+        } else {
+          icon.className = "fas fa-moon";
+          text.textContent = t("dark_mode");
+        }
+      }
+
+      document.getElementById("themeToggleBtn").addEventListener("click", () => {
+        const cur = document.documentElement.getAttribute("data-theme") || "light";
+        applyTheme(cur === "light" ? "dark" : "light");
+      });
+
+      // 5. Đồng hồ định dạng 24h
+      function renderClock24h() {
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, "0");
+        document.getElementById("clock24").textContent =
+          `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+        setTimeout(renderClock24h, 1000);
+      }
+      renderClock24h();
+
+      // 6. Slideshow
+      const heroSlides = Array.from(document.querySelectorAll(".hero-slide"));
+      const slideDots = Array.from(document.querySelectorAll(".slide-dot"));
+      let activeSlide = 0;
+
+      function showSlide(i) {
+        activeSlide = (i + heroSlides.length) % heroSlides.length;
+        heroSlides.forEach((img, idx) => img.classList.toggle("active", idx === activeSlide));
+        slideDots.forEach((dot, idx) => dot.classList.toggle("active", idx === activeSlide));
+        const captions = t("slides");
+        document.getElementById("slideCaption").textContent =
+          Array.isArray(captions) ? captions[activeSlide] : "";
+      }
+
+      slideDots.forEach((d) => d.addEventListener("click", () => showSlide(Number(d.dataset.idx))));
+      setInterval(() => showSlide(activeSlide + 1), 4000);
+
+      // 7. Nút hiện / ẩn mật khẩu
+      document.querySelectorAll("[data-toggle-pw]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const input = document.getElementById(btn.dataset.togglePw);
+          if (!input) return;
+          const isHidden = input.type === "password";
+          input.type = isHidden ? "text" : "password";
+          const icon = btn.querySelector("i");
+          if (icon) icon.className = isHidden ? "fas fa-eye-slash" : "fas fa-eye";
+        });
+      });
+
+      // 8. Modal Điều khoản & Bảo mật
+      const legalModal = document.getElementById("legalModal");
+      const legalTitle = document.getElementById("legalTitle");
+      const legalBody = document.getElementById("legalBody");
+
+      function openLegal(mode) {
+        if (mode === "privacy") {
+          legalTitle.textContent = t("privacy_policy");
+          legalBody.innerHTML = `
+            <p><strong>1. Bảo mật tài khoản:</strong> Mật khẩu được mã hóa SHA-256; mã xác nhận gửi tới email người dùng.</p>
+            <p><strong>2. Thông báo đăng ký mới:</strong> Khi đăng ký thành công, hệ thống gửi thông báo về <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          `;
+        } else {
+          legalTitle.textContent = t("terms_service");
+          legalBody.innerHTML = `
+            <p><strong>1. Quy định sử dụng:</strong> Không spam hoặc xâm phạm hệ thống.</p>
+            <p><strong>2. Mật khẩu đăng ký:</strong> Bắt buộc tối thiểu 8 ký tự, gồm chữ cái, chữ số và ký tự đặc biệt.</p>
+            <p><strong>3. Thông báo quản trị:</strong> Mọi đăng ký mới gửi thông báo tới <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          `;
+        }
+        legalModal.classList.add("open");
+      }
+
+      function closeLegal() {
+        legalModal.classList.remove("open");
+      }
+
+      document.getElementById("btnShowTerms").addEventListener("click", () => openLegal("terms"));
+      document.getElementById("btnShowPrivacy").addEventListener("click", () => openLegal("privacy"));
+      document.getElementById("openTermsFromRegister").addEventListener("click", () => openLegal("terms"));
+      document.getElementById("closeLegalX").addEventListener("click", closeLegal);
+      document.getElementById("closeLegalBtn").addEventListener("click", closeLegal);
+      document.getElementById("agreeLegalBtn").addEventListener("click", () => {
+        document.getElementById("agreePolicy").checked = true;
+        closeLegal();
+      });
+      legalModal.addEventListener("click", (e) => {
+        if (e.target === legalModal) closeLegal();
+      });
+
+      // 9. Chuyển tab
+      function switchAuthTab(tab) {
+        clearNotice();
+        document.querySelectorAll(".seg-tab").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.tab === tab);
+        });
+        document.getElementById("loginForm").classList.toggle("active", tab === "login");
+        document.getElementById("registerBox").classList.toggle("active", tab === "register");
+        document.getElementById("forgotBox").classList.toggle("active", tab === "forgot");
+      }
+
+      document.querySelectorAll(".seg-tab").forEach((btn) => {
+        btn.addEventListener("click", () => switchAuthTab(btn.dataset.tab));
+      });
+      document.querySelectorAll("[data-go-tab]").forEach((el) => {
+        el.addEventListener("click", () => switchAuthTab(el.dataset.goTab));
+      });
+
+      // 10. Storage, Hash & Kiểm tra mật khẩu mạnh (>= 8 ký tự, có chữ + số + ký tự đặc biệt)
+      function isStrongPassword(pw) {
+        return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(pw);
+      }
+
+      function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      async function digestSha256(plain) {
+        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(plain));
+        return Array.from(new Uint8Array(buf))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      function loadUsers() {
+        try {
+          return JSON.parse(localStorage.getItem(KEY_USERS) || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function saveUsers(users) {
+        localStorage.setItem(KEY_USERS, JSON.stringify(users));
+      }
+
+      function showNotice(type, html) {
+        const el = document.getElementById("noticeBox");
+        el.className = `notice-box show ${type}`;
+        el.innerHTML = html;
+      }
+
+      function clearNotice() {
+        const el = document.getElementById("noticeBox");
+        el.className = "notice-box";
+        el.innerHTML = "";
+      }
+
+      function completeLogin(displayName, email, remember) {
+        const data = { username: displayName, email: email || "", loginAt: new Date().toISOString() };
+        localStorage.removeItem(KEY_SESSION);
+        sessionStorage.removeItem(KEY_SESSION);
+        if (remember) localStorage.setItem(KEY_SESSION, JSON.stringify(data));
+        else sessionStorage.setItem(KEY_SESSION, JSON.stringify(data));
+        syncSessionUI();
+      }
+
+      function syncSessionUI() {
+        const raw = localStorage.getItem(KEY_SESSION) || sessionStorage.getItem(KEY_SESSION);
+        const badge = document.getElementById("sessionBadge");
+        const label = document.getElementById("sessionUser");
+        if (!raw) {
+          badge.classList.remove("show");
+          return;
+        }
+        try {
+          const s = JSON.parse(raw);
+          label.textContent = s.username;
+          badge.classList.add("show");
+        } catch {
+          badge.classList.remove("show");
+        }
+      }
+
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem(KEY_SESSION);
+        sessionStorage.removeItem(KEY_SESSION);
+        syncSessionUI();
+        showNotice("ok", t("logout") + " OK.");
+      });
+
+      // 11. Gửi email qua EmailJS
+      async function sendOtpEmail(toEmail, username, otpCode, purpose) {
+        const ready =
+          window.emailjs &&
+          !EMAIL_CFG.publicKey.startsWith("YOUR_") &&
+          !EMAIL_CFG.serviceId.startsWith("YOUR_") &&
+          !EMAIL_CFG.userOtpTemplateId.startsWith("YOUR_");
+        if (!ready) return { sent: false };
+
+        await emailjs.send(EMAIL_CFG.serviceId, EMAIL_CFG.userOtpTemplateId, {
+          to_email: toEmail,
+          username,
+          otp_code: otpCode,
+          purpose,
+        });
+        return { sent: true };
+      }
+
+      async function sendAdminNewUserEmail(userObj) {
+        const ready =
+          window.emailjs &&
+          !EMAIL_CFG.publicKey.startsWith("YOUR_") &&
+          !EMAIL_CFG.serviceId.startsWith("YOUR_") &&
+          !EMAIL_CFG.adminNoticeTemplateId.startsWith("YOUR_");
+        if (!ready) return { sent: false };
+
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, "0");
+        const time24 = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${now.toLocaleDateString("vi-VN")}`;
+
+        await emailjs.send(EMAIL_CFG.serviceId, EMAIL_CFG.adminNoticeTemplateId, {
+          admin_email: EMAIL_CFG.adminEmail,
+          username: userObj.username,
+          user_email: userObj.email,
+          ip: document.getElementById("dIp").textContent,
+          isp: document.getElementById("dIsp").textContent,
+          device: document.getElementById("dDev").textContent,
+          time: time24,
+        });
+        return { sent: true };
+      }
+
+      // 12. Đăng ký - Bước 1: Kiểm tra trống + mật khẩu >= 8 ký tự (chữ, số, ký tự đặc biệt) + gửi mã tới email
+      document.getElementById("registerForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const username = document.getElementById("regName").value.trim();
+        const email = document.getElementById("regEmail").value.trim().toLowerCase();
+        const pw = document.getElementById("regPassword").value;
+        const agreed = document.getElementById("agreePolicy").checked;
+
+        if (!username || !email || !pw) {
+          showNotice("err", t("err_empty_reg"));
+          return;
+        }
+        if (!isValidEmail(email)) {
+          showNotice("err", t("err_invalid_email"));
+          return;
+        }
+        if (!isStrongPassword(pw)) {
+          showNotice("err", t("err_pw_policy"));
+          return;
+        }
+        if (!agreed) {
+          showNotice("err", t("err_agree_terms"));
+          return;
+        }
+
+        const users = loadUsers();
+        if (users.some((u) => u.username.toLowerCase() === username.toLowerCase() || u.email === email)) {
+          showNotice("err", "Tên đăng nhập hoặc Email này đã tồn tại.");
+          return;
+        }
+
+        const otpCode = String(Math.floor(100000 + Math.random() * 900000));
+        pendingReg = {
+          username,
+          email,
+          passwordHash: await digestSha256(pw),
+          otpCode,
+          expiresAt: Date.now() + 10 * 60 * 1000,
+        };
+
+        try {
+          const res = await sendOtpEmail(email, username, otpCode, "Đăng ký tài khoản");
+          document.getElementById("registerForm").classList.remove("active");
+          document.getElementById("registerOtpForm").classList.add("active");
+
+          if (res.sent) {
+            showNotice("ok", `Đã gửi mã 6 số tới email <b>${email}</b>. Vui lòng nhập mã để hoàn tất.`);
+          } else {
+            showNotice("ok", `Mã xác nhận cho <b>${email}</b>: <b>${otpCode}</b>`);
+          }
+        } catch {
+          showNotice("err", "Không gửi được mã tới email. Kiểm tra cấu hình EmailJS hoặc mạng.");
+        }
+      });
+
+      // Đăng ký - Bước 2: Xác nhận mã & gửi thông báo về longmenjailbreak@gmail.com
+      document.getElementById("registerOtpForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const code = document.getElementById("regOtpCode").value.trim();
+        if (!code) {
+          showNotice("err", t("err_empty_otp"));
+          return;
+        }
+        if (!pendingReg || Date.now() > pendingReg.expiresAt) {
+          showNotice("err", "Mã xác nhận đã hết hạn. Vui lòng đăng ký lại.");
+          return;
+        }
+        if (code !== pendingReg.otpCode) {
+          showNotice("err", "Mã xác nhận 6 số không đúng.");
+          return;
+        }
+
+        const users = loadUsers();
+        const newAccount = {
+          username: pendingReg.username,
+          email: pendingReg.email,
+          passwordHash: pendingReg.passwordHash,
+          createdAt: new Date().toISOString(),
+        };
+        users.push(newAccount);
+        saveUsers(users);
+
+        pendingReg = null;
+        document.getElementById("registerForm").reset();
+        document.getElementById("registerOtpForm").reset();
+        document.getElementById("registerOtpForm").classList.remove("active");
+        document.getElementById("registerForm").classList.add("active");
+
+        const adminRes = await sendAdminNewUserEmail(newAccount);
+        switchAuthTab("login");
+        document.getElementById("loginAccount").value = newAccount.username;
+        showNotice(
+          "ok",
+          `Đăng ký thành công tài khoản <b>${newAccount.username}</b>!` +
+            (adminRes.sent ? ` Đã gửi thông báo tới <b>${EMAIL_CFG.adminEmail}</b>.` : "")
+        );
+      });
+
+      document.getElementById("backRegisterBtn").addEventListener("click", () => {
+        pendingReg = null;
+        document.getElementById("registerOtpForm").classList.remove("active");
+        document.getElementById("registerForm").classList.add("active");
+        clearNotice();
+      });
+
+      // 13. Đăng nhập - Kiểm tra trống trước
+      document.getElementById("loginForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const account = document.getElementById("loginAccount").value.trim();
+        const pw = document.getElementById("loginPassword").value;
+        const remember = document.getElementById("rememberSession").checked;
+
+        if (!account || !pw) {
+          showNotice("err", t("err_empty_login"));
+          return;
+        }
+
+        const users = loadUsers();
+        const pwHash = await digestSha256(pw);
+        const found = users.find(
+          (u) =>
+            (u.username.toLowerCase() === account.toLowerCase() || u.email === account.toLowerCase()) &&
+            u.passwordHash === pwHash
+        );
+
+        if (!found) {
+          showNotice("err", "Sai tên đăng nhập/email hoặc mật khẩu.");
+          return;
+        }
+
+        completeLogin(found.username, found.email, remember);
+        showNotice("ok", `Đăng nhập thành công: <b>${found.username}</b>.`);
+      });
+
+      // 14. Quên mật khẩu - Nhập email gửi mã về email đó
+      document.getElementById("forgotEmailForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const targetEmail = document.getElementById("forgotEmailInput").value.trim().toLowerCase();
+
+        if (!targetEmail) {
+          showNotice("err", t("err_empty_forgot_email"));
+          return;
+        }
+        if (!isValidEmail(targetEmail)) {
+          showNotice("err", t("err_invalid_email"));
+          return;
+        }
+
+        const users = loadUsers();
+        const found = users.find((u) => u.email === targetEmail);
+        if (!found) {
+          showNotice("err", "Không tìm thấy tài khoản đăng ký với email này.");
+          return;
+        }
+
+        const otpCode = String(Math.floor(100000 + Math.random() * 900000));
+        pendingForgot = {
+          email: found.email,
+          username: found.username,
+          otpCode,
+          expiresAt: Date.now() + 10 * 60 * 1000,
+        };
+
+        try {
+          const res = await sendOtpEmail(found.email, found.username, otpCode, "Khôi phục mật khẩu");
+          document.getElementById("forgotEmailForm").classList.remove("active");
+          document.getElementById("forgotResetForm").classList.add("active");
+
+          if (res.sent) {
+            showNotice("ok", `Đã gửi mã 6 số tới email <b>${found.email}</b>.`);
+          } else {
+            showNotice("ok", `Mã khôi phục cho <b>${found.email}</b>: <b>${otpCode}</b>`);
+          }
+        } catch {
+          showNotice("err", "Không gửi được mã tới email. Kiểm tra cấu hình EmailJS hoặc mạng.");
+        }
+      });
+
+      document.getElementById("forgotResetForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const code = document.getElementById("forgotOtpInput").value.trim();
+        const newPw = document.getElementById("forgotNewPass").value;
+
+        if (!code || !newPw) {
+          showNotice("err", t("err_empty_otp"));
+          return;
+        }
+        if (!isStrongPassword(newPw)) {
+          showNotice("err", t("err_pw_policy"));
+          return;
+        }
+        if (!pendingForgot || Date.now() > pendingForgot.expiresAt) {
+          showNotice("err", "Mã khôi phục đã hết hạn. Vui lòng gửi lại.");
+          return;
+        }
+        if (code !== pendingForgot.otpCode) {
+          showNotice("err", "Mã xác nhận 6 số không đúng.");
+          return;
+        }
+
+        const users = loadUsers();
+        const idx = users.findIndex((u) => u.email === pendingForgot.email);
+        if (idx === -1) {
+          showNotice("err", "Tài khoản không tồn tại.");
+          return;
+        }
+
+        users[idx].passwordHash = await digestSha256(newPw);
+        saveUsers(users);
+        pendingForgot = null;
+
+        document.getElementById("forgotEmailForm").reset();
+        document.getElementById("forgotResetForm").reset();
+        document.getElementById("forgotResetForm").classList.remove("active");
+        document.getElementById("forgotEmailForm").classList.add("active");
+
+        switchAuthTab("login");
+        document.getElementById("loginAccount").value = users[idx].email;
+        showNotice("ok", "Đặt lại mật khẩu thành công.");
+      });
+
+      document.getElementById("backForgotBtn").addEventListener("click", () => {
+        pendingForgot = null;
+        document.getElementById("forgotResetForm").classList.remove("active");
+        document.getElementById("forgotEmailForm").classList.add("active");
+        clearNotice();
+      });
+
+      // 15. Nút Facebook, Google, Tài khoản X, Tài khoản Zalo (OAuth thật nếu có ID, hoặc đăng nhập/đăng ký tên longmenjb)
+      function finishSocialLogin(provider) {
+        completeLogin(DEFAULT_SOCIAL_ACCOUNT_NAME, `${DEFAULT_SOCIAL_ACCOUNT_NAME}@${provider.toLowerCase()}.auth`, true);
+        showNotice("ok", `<b>${DEFAULT_SOCIAL_ACCOUNT_NAME}</b> (${provider})`);
+      }
+
+      function triggerRealOrFallbackOAuth(provider) {
+        if (provider === "Google" && window.google && google.accounts && google.accounts.oauth2 && !OAUTH_CFG.googleClientId.startsWith("YOUR_")) {
+          const tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: OAUTH_CFG.googleClientId,
+            scope: "openid email profile",
+            callback: (resp) => {
+              if (resp && resp.access_token) finishSocialLogin("Google");
+              else showNotice("err", "Google login cancelled.");
+            },
+          });
+          tokenClient.requestAccessToken();
+          return;
+        }
+
+        if (provider === "Facebook" && window.FB && !OAUTH_CFG.facebookAppId.startsWith("YOUR_FACEBOOK_APP_ID")) {
+          FB.login(
+            (resp) => {
+              if (resp && resp.authResponse) finishSocialLogin("Facebook");
+              else showNotice("err", "Facebook login cancelled.");
+            },
+            { scope: "public_profile,email" }
+          );
+          return;
+        }
+
+        if (provider === "X" && !OAUTH_CFG.xClientId.startsWith("YOUR_X_CLIENT_ID")) {
+          const url =
+            "https://x.com/i/oauth2/authorize?response_type=code" +
+            `&client_id=${encodeURIComponent(OAUTH_CFG.xClientId)}` +
+            `&redirect_uri=${encodeURIComponent(OAUTH_CFG.xRedirectUri)}` +
+            "&scope=tweet.read%20users.read&state=x_login&code_challenge=challenge&code_challenge_method=plain";
+          window.open(url, "_blank", "width=520,height=640");
+          return;
+        }
+
+        if (provider === "Zalo" && !OAUTH_CFG.zaloAppId.startsWith("YOUR_ZALO_APP_ID")) {
+          const url =
+            `https://oauth.zaloapp.com/v4/permission?app_id=${encodeURIComponent(OAUTH_CFG.zaloAppId)}` +
+            `&redirect_uri=${encodeURIComponent(OAUTH_CFG.zaloCallbackUrl)}&state=zalo_login`;
+          window.open(url, "_blank", "width=520,height=640");
+          return;
+        }
+
+        finishSocialLogin(provider);
+      }
+
+      document.querySelectorAll(".provider-btn").forEach((btn) => {
+        btn.addEventListener("click", () => triggerRealOrFallbackOAuth(btn.dataset.provider));
+      });
+
+      // 16. Thông tin IP, Nhà mạng, Loại mạng, Thiết bị & Phần mềm, Root / Jailbreak
+      function detectNetType() {
+        const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (!c) return "Wi-Fi / LAN";
+        const map = {
+          wifi: "Wi-Fi",
+          cellular: "Di động (3G/4G/5G)",
+          ethernet: "Ethernet",
+          none: "Offline",
+        };
+        const label = map[c.effectiveType] || map[c.type] || c.effectiveType || "Unknown";
+        return typeof c.downlink === "number" ? `${label} (~${c.downlink} Mbps)` : label;
+      }
+
+      function detectDeviceSoftware() {
+        const ua = navigator.userAgent || "";
+        let dev = "PC / Mac";
+        if (/iPad|Tablet/i.test(ua)) dev = "iPad / Tablet";
+        else if (/iPhone/i.test(ua)) dev = "iPhone";
+        else if (/Android/i.test(ua)) {
+          const m = ua.match(/Android[^;)]*;\s*([^;)]+)\s*Build/i);
+          dev = m && m[1] ? m[1].trim() : "Android";
+        } else if (/Macintosh/i.test(ua)) dev = "Mac";
+        else if (/Windows/i.test(ua)) dev = "Windows";
+
+        let os = "OS";
+        if (/Windows NT 10\.0/i.test(ua)) os = "Windows 10/11";
+        else if (/iPhone OS|CPU (?:iPhone )?OS/i.test(ua)) {
+          const m = ua.match(/(?:iPhone OS|CPU (?:iPhone )?OS)\s+([\d_]+)/i);
+          os = m ? `iOS ${m[1].replace(/_/g, ".")}` : "iOS";
+        } else if (/Android\s+([\d.]+)/i.test(ua)) {
+          const m = ua.match(/Android\s+([\d.]+)/i);
+          os = `Android ${m[1]}`;
+        } else if (/Mac OS X\s+([\d_]+)/i.test(ua)) {
+          const m = ua.match(/Mac OS X\s+([\d_]+)/i);
+          os = `macOS ${m[1].replace(/_/g, ".")}`;
+        } else if (/Linux/i.test(ua)) os = "Linux";
+
+        let br = "Browser";
+        if (/Edg\//i.test(ua)) {
+          const m = ua.match(/Edg\/([\d.]+)/i);
+          br = `Edge ${m ? m[1] : ""}`.trim();
+        } else if (/OPR\/|Opera\//i.test(ua)) {
+          const m = ua.match(/(?:OPR|Opera)\/([\d.]+)/i);
+          br = `Opera ${m ? m[1] : ""}`.trim();
+        } else if (/Chrome\//i.test(ua) && !/Chromium/i.test(ua)) {
+          const m = ua.match(/Chrome\/([\d.]+)/i);
+          br = `Chrome ${m ? m[1] : ""}`.trim();
+        } else if (/Firefox\//i.test(ua)) {
+          const m = ua.match(/Firefox\/([\d.]+)/i);
+          br = `Firefox ${m ? m[1] : ""}`.trim();
+        } else if (/Safari\//i.test(ua) && !/Chrome\//i.test(ua)) {
+          const m = ua.match(/Version\/([\d.]+)/i);
+          br = `Safari ${m ? m[1] : ""}`.trim();
+        }
+
+        return `${dev} · ${os} · ${br}`;
+      }
+
+      function detectJbRoot() {
+        const ua = navigator.userAgent || "";
+        const isIOS = /iPhone|iPad|iPod/i.test(ua);
+        const isAndroid = /Android/i.test(ua);
+        const jbHint = /(jailbreak|cydia|sileo|dopamine|palera1n|unc0ver|checkra1n|rootless)/i.test(ua);
+        const rootHint = /\b(root|superuser|magisk|su-)\b/i.test(ua);
+
+        if (isIOS) {
+          return jbHint
+            ? "Jailbreak hint detected in UA"
+            : "No jailbreak hint via browser (iOS sandbox)";
+        }
+        if (isAndroid) {
+          return rootHint
+            ? "Root hint detected in UA"
+            : "No root hint via browser (Android sandbox)";
+        }
+        return "Desktop / N/A";
+      }
+
+      async function fetchIpIsp() {
+        document.getElementById("dIp").textContent = "...";
+        document.getElementById("dIsp").textContent = "...";
+
+        try {
+          const r1 = await fetch("https://ipapi.co/json/", { cache: "no-store" });
+          if (r1.ok) {
+            const j1 = await r1.json();
+            if (j1 && j1.ip) {
+              document.getElementById("dIp").textContent = j1.ip;
+              document.getElementById("dIsp").textContent = j1.org || j1.asn || "Unknown";
+              return;
+            }
+          }
+        } catch (_) {}
+
+        try {
+          const r2 = await fetch("https://ipwho.is/", { cache: "no-store" });
+          if (r2.ok) {
+            const j2 = await r2.json();
+            if (j2 && j2.success !== false && j2.ip) {
+              document.getElementById("dIp").textContent = j2.ip;
+              document.getElementById("dIsp").textContent =
+                (j2.connection && (j2.connection.isp || j2.connection.org)) || "Unknown";
+              return;
+            }
+          }
+        } catch (_) {}
+
+        document.getElementById("dIp").textContent = "N/A";
+        document.getElementById("dIsp").textContent = "N/A";
+      }
+
+      function runDiagnostics() {
+        document.getElementById("dNet").textContent = detectNetType();
+        document.getElementById("dDev").textContent = detectDeviceSoftware();
+        document.getElementById("dJbRoot").textContent = detectJbRoot();
+        fetchIpIsp();
+      }
+
+      document.getElementById("refreshDiagBtn").addEventListener("click", runDiagnostics);
+
+      // Khởi tạo giao diện
+      applyTheme(localStorage.getItem(KEY_THEME) || "light");
+      const savedLang = localStorage.getItem(KEY_LANG) || "vi";
+      document.getElementById("langSelect").value = savedLang;
+      applyLanguage(savedLang);
+      syncSessionUI();
+      runDiagnostics();
+    </script>
   </body>
 </html>
