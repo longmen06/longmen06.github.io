@@ -10,9 +10,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://connect.facebook.net/en_US/sdk.js" async defer></script>
     <style>
       :root[data-theme="light"] {
         --bg-canvas: #e5e8f0;
@@ -195,7 +192,7 @@
 
       .seg-tabs {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 6px;
         background: var(--chip-bg);
         padding: 5px;
@@ -235,23 +232,6 @@
         font-weight: 800;
       }
 
-      .view-desc {
-        font-size: 12.5px;
-        color: var(--muted);
-        margin-top: -5px;
-      }
-
-      .link-action {
-        background: none;
-        border: none;
-        padding: 0;
-        color: var(--primary);
-        font-size: inherit;
-        font-weight: 700;
-        cursor: pointer;
-        text-decoration: underline;
-      }
-
       .field-group {
         display: flex;
         flex-direction: column;
@@ -279,7 +259,6 @@
         color: var(--text);
         font-size: 14px;
         outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
       }
 
       .input-shell input.no-eye {
@@ -301,14 +280,6 @@
         background: transparent;
         color: var(--muted);
         cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .eye-btn:hover {
-        color: var(--text);
-        background: var(--chip-bg);
       }
 
       .caps-banner {
@@ -328,21 +299,6 @@
         display: inline-flex;
       }
 
-      .pw-rule-hint {
-        font-size: 11.5px;
-        color: var(--muted);
-        line-height: 1.35;
-      }
-
-      .options-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        flex-wrap: wrap;
-        font-size: 12.5px;
-      }
-
       .check-item {
         display: inline-flex;
         align-items: center;
@@ -350,6 +306,7 @@
         cursor: pointer;
         color: var(--text);
         font-size: 12.5px;
+        font-weight: 600;
       }
 
       .btn-primary {
@@ -362,23 +319,10 @@
         font-size: 14px;
         font-weight: 700;
         cursor: pointer;
-        transition: background 0.2s;
       }
 
       .btn-primary:hover {
         background: var(--primary-hover);
-      }
-
-      .btn-ghost {
-        width: 100%;
-        padding: 10px 14px;
-        border-radius: 12px;
-        border: 1px solid var(--border);
-        background: var(--surface-2);
-        color: var(--text);
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
       }
 
       .notice-box {
@@ -447,12 +391,10 @@
         font-size: 12.5px;
         font-weight: 600;
         cursor: pointer;
-        transition: background 0.2s, transform 0.15s;
       }
 
       .provider-btn:hover {
         background: var(--chip-hover);
-        transform: translateY(-1px);
       }
 
       .provider-btn.fb i { color: #1877f2; }
@@ -668,7 +610,7 @@
 
       .modal-dialog {
         width: 100%;
-        max-width: 580px;
+        max-width: 560px;
         background: var(--surface);
         color: var(--text);
         border: 1px solid var(--border);
@@ -773,16 +715,11 @@
           <div class="seg-tabs" style="margin-top: 14px;">
             <button type="button" class="seg-tab active" data-tab="login" data-i18n="tab_login">Đăng nhập</button>
             <button type="button" class="seg-tab" data-tab="register" data-i18n="tab_register">Đăng ký</button>
-            <button type="button" class="seg-tab" data-tab="forgot" data-i18n="tab_forgot">Quên mật khẩu</button>
           </div>
 
-          <!-- 1. ĐĂNG NHẬP -->
+          <!-- ĐĂNG NHẬP -->
           <form id="loginForm" class="view-box active" novalidate autocomplete="off" style="margin-top: 14px;">
             <h1 class="view-title" data-i18n="login_title">Đăng nhập</h1>
-            <p class="view-desc">
-              <span data-i18n="no_account">Chưa có tài khoản?</span>
-              <button type="button" class="link-action" data-go-tab="register" data-i18n="register_now">Đăng ký ngay</button>
-            </p>
 
             <div class="field-group">
               <label for="loginAccount" data-i18n="lbl_account">Tên đăng nhập hoặc Email</label>
@@ -806,114 +743,44 @@
               <span id="capsText"></span>
             </div>
 
-            <div class="options-row">
-              <label class="check-item">
-                <input id="rememberSession" type="checkbox" />
-                <span data-i18n="remember_login">Lưu đăng nhập</span>
-              </label>
-              <button type="button" class="link-action" data-go-tab="forgot" data-i18n="forgot_link">Quên mật khẩu?</button>
-            </div>
+            <label class="check-item">
+              <input id="savePasswordToggle" type="checkbox" />
+              <span data-i18n="save_password">Lưu mật khẩu</span>
+            </label>
 
             <button type="submit" class="btn-primary" data-i18n="btn_login">Đăng nhập</button>
           </form>
 
-          <!-- 2. ĐĂNG KÝ -->
-          <div id="registerBox" class="view-box" style="margin-top: 14px;">
+          <!-- ĐĂNG KÝ -->
+          <form id="registerForm" class="view-box" novalidate autocomplete="off" style="margin-top: 14px;">
             <h2 class="view-title" data-i18n="register_title">Đăng ký tài khoản</h2>
-            <p class="view-desc">
-              <span data-i18n="have_account">Đã có tài khoản?</span>
-              <button type="button" class="link-action" data-go-tab="login" data-i18n="tab_login">Đăng nhập</button>
-            </p>
 
-            <form id="registerForm" class="view-box active" novalidate autocomplete="off">
-              <div class="field-group">
-                <label for="regName" data-i18n="lbl_username">Tên đăng nhập</label>
-                <div class="input-shell">
-                  <input id="regName" class="no-eye" type="text" data-i18n-ph="ph_username" placeholder="Nhập tên đăng nhập" />
-                </div>
+            <div class="field-group">
+              <label for="regName" data-i18n="lbl_username">Tên đăng nhập</label>
+              <div class="input-shell">
+                <input id="regName" class="no-eye" type="text" data-i18n-ph="ph_username" placeholder="Nhập tên đăng nhập" />
               </div>
+            </div>
 
-              <div class="field-group">
-                <label for="regEmail" data-i18n="lbl_reg_email">Email nhận mã xác nhận</label>
-                <div class="input-shell">
-                  <input id="regEmail" class="no-eye" type="email" data-i18n-ph="ph_email" placeholder="emailcuaban@example.com" />
-                </div>
+            <div class="field-group">
+              <label for="regEmail" data-i18n="lbl_email">Email</label>
+              <div class="input-shell">
+                <input id="regEmail" class="no-eye" type="email" data-i18n-ph="ph_email" placeholder="email@example.com" />
               </div>
+            </div>
 
-              <div class="field-group">
-                <label for="regPassword" data-i18n="lbl_password">Mật khẩu</label>
-                <div class="input-shell">
-                  <input id="regPassword" type="password" data-i18n-ph="ph_reg_pw" placeholder="Tối thiểu 8 ký tự: chữ, số và ký tự đặc biệt" />
-                  <button type="button" class="eye-btn" data-toggle-pw="regPassword" aria-label="Hiện/ẩn mật khẩu">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                </div>
-                <div class="pw-rule-hint" data-i18n="pw_rule">
-                  Mật khẩu phải có ít nhất 8 ký tự, gồm chữ cái, chữ số và ký tự đặc biệt.
-                </div>
+            <div class="field-group">
+              <label for="regPassword" data-i18n="lbl_password">Mật khẩu</label>
+              <div class="input-shell">
+                <input id="regPassword" type="password" data-i18n-ph="ph_password" placeholder="Nhập mật khẩu" />
+                <button type="button" class="eye-btn" data-toggle-pw="regPassword" aria-label="Hiện/ẩn mật khẩu">
+                  <i class="fas fa-eye"></i>
+                </button>
               </div>
+            </div>
 
-              <label class="check-item">
-                <input id="agreePolicy" type="checkbox" />
-                <span>
-                  <span data-i18n="agree_prefix">Tôi đồng ý với</span>
-                  <button type="button" class="link-action" id="openTermsFromRegister" data-i18n="terms_privacy">Điều khoản &amp; Bảo mật</button>
-                </span>
-              </label>
-
-              <button type="submit" class="btn-primary" data-i18n="btn_send_reg_code">Gửi mã &amp; Đăng ký</button>
-            </form>
-
-            <form id="registerOtpForm" class="view-box" novalidate autocomplete="off">
-              <div class="field-group">
-                <label for="regOtpCode" data-i18n="lbl_otp_6">Nhập mã xác nhận 6 số gửi tới email</label>
-                <div class="input-shell">
-                  <input id="regOtpCode" class="no-eye" type="text" maxlength="6" data-i18n-ph="ph_otp_6" placeholder="Nhập mã 6 số" />
-                </div>
-              </div>
-              <button type="submit" class="btn-primary" data-i18n="btn_confirm_reg">Xác nhận tạo tài khoản</button>
-              <button type="button" id="backRegisterBtn" class="btn-ghost" data-i18n="btn_back_edit">Quay lại chỉnh sửa</button>
-            </form>
-          </div>
-
-          <!-- 3. QUÊN MẬT KHẨU -->
-          <div id="forgotBox" class="view-box" style="margin-top: 14px;">
-            <h2 class="view-title" data-i18n="tab_forgot">Quên mật khẩu</h2>
-            <p class="view-desc">
-              <span data-i18n="forgot_desc">Nhập email để nhận mã xác nhận khôi phục.</span>
-              <button type="button" class="link-action" data-go-tab="login" data-i18n="back_login">Quay lại đăng nhập</button>
-            </p>
-
-            <form id="forgotEmailForm" class="view-box active" novalidate autocomplete="off">
-              <div class="field-group">
-                <label for="forgotEmailInput" data-i18n="lbl_email">Địa chỉ Email</label>
-                <div class="input-shell">
-                  <input id="forgotEmailInput" class="no-eye" type="email" data-i18n-ph="ph_email" placeholder="Nhập email đã đăng ký" />
-                </div>
-              </div>
-              <button type="submit" class="btn-primary" data-i18n="btn_send_to_email">Gửi mã về email</button>
-            </form>
-
-            <form id="forgotResetForm" class="view-box" novalidate autocomplete="off">
-              <div class="field-group">
-                <label for="forgotOtpInput" data-i18n="lbl_otp_6">Mã xác nhận 6 số</label>
-                <div class="input-shell">
-                  <input id="forgotOtpInput" class="no-eye" type="text" maxlength="6" data-i18n-ph="ph_otp_6" placeholder="Nhập mã 6 số từ email" />
-                </div>
-              </div>
-              <div class="field-group">
-                <label for="forgotNewPass" data-i18n="lbl_new_pw">Mật khẩu mới</label>
-                <div class="input-shell">
-                  <input id="forgotNewPass" type="password" data-i18n-ph="ph_reg_pw" placeholder="Tối thiểu 8 ký tự: chữ, số và ký tự đặc biệt" />
-                  <button type="button" class="eye-btn" data-toggle-pw="forgotNewPass" aria-label="Hiện/ẩn mật khẩu">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                </div>
-              </div>
-              <button type="submit" class="btn-primary" data-i18n="btn_reset_pw">Đặt lại mật khẩu</button>
-              <button type="button" id="backForgotBtn" class="btn-ghost" data-i18n="btn_resend_code">Gửi lại mã khác</button>
-            </form>
-          </div>
+            <button type="submit" class="btn-primary" data-i18n="btn_register">Tạo tài khoản</button>
+          </form>
 
           <div id="noticeBox" class="notice-box"></div>
 
@@ -961,7 +828,7 @@
           <div id="clock24" class="clock-24h">00:00:00</div>
 
           <div class="slide-meta">
-            <span id="slideCaption" class="slide-caption">Cập nhật các Tinh Chỉnh Thường Xuyên</span>
+            <span id="slideCaption" class="slide-caption">Kho Tinh Chỉnh Cydia &amp; Sileo Ổn Định</span>
             <div class="slide-dots">
               <button type="button" class="slide-dot active" data-idx="0" aria-label="Slide 1"></button>
               <button type="button" class="slide-dot" data-idx="1" aria-label="Slide 2"></button>
@@ -1002,7 +869,7 @@
       </aside>
     </main>
 
-    <!-- MODAL ĐIỀU KHOẢN & CHÍNH SÁCH BẢO MẬT -->
+    <!-- MODAL ĐIỀU KHOẢN & CHÍNH SÁCH -->
     <div id="legalModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
       <div class="modal-dialog">
         <div class="modal-top">
@@ -1011,90 +878,52 @@
         </div>
         <div id="legalBody" class="modal-content"></div>
         <div class="modal-actions">
-          <button type="button" id="closeLegalBtn" class="btn-ghost" style="width: auto; padding: 8px 14px;" data-i18n="close">Đóng</button>
-          <button type="button" id="agreeLegalBtn" class="btn-primary" style="width: auto; padding: 8px 16px;" data-i18n="agree">Đồng ý</button>
+          <button type="button" id="closeLegalBtn" class="btn-primary" style="width: auto; padding: 8px 16px;" data-i18n="close">Đóng</button>
         </div>
       </div>
     </div>
 
     <script>
-      const LOGIN_SUCCESS_REDIRECT_URL = "https://longmen06.github.io/";
+      const REDIRECT_URL = "https://longmen06.github.io/";
+      const USERS_KEY = "lm_users_v8";
+      const ACTIVE_SESSION_KEY = "lm_active_session_v8";
+      const SAVED_PW_KEY = "lm_saved_pw_v8";
+      const THEME_KEY = "lm_theme_v8";
+      const LANG_KEY = "lm_lang_v8";
+      const DEVICE_ID = "dev_" + Math.random().toString(36).slice(2, 11);
+      const authChannel = "BroadcastChannel" in window ? new BroadcastChannel("lm_auth_sync_v8") : null;
 
-      const EMAIL_CFG = {
-        publicKey: "YOUR_EMAILJS_PUBLIC_KEY",
-        serviceId: "YOUR_EMAILJS_SERVICE_ID",
-        userOtpTemplateId: "YOUR_USER_OTP_TEMPLATE_ID",
-        adminNoticeTemplateId: "YOUR_ADMIN_NOTICE_TEMPLATE_ID",
-        adminEmail: "longmenjailbreak@gmail.com",
-      };
-
-      const OAUTH_CFG = {
-        googleClientId: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
-        facebookAppId: "YOUR_FACEBOOK_APP_ID",
-        xClientId: "YOUR_X_CLIENT_ID",
-        xRedirectUri: window.location.origin + window.location.pathname,
-        zaloAppId: "YOUR_ZALO_APP_ID",
-        zaloCallbackUrl: window.location.origin + window.location.pathname,
-      };
-
-      const KEY_USERS = "lm_v7_users";
-      const KEY_SESSION = "lm_v7_session";
-      const KEY_THEME = "lm_v7_theme";
-      const KEY_LANG = "lm_v7_lang";
-
-      let pendingReg = null;
-      let pendingForgot = null;
-      let lastCapsState = null;
-      let securityBlockReason = "";
+      let lastCaps = null;
+      let securityBlock = "";
+      let activeSlide = 0;
 
       const I18N = {
         vi: {
           dark_mode: "Chế độ tối",
           light_mode: "Chế độ sáng",
           logout: "Đăng xuất",
-          logged_out_msg: "Đã đăng xuất",
+          logged_out: "Đã đăng xuất",
           tab_login: "Đăng nhập",
           tab_register: "Đăng ký",
-          tab_forgot: "Quên mật khẩu",
           login_title: "Đăng nhập",
-          no_account: "Chưa có tài khoản?",
-          register_now: "Đăng ký ngay",
+          register_title: "Đăng ký tài khoản",
           lbl_account: "Tên đăng nhập hoặc Email",
           ph_account: "Nhập tên đăng nhập hoặc email",
-          lbl_password: "Mật khẩu",
-          ph_password: "Nhập mật khẩu",
-          remember_login: "Lưu đăng nhập",
-          forgot_link: "Quên mật khẩu?",
-          btn_login: "Đăng nhập",
-          register_title: "Đăng ký tài khoản",
-          have_account: "Đã có tài khoản?",
           lbl_username: "Tên đăng nhập",
           ph_username: "Nhập tên đăng nhập",
-          lbl_reg_email: "Email nhận mã xác nhận",
-          ph_email: "emailcuaban@example.com",
-          ph_reg_pw: "Tối thiểu 8 ký tự: chữ, số và ký tự đặc biệt",
-          pw_rule: "Mật khẩu phải có ít nhất 8 ký tự, gồm chữ cái, chữ số và ký tự đặc biệt.",
-          agree_prefix: "Tôi đồng ý với",
-          terms_privacy: "Điều khoản & Bảo mật",
-          btn_send_reg_code: "Gửi mã & Đăng ký",
-          lbl_otp_6: "Nhập mã xác nhận 6 số gửi tới email",
-          ph_otp_6: "Nhập mã 6 số",
-          btn_confirm_reg: "Xác nhận tạo tài khoản",
-          btn_back_edit: "Quay lại chỉnh sửa",
-          forgot_desc: "Nhập email để nhận mã xác nhận khôi phục.",
-          back_login: "Quay lại đăng nhập",
-          lbl_email: "Địa chỉ Email",
-          btn_send_to_email: "Gửi mã về email",
-          lbl_new_pw: "Mật khẩu mới",
-          btn_reset_pw: "Đặt lại mật khẩu",
-          btn_resend_code: "Gửi lại mã khác",
+          lbl_email: "Email",
+          ph_email: "email@example.com",
+          lbl_password: "Mật khẩu",
+          ph_password: "Nhập mật khẩu",
+          save_password: "Lưu mật khẩu",
+          btn_login: "Đăng nhập",
+          btn_register: "Tạo tài khoản",
           or_continue_with: "Hoặc tiếp tục với",
           provider_x: "Tài khoản X",
           provider_zalo: "Tài khoản Zalo",
           terms_service: "Điều khoản dịch vụ",
           privacy_policy: "Chính sách bảo mật",
           close: "Đóng",
-          agree: "Đồng ý",
           diag_title: "IP, Nhà mạng, Mạng, Thiết bị & Root / Jailbreak",
           refresh: "Làm mới",
           diag_ip: "Địa chỉ IP",
@@ -1102,34 +931,34 @@
           diag_net: "Loại mạng",
           diag_dev: "Thiết bị & Phần mềm",
           diag_jb: "Trạng thái Root / Jailbreak",
-          err_empty_login: "Vui lòng nhập đầy đủ tên đăng nhập/email và mật khẩu.",
+          err_empty_login: "Vui lòng nhập tên đăng nhập/email và mật khẩu.",
+          err_wrong_login: "Sai tên đăng nhập/email hoặc mật khẩu.",
           err_empty_reg: "Vui lòng nhập đầy đủ tên đăng nhập, email và mật khẩu.",
-          err_invalid_email: "Địa chỉ email không hợp lệ.",
-          err_pw_policy: "Mật khẩu đăng ký phải ít nhất 8 ký tự và bao gồm chữ cái, chữ số cùng ký tự đặc biệt.",
-          err_agree_terms: "Vui lòng đồng ý Điều khoản & Bảo mật trước khi đăng ký.",
-          err_empty_forgot_email: "Vui lòng nhập địa chỉ email cần gửi mã khôi phục.",
-          err_empty_otp: "Vui lòng nhập đủ mã xác nhận 6 số.",
-          redirecting_msg: "Đăng nhập thành công! Đang chuyển hướng...",
+          err_exists: "Tên đăng nhập hoặc email đã tồn tại.",
+          reg_success: "Tạo tài khoản thành công! Đang chuyển hướng...",
+          login_success: "Đăng nhập thành công! Đang chuyển hướng...",
+          saved_pw_on: "Đã bật lưu mật khẩu",
+          saved_pw_off: "Đã tắt lưu mật khẩu",
+          theme_dark: "Đã chuyển sang chế độ Tối",
+          theme_light: "Đã chuyển sang chế độ Sáng",
+          lang_changed: "Đã chuyển ngôn ngữ sang Tiếng Việt",
           caps_on: "Caps Lock đang BẬT",
           caps_off: "Caps Lock đã TẮT",
-          theme_switched_dark: "Đã chuyển sang chế độ Tối",
-          theme_switched_light: "Đã chuyển sang chế độ Sáng",
-          lang_switched_msg: "Đã chuyển ngôn ngữ sang Tiếng Việt",
-          refreshed_msg: "Đã làm mới thông tin IP, mạng & thiết bị",
+          refreshed: "Đã làm mới thông tin IP, mạng & thiết bị",
+          kicked_other: "Tài khoản này vừa được đăng nhập ở nơi khác. Bạn đã bị đăng xuất khỏi phiên này.",
           banned_vm: "Đã tự động chặn: phát hiện môi trường máy ảo / giả lập.",
           banned_ip: "Đã tự động chặn: phát hiện IP rủi ro / proxy / datacenter.",
-          legal_terms_html: `
-            <p><strong>1. Điều khoản sử dụng:</strong> Người dùng cam kết sử dụng hệ thống đúng mục đích, không dùng công cụ tự động, máy ảo giả lập hoặc IP proxy/datacenter rủi ro để truy cập, đăng ký hay gửi mã xác thực.</p>
-            <p><strong>2. Mật khẩu &amp; Xác thực:</strong> Mật khẩu đăng ký bắt buộc tối thiểu 8 ký tự và có đủ chữ cái, chữ số, ký tự đặc biệt. Mã xác nhận 6 số được gửi tới email đã đăng ký.</p>
-            <p><strong>3. Tự động bảo vệ &amp; Thông báo:</strong> Hệ thống tự động chặn IP rủi ro và máy ảo nhằm bảo vệ dịch vụ; khi có người đăng ký thành công, thông báo được gửi về <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          legal_terms: `
+            <p><strong>1. Điều khoản sử dụng:</strong> Không sử dụng máy ảo, trình giả lập hoặc IP proxy/datacenter rủi ro khi truy cập, đăng ký hay đăng nhập.</p>
+            <p><strong>2. Phiên đăng nhập:</strong> Sau khi đăng nhập tài khoản thành công, phiên được duy trì cho đến khi đăng xuất hoặc bị đăng nhập ở nơi khác.</p>
           `,
-          legal_privacy_html: `
-            <p><strong>1. Dữ liệu bảo mật:</strong> Mật khẩu được băm SHA-256 trên trình duyệt; thông tin IP, nhà mạng, loại kết nối mạng và thiết bị được kiểm tra để phục vụ bảo vệ chống giả mạo và hỗ trợ kỹ thuật.</p>
-            <p><strong>2. Quyền riêng tư &amp; Thông báo quản trị:</strong> Email người dùng chỉ dùng cho mục đích xác nhận tài khoản/khôi phục mật khẩu; thông báo đăng ký mới gửi về <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          legal_privacy: `
+            <p><strong>1. Bảo mật &amp; Quyền riêng tư:</strong> Thông tin tài khoản, trạng thái lưu mật khẩu và thông tin kiểm tra kết nối được xử lý phục vụ đăng nhập và bảo vệ hệ thống.</p>
+            <p><strong>2. Cảnh báo đăng nhập trùng:</strong> Khi cùng một tài khoản đăng nhập ở nơi khác, phiên trước sẽ tự ngắt và quay về màn hình đăng nhập.</p>
           `,
           slides: [
-            "Cập nhật các Tinh Chỉnh Thường Xuyên",
             "Kho Tinh Chỉnh Cydia & Sileo Ổn Định",
+            "Cập nhật các Tinh Chỉnh Thường Xuyên",
             "Nhóm Giải Đáp về Thủ thuật Jailbreak",
           ],
         },
@@ -1137,49 +966,28 @@
           dark_mode: "Dark mode",
           light_mode: "Light mode",
           logout: "Log out",
-          logged_out_msg: "Logged out",
+          logged_out: "Logged out",
           tab_login: "Sign In",
           tab_register: "Sign Up",
-          tab_forgot: "Forgot Password",
           login_title: "Sign In",
-          no_account: "Don't have an account?",
-          register_now: "Sign up now",
+          register_title: "Create Account",
           lbl_account: "Username or Email",
           ph_account: "Enter username or email",
-          lbl_password: "Password",
-          ph_password: "Enter password",
-          remember_login: "Remember me",
-          forgot_link: "Forgot password?",
-          btn_login: "Sign In",
-          register_title: "Create Account",
-          have_account: "Already have an account?",
           lbl_username: "Username",
           ph_username: "Enter username",
-          lbl_reg_email: "Email for verification code",
-          ph_email: "you@example.com",
-          ph_reg_pw: "At least 8 chars: letters, numbers & symbol",
-          pw_rule: "Password must be at least 8 characters with letters, numbers, and a special character.",
-          agree_prefix: "I agree to",
-          terms_privacy: "Terms & Privacy",
-          btn_send_reg_code: "Send Code & Sign Up",
-          lbl_otp_6: "Enter the 6-digit code sent to email",
-          ph_otp_6: "Enter 6-digit code",
-          btn_confirm_reg: "Verify & Create Account",
-          btn_back_edit: "Back to edit",
-          forgot_desc: "Enter your email to receive a reset code.",
-          back_login: "Back to sign in",
-          lbl_email: "Email Address",
-          btn_send_to_email: "Send code to email",
-          lbl_new_pw: "New Password",
-          btn_reset_pw: "Reset Password",
-          btn_resend_code: "Send another code",
+          lbl_email: "Email",
+          ph_email: "name@example.com",
+          lbl_password: "Password",
+          ph_password: "Enter password",
+          save_password: "Save password",
+          btn_login: "Sign In",
+          btn_register: "Create Account",
           or_continue_with: "Or continue with",
           provider_x: "X Account",
           provider_zalo: "Zalo Account",
           terms_service: "Terms of Service",
           privacy_policy: "Privacy Policy",
           close: "Close",
-          agree: "Agree",
           diag_title: "IP, ISP, Network, Device & Root / Jailbreak",
           refresh: "Refresh",
           diag_ip: "IP Address",
@@ -1187,34 +995,34 @@
           diag_net: "Network Type",
           diag_dev: "Device & Software",
           diag_jb: "Root / Jailbreak Status",
-          err_empty_login: "Please fill in both username/email and password.",
+          err_empty_login: "Please enter username/email and password.",
+          err_wrong_login: "Invalid username/email or password.",
           err_empty_reg: "Please fill in username, email, and password.",
-          err_invalid_email: "Please enter a valid email address.",
-          err_pw_policy: "Password must be at least 8 characters and include letters, numbers, and a special character.",
-          err_agree_terms: "Please agree to Terms & Privacy before signing up.",
-          err_empty_forgot_email: "Please enter your email address to receive the reset code.",
-          err_empty_otp: "Please enter the 6-digit verification code.",
-          redirecting_msg: "Signed in successfully! Redirecting...",
+          err_exists: "Username or email already exists.",
+          reg_success: "Account created! Redirecting...",
+          login_success: "Signed in successfully! Redirecting...",
+          saved_pw_on: "Save password enabled",
+          saved_pw_off: "Save password disabled",
+          theme_dark: "Switched to Dark mode",
+          theme_light: "Switched to Light mode",
+          lang_changed: "Language switched to English",
           caps_on: "Caps Lock is ON",
           caps_off: "Caps Lock is OFF",
-          theme_switched_dark: "Switched to Dark mode",
-          theme_switched_light: "Switched to Light mode",
-          lang_switched_msg: "Language switched to English",
-          refreshed_msg: "Refreshed IP, network & device info",
+          refreshed: "Refreshed IP, network & device info",
+          kicked_other: "This account was signed in elsewhere. You have been signed out of this session.",
           banned_vm: "Auto-blocked: virtual machine or emulator environment detected.",
           banned_ip: "Auto-blocked: high-risk / proxy / datacenter IP detected.",
-          legal_terms_html: `
-            <p><strong>1. Terms of Use:</strong> Do not use automated tools, virtual machines/emulators, or high-risk proxy/datacenter IPs to access, register, or request codes.</p>
-            <p><strong>2. Password &amp; Verification:</strong> Registration passwords must be at least 8 characters with letters, numbers, and a special character. A 6-digit code is sent to your email.</p>
-            <p><strong>3. Security &amp; Notifications:</strong> Risky IPs and virtual machines are auto-blocked; successful registrations notify <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          legal_terms: `
+            <p><strong>1. Terms of Use:</strong> Do not use virtual machines, emulators, or high-risk proxy/datacenter IPs to access, register, or sign in.</p>
+            <p><strong>2. Session Persistence:</strong> Once signed in, your session stays active until you sign out or sign in from another location.</p>
           `,
-          legal_privacy_html: `
-            <p><strong>1. Security Data:</strong> Passwords are SHA-256 hashed locally; IP, ISP, network type, and device details are inspected for anti-abuse protection and support.</p>
-            <p><strong>2. Privacy &amp; Admin Alerts:</strong> User emails are used for account verification/password recovery; new registrations notify <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          legal_privacy: `
+            <p><strong>1. Security &amp; Privacy:</strong> Account credentials, saved password preference, and connection diagnostics are used for authentication and protection.</p>
+            <p><strong>2. Concurrent Sign-in:</strong> Signing in with the same account elsewhere signs out the previous session and returns to sign-in.</p>
           `,
           slides: [
-            "Frequent Tweak Updates",
             "Stable Cydia & Sileo Tweak Repo",
+            "Frequent Tweak Updates",
             "Jailbreak Tips & Q&A Group",
           ],
         },
@@ -1222,49 +1030,28 @@
           dark_mode: "深色模式",
           light_mode: "浅色模式",
           logout: "退出登录",
-          logged_out_msg: "已退出登录",
+          logged_out: "已退出登录",
           tab_login: "登录",
           tab_register: "注册",
-          tab_forgot: "忘记密码",
           login_title: "账号登录",
-          no_account: "还没有账号？",
-          register_now: "立即注册",
+          register_title: "注册账号",
           lbl_account: "用户名或邮箱",
           ph_account: "输入用户名或邮箱",
-          lbl_password: "密码",
-          ph_password: "输入密码",
-          remember_login: "记住登录",
-          forgot_link: "忘记密码？",
-          btn_login: "登录",
-          register_title: "注册新账号",
-          have_account: "已有账号？",
           lbl_username: "用户名",
           ph_username: "输入用户名",
-          lbl_reg_email: "接收验证码的邮箱",
+          lbl_email: "邮箱",
           ph_email: "name@example.com",
-          ph_reg_pw: "至少8位：包含字母、数字和特殊符号",
-          pw_rule: "密码至少8位，必须包含字母、数字和特殊字符。",
-          agree_prefix: "我同意",
-          terms_privacy: "服务条款与隐私政策",
-          btn_send_reg_code: "发送验证码并注册",
-          lbl_otp_6: "输入发送到邮箱的6位验证码",
-          ph_otp_6: "输入6位验证码",
-          btn_confirm_reg: "验证并完成注册",
-          btn_back_edit: "返回修改",
-          forgot_desc: "输入邮箱以接收找回密码验证码。",
-          back_login: "返回登录",
-          lbl_email: "电子邮箱",
-          btn_send_to_email: "发送验证码到邮箱",
-          lbl_new_pw: "新密码",
-          btn_reset_pw: "重置密码",
-          btn_resend_code: "重新发送验证码",
+          lbl_password: "密码",
+          ph_password: "输入密码",
+          save_password: "保存密码",
+          btn_login: "登录",
+          btn_register: "创建账号",
           or_continue_with: "或使用以下方式继续",
           provider_x: "X 账号",
           provider_zalo: "Zalo 账号",
           terms_service: "服务条款",
           privacy_policy: "隐私政策",
           close: "关闭",
-          agree: "同意",
           diag_title: "IP、运营商、网络、设备与 Root / 越狱状态",
           refresh: "刷新",
           diag_ip: "IP 地址",
@@ -1272,34 +1059,34 @@
           diag_net: "网络类型",
           diag_dev: "设备与软件",
           diag_jb: "Root / 越狱状态",
-          err_empty_login: "请完整填写用户名/邮箱和密码。",
+          err_empty_login: "请输入用户名/邮箱和密码。",
+          err_wrong_login: "账号或密码错误。",
           err_empty_reg: "请完整填写用户名、邮箱和密码。",
-          err_invalid_email: "邮箱格式不正确。",
-          err_pw_policy: "注册密码至少8位，且必须包含字母、数字和特殊字符。",
-          err_agree_terms: "注册前请先同意服务条款与隐私政策。",
-          err_empty_forgot_email: "请输入要接收验证码的邮箱。",
-          err_empty_otp: "请输入6位验证码。",
-          redirecting_msg: "登录成功！正在跳转...",
+          err_exists: "用户名或邮箱已存在。",
+          reg_success: "注册成功！正在跳转...",
+          login_success: "登录成功！正在跳转...",
+          saved_pw_on: "已开启保存密码",
+          saved_pw_off: "已关闭保存密码",
+          theme_dark: "已切换至深色模式",
+          theme_light: "已切换至浅色模式",
+          lang_changed: "语言已切换为简体中文",
           caps_on: "大写锁定（Caps Lock）已开启",
           caps_off: "大写锁定（Caps Lock）已关闭",
-          theme_switched_dark: "已切换至深色模式",
-          theme_switched_light: "已切换至浅色模式",
-          lang_switched_msg: "语言已切换为简体中文",
-          refreshed_msg: "已刷新 IP、网络与设备信息",
+          refreshed: "已刷新 IP、网络与设备信息",
+          kicked_other: "该账号已在其他地方登录，当前会话已退出。",
           banned_vm: "已自动封禁：检测到虚拟机或模拟环境。",
           banned_ip: "已自动封禁：检测到高风险 IP / 代理 / 数据中心。",
-          legal_terms_html: `
-            <p><strong>1. 服务条款：</strong>禁止使用自动化脚本、虚拟机/模拟器或高风险代理/机房 IP 进行访问、注册或请求验证码。</p>
-            <p><strong>2. 密码与验证：</strong>注册密码至少8位且包含字母、数字和特殊字符；6位验证码将发送至注册邮箱。</p>
-            <p><strong>3. 安全防护与通知：</strong>系统自动封禁高风险 IP 与虚拟机；新用户注册成功后将通知 <strong>${EMAIL_CFG.adminEmail}</strong>。</p>
+          legal_terms: `
+            <p><strong>1. 服务条款：</strong>禁止使用虚拟机、模拟器或高风险代理/机房 IP 进行访问、注册或登录。</p>
+            <p><strong>2. 会话保持：</strong>登录成功后将保持登录状态，直到主动退出或在其他地方登录同一账号。</p>
           `,
-          legal_privacy_html: `
-            <p><strong>1. 安全数据：</strong>密码在本地进行 SHA-256 哈希；IP、运营商、网络类型和设备信息用于安全防护与技术支持。</p>
-            <p><strong>2. 隐私与通知：</strong>邮箱仅用于账号验证与密码找回；注册成功通知发送至 <strong>${EMAIL_CFG.adminEmail}</strong>。</p>
+          legal_privacy: `
+            <p><strong>1. 安全与隐私：</strong>账号数据、保存密码开关及连接检测信息用于身份验证与安全防护。</p>
+            <p><strong>2. 多处登录提醒：</strong>同一账号在其他地方登录时，当前会话将退出并返回登录界面。</p>
           `,
           slides: [
-            "定期更新插件与源",
             "稳定的 Cydia 与 Sileo 插件源",
+            "定期更新插件与源",
             "越狱技巧与答疑群组",
           ],
         },
@@ -1307,49 +1094,28 @@
           dark_mode: "다크 모드",
           light_mode: "라이트 모드",
           logout: "로그아웃",
-          logged_out_msg: "로그아웃됨",
+          logged_out: "로그아웃됨",
           tab_login: "로그인",
           tab_register: "회원가입",
-          tab_forgot: "비밀번호 찾기",
           login_title: "로그인",
-          no_account: "계정이 없으신가요?",
-          register_now: "지금 가입",
+          register_title: "계정 만들기",
           lbl_account: "아이디 또는 이메일",
           ph_account: "아이디 또는 이메일 입력",
-          lbl_password: "비밀번호",
-          ph_password: "비밀번호 입력",
-          remember_login: "로그인 유지",
-          forgot_link: "비밀번호 찾기",
-          btn_login: "로그인",
-          register_title: "계정 만들기",
-          have_account: "이미 계정이 있으신가요?",
           lbl_username: "아이디",
           ph_username: "아이디 입력",
-          lbl_reg_email: "인증번호 받을 이메일",
+          lbl_email: "이메일",
           ph_email: "name@example.com",
-          ph_reg_pw: "8자 이상: 영문, 숫자, 특수문자 포함",
-          pw_rule: "비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 포함해야 합니다.",
-          agree_prefix: "다음에 동의합니다:",
-          terms_privacy: "이용약관 및 개인정보처리방침",
-          btn_send_reg_code: "인증번호 전송 및 가입",
-          lbl_otp_6: "이메일로 전송된 6자리 인증번호 입력",
-          ph_otp_6: "6자리 인증번호",
-          btn_confirm_reg: "인증 후 가입 완료",
-          btn_back_edit: "수정으로 돌아가기",
-          forgot_desc: "재설정 코드를 받을 이메일을 입력하세요.",
-          back_login: "로그인으로 돌아가기",
-          lbl_email: "이메일 주소",
-          btn_send_to_email: "이메일로 코드 전송",
-          lbl_new_pw: "새 비밀번호",
-          btn_reset_pw: "비밀번호 재설정",
-          btn_resend_code: "다른 코드 전송",
+          lbl_password: "비밀번호",
+          ph_password: "비밀번호 입력",
+          save_password: "비밀번호 저장",
+          btn_login: "로그인",
+          btn_register: "계정 생성",
           or_continue_with: "다른 계정으로 계속하기",
           provider_x: "X 계정",
           provider_zalo: "Zalo 계정",
           terms_service: "이용약관",
           privacy_policy: "개인정보처리방침",
           close: "닫기",
-          agree: "동의",
           diag_title: "IP, 통신사, 네트워크, 기기 및 루트 / 탈옥 상태",
           refresh: "새로고침",
           diag_ip: "IP 주소",
@@ -1357,34 +1123,34 @@
           diag_net: "네트워크 유형",
           diag_dev: "기기 및 소프트웨어",
           diag_jb: "루트 / 탈옥 상태",
-          err_empty_login: "아이디/이메일과 비밀번호를 모두 입력하세요.",
+          err_empty_login: "아이디/이메일과 비밀번호를 입력하세요.",
+          err_wrong_login: "로그인 정보가 올바르지 않습니다.",
           err_empty_reg: "아이디, 이메일, 비밀번호를 모두 입력하세요.",
-          err_invalid_email: "올바른 이메일 주소를 입력하세요.",
-          err_pw_policy: "비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 모두 포함해야 합니다.",
-          err_agree_terms: "가입 전에 이용약관 및 개인정보처리방침에 동의해 주세요.",
-          err_empty_forgot_email: "재설정 코드를 받을 이메일을 입력하세요.",
-          err_empty_otp: "6자리 인증번호를 입력하세요.",
-          redirecting_msg: "로그인 성공! 이동 중...",
+          err_exists: "이미 존재하는 아이디 또는 이메일입니다.",
+          reg_success: "계정이 생성되었습니다! 이동 중...",
+          login_success: "로그인되었습니다! 이동 중...",
+          saved_pw_on: "비밀번호 저장이 켜졌습니다",
+          saved_pw_off: "비밀번호 저장이 꺼졌습니다",
+          theme_dark: "다크 모드로 전환됨",
+          theme_light: "라이트 모드로 전환됨",
+          lang_changed: "한국어로 전환되었습니다",
           caps_on: "Caps Lock이 켜져 있습니다",
           caps_off: "Caps Lock이 꺼졌습니다",
-          theme_switched_dark: "다크 모드로 전환됨",
-          theme_switched_light: "라이트 모드로 전환됨",
-          lang_switched_msg: "한국어로 전환됨",
-          refreshed_msg: "IP, 네트워크 및 기기 정보를 새로고침했습니다",
+          refreshed: "IP, 네트워크 및 기기 정보를 새로고침했습니다",
+          kicked_other: "다른 곳에서 이 계정에 로그인하여 현재 세션이 로그아웃되었습니다.",
           banned_vm: "자동 차단됨: 가상머신 또는 에뮬레이터 환경이 감지되었습니다.",
           banned_ip: "자동 차단됨: 위험 IP / 프록시 / 데이터센터가 감지되었습니다.",
-          legal_terms_html: `
-            <p><strong>1. 이용약관:</strong> 자동화 도구, 가상머신/에뮬레이터 또는 위험 프록시/데이터센터 IP를 통한 접속 및 가입을 금지합니다.</p>
-            <p><strong>2. 비밀번호 및 인증:</strong> 가입 비밀번호는 8자 이상(영문, 숫자, 특수문자 포함)이어야 하며 6자리 인증번호가 이메일로 발송됩니다.</p>
-            <p><strong>3. 보안 차단 및 알림:</strong> 위험 IP 및 가상머신은 자동 차단되며 가입 완료 시 <strong>${EMAIL_CFG.adminEmail}</strong>으로 알림이 전송됩니다.</p>
+          legal_terms: `
+            <p><strong>1. 이용약관:</strong> 가상머신, 에뮬레이터 또는 위험 프록시/데이터센터 IP를 통한 접속, 가입 및 로그인을 금지합니다.</p>
+            <p><strong>2. 세션 유지:</strong> 한 번 로그인하면 로그아웃하거나 다른 곳에서 로그인하기 전까지 세션이 유지됩니다.</p>
           `,
-          legal_privacy_html: `
-            <p><strong>1. 보안 정보:</strong> 비밀번호는 SHA-256으로 해시되며 IP, 통신사, 네트워크 유형 및 기기 정보는 보안 보호에 활용됩니다.</p>
-            <p><strong>2. 개인정보 및 알림:</strong> 이메일은 인증 및 비밀번호 찾기에 사용되며 가입 알림은 <strong>${EMAIL_CFG.adminEmail}</strong>로 발송됩니다.</p>
+          legal_privacy: `
+            <p><strong>1. 보안 및 개인정보:</strong> 계정 정보, 비밀번호 저장 설정 및 연결 진단은 인증과 보안 보호에 사용됩니다.</p>
+            <p><strong>2. 중복 로그인:</strong> 다른 곳에서 같은 계정으로 로그인하면 현재 세션이 종료되고 로그인 화면으로 돌아갑니다.</p>
           `,
           slides: [
-            "트윅 업데이트 상시 제공",
             "안정적인 Cydia 및 Sileo 트윅 저장소",
+            "트윅 업데이트 상시 제공",
             "탈옥 팁 및 질문 그룹",
           ],
         },
@@ -1392,49 +1158,28 @@
           dark_mode: "ダークモード",
           light_mode: "ライトモード",
           logout: "ログアウト",
-          logged_out_msg: "ログアウトしました",
+          logged_out: "ログアウトしました",
           tab_login: "ログイン",
           tab_register: "新規登録",
-          tab_forgot: "パスワード再設定",
           login_title: "ログイン",
-          no_account: "アカウントをお持ちではありませんか？",
-          register_now: "今すぐ登録",
+          register_title: "アカウント作成",
           lbl_account: "ユーザー名またはメール",
           ph_account: "ユーザー名またはメールを入力",
-          lbl_password: "パスワード",
-          ph_password: "パスワードを入力",
-          remember_login: "ログイン状態を保持",
-          forgot_link: "パスワードをお忘れですか？",
-          btn_login: "ログイン",
-          register_title: "アカウント作成",
-          have_account: "すでにアカウントをお持ちですか？",
           lbl_username: "ユーザー名",
           ph_username: "ユーザー名を入力",
-          lbl_reg_email: "認証コード受信用メール",
+          lbl_email: "メール",
           ph_email: "name@example.com",
-          ph_reg_pw: "8文字以上：英字・数字・記号を含める",
-          pw_rule: "パスワードは8文字以上で、英字・数字・記号をすべて含める必要があります。",
-          agree_prefix: "以下に同意します：",
-          terms_privacy: "利用規約とプライバシーポリシー",
-          btn_send_reg_code: "コード送信して登録",
-          lbl_otp_6: "メールに送信された6桁のコードを入力",
-          ph_otp_6: "6桁の認証コード",
-          btn_confirm_reg: "認証して登録完了",
-          btn_back_edit: "入力画面に戻る",
-          forgot_desc: "再設定コードを受け取るメールアドレスを入力してください。",
-          back_login: "ログインに戻る",
-          lbl_email: "メールアドレス",
-          btn_send_to_email: "メールにコードを送信",
-          lbl_new_pw: "新しいパスワード",
-          btn_reset_pw: "パスワードを変更",
-          btn_resend_code: "別のコードを再送信",
+          lbl_password: "パスワード",
+          ph_password: "パスワードを入力",
+          save_password: "パスワードを保存",
+          btn_login: "ログイン",
+          btn_register: "アカウント作成",
           or_continue_with: "または次で続行",
           provider_x: "X アカウント",
           provider_zalo: "Zalo アカウント",
           terms_service: "利用規約",
           privacy_policy: "プライバシーポリシー",
           close: "閉じる",
-          agree: "同意する",
           diag_title: "IP・通信事業者・回線・端末・Root / 脱獄状態",
           refresh: "更新",
           diag_ip: "IPアドレス",
@@ -1442,34 +1187,34 @@
           diag_net: "ネットワーク種別",
           diag_dev: "端末とソフトウェア",
           diag_jb: "Root / 脱獄状態",
-          err_empty_login: "ユーザー名/メールとパスワードを両方入力してください。",
-          err_empty_reg: "ユーザー名・メール・パスワードをすべて入力してください。",
-          err_invalid_email: "有効なメールアドレスを入力してください。",
-          err_pw_policy: "パスワードは8文字以上で、英字・数字・記号を含める必要があります。",
-          err_agree_terms: "登録前に利用規約とプライバシーポリシーに同意してください。",
-          err_empty_forgot_email: "認証コードを送るメールアドレスを入力してください。",
-          err_empty_otp: "6桁の認証コードを入力してください。",
-          redirecting_msg: "ログイン成功！移動しています...",
+          err_empty_login: "ユーザー名/メールとパスワードを入力してください。",
+          err_wrong_login: "ログイン情報が正しくありません。",
+          err_empty_reg: "ユーザー名・メール・パスワードを入力してください。",
+          err_exists: "そのユーザー名またはメールは既に登録されています。",
+          reg_success: "アカウントを作成しました！移動しています...",
+          login_success: "ログインしました！移動しています...",
+          saved_pw_on: "パスワード保存をオンにしました",
+          saved_pw_off: "パスワード保存をオフにしました",
+          theme_dark: "ダークモードに切り替えました",
+          theme_light: "ライトモードに切り替えました",
+          lang_changed: "日本語に切り替えました",
           caps_on: "Caps Lock がオンです",
           caps_off: "Caps Lock がオフになりました",
-          theme_switched_dark: "ダークモードに切り替えました",
-          theme_switched_light: "ライトモードに切り替えました",
-          lang_switched_msg: "日本語に切り替えました",
-          refreshed_msg: "IP・ネットワーク・端末情報を更新しました",
+          refreshed: "IP・ネットワーク・端末情報を更新しました",
+          kicked_other: "別の場所でこのアカウントにログインしたため、現在のセッションはログアウトされました。",
           banned_vm: "自動ブロック：仮想マシンまたはエミュレータ環境が検出されました。",
           banned_ip: "自動ブロック：危険IP・プロキシ・データセンターが検出されました。",
-          legal_terms_html: `
-            <p><strong>1. 利用規約：</strong>自動化ツール、仮想マシン/エミュレータ、高リスクプロキシ/データセンターIPからのアクセス・登録・コード送信を禁止します。</p>
-            <p><strong>2. パスワードと認証：</strong>登録パスワードは8文字以上（英字・数字・記号を含む）とし、6桁の認証コードをメール送信します。</p>
-            <p><strong>3. セキュリティ保護と通知：</strong>危険IPや仮想マシンは自動ブロックされ、登録完了時は <strong>${EMAIL_CFG.adminEmail}</strong> に通知されます。</p>
+          legal_terms: `
+            <p><strong>1. 利用規約：</strong>仮想マシン、エミュレータ、高リスクプロキシ/データセンターIPからのアクセス・登録・ログインを禁止します。</p>
+            <p><strong>2. セッション維持：</strong>一度ログインすると、ログアウトするか別の場所でログインするまで状態が維持されます。</p>
           `,
-          legal_privacy_html: `
-            <p><strong>1. セキュリティ情報：</strong>パスワードはSHA-256でハッシュ化され、IP・通信事業者・回線・端末情報は不正防止のために確認されます。</p>
-            <p><strong>2. プライバシーと通知：</strong>メールは認証および再設定に利用し、登録通知は <strong>${EMAIL_CFG.adminEmail}</strong> に送信されます。</p>
+          legal_privacy: `
+            <p><strong>1. セキュリティとプライバシー：</strong>アカウント情報、パスワード保存設定、接続診断情報は認証と保護に利用されます。</p>
+            <p><strong>2. 別端末ログイン：</strong>別の場所で同一アカウントにログインすると、現在のセッションは解除されログイン画面に戻ります。</p>
           `,
           slides: [
-            "Tweakアップデートを随時配信",
             "安定した Cydia & Sileo Tweak リポジトリ",
+            "Tweakアップデートを随時配信",
             "脱獄テクニック・質問グループ",
           ],
         },
@@ -1480,22 +1225,28 @@
         return (I18N[lang] && I18N[lang][key]) || I18N.vi[key] || key;
       }
 
-      function showNotice(type, html) {
+      function showNotice(type, text) {
         const el = document.getElementById("noticeBox");
         el.className = `notice-box show ${type}`;
-        el.innerHTML = html;
+        el.textContent = text;
       }
 
-      function clearNotice() {
-        const el = document.getElementById("noticeBox");
-        el.className = "notice-box";
-        el.innerHTML = "";
+      function showSlide(i) {
+        const slides = Array.from(document.querySelectorAll(".hero-slide"));
+        const dots = Array.from(document.querySelectorAll(".slide-dot"));
+        if (!slides.length) return;
+        activeSlide = (i + slides.length) % slides.length;
+        slides.forEach((img, idx) => img.classList.toggle("active", idx === activeSlide));
+        dots.forEach((dot, idx) => dot.classList.toggle("active", idx === activeSlide));
+        const captions = t("slides");
+        document.getElementById("slideCaption").textContent =
+          Array.isArray(captions) ? captions[activeSlide] : "";
       }
 
-      function applyLanguage(lang, notifySwitch = false) {
+      function applyLanguage(lang, notify = false) {
         const code = I18N[lang] ? lang : "vi";
         document.documentElement.lang = code;
-        localStorage.setItem(KEY_LANG, code);
+        localStorage.setItem(LANG_KEY, code);
 
         document.querySelectorAll("[data-i18n]").forEach((el) => {
           const k = el.dataset.i18n;
@@ -1512,35 +1263,17 @@
           curTheme === "dark" ? t("light_mode") : t("dark_mode");
 
         showSlide(activeSlide);
-
-        if (notifySwitch) {
-          showNotice("ok", t("lang_switched_msg"));
-        }
+        if (notify) showNotice("ok", t("lang_changed"));
       }
 
       document.getElementById("langSelect").addEventListener("change", (e) => {
         applyLanguage(e.target.value, true);
       });
 
-      if (window.emailjs && !EMAIL_CFG.publicKey.startsWith("YOUR_")) {
-        emailjs.init({ publicKey: EMAIL_CFG.publicKey });
-      }
-
-      window.fbAsyncInit = function () {
-        if (window.FB && !OAUTH_CFG.facebookAppId.startsWith("YOUR_FACEBOOK_APP_ID")) {
-          FB.init({
-            appId: OAUTH_CFG.facebookAppId,
-            cookie: true,
-            xfbml: false,
-            version: "v20.0",
-          });
-        }
-      };
-
-      function applyTheme(theme, notifySwitch = false) {
+      function applyTheme(theme, notify = false) {
         const next = theme === "dark" ? "dark" : "light";
         document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem(KEY_THEME, next);
+        localStorage.setItem(THEME_KEY, next);
         const icon = document.getElementById("themeIcon");
         const text = document.getElementById("themeText");
         if (next === "dark") {
@@ -1550,8 +1283,8 @@
           icon.className = "fas fa-moon";
           text.textContent = t("dark_mode");
         }
-        if (notifySwitch) {
-          showNotice("ok", next === "dark" ? t("theme_switched_dark") : t("theme_switched_light"));
+        if (notify) {
+          showNotice("ok", next === "dark" ? t("theme_dark") : t("theme_light"));
         }
       }
 
@@ -1569,522 +1302,247 @@
       }
       renderClock24h();
 
-      const heroSlides = Array.from(document.querySelectorAll(".hero-slide"));
-      const slideDots = Array.from(document.querySelectorAll(".slide-dot"));
-      let activeSlide = 0;
-
-      function showSlide(i) {
-        activeSlide = (i + heroSlides.length) % heroSlides.length;
-        heroSlides.forEach((img, idx) => img.classList.toggle("active", idx === activeSlide));
-        slideDots.forEach((dot, idx) => dot.classList.toggle("active", idx === activeSlide));
-        const captions = t("slides");
-        document.getElementById("slideCaption").textContent =
-          Array.isArray(captions) ? captions[activeSlide] : "";
-      }
-
-      slideDots.forEach((d) => d.addEventListener("click", () => showSlide(Number(d.dataset.idx))));
+      document.querySelectorAll(".slide-dot").forEach((d) =>
+        d.addEventListener("click", () => showSlide(Number(d.dataset.idx)))
+      );
       setInterval(() => showSlide(activeSlide + 1), 4000);
 
       document.querySelectorAll("[data-toggle-pw]").forEach((btn) => {
         btn.addEventListener("click", () => {
-          const input = document.getElementById(btn.dataset.togglePw);
-          if (!input) return;
-          const isHidden = input.type === "password";
-          input.type = isHidden ? "text" : "password";
-          const icon = btn.querySelector("i");
-          if (icon) icon.className = isHidden ? "fas fa-eye-slash" : "fas fa-eye";
+          const inp = document.getElementById(btn.dataset.togglePw);
+          const hidden = inp.type === "password";
+          inp.type = hidden ? "text" : "password";
+          btn.querySelector("i").className = hidden ? "fas fa-eye-slash" : "fas fa-eye";
         });
       });
 
-      function handleCapsEvent(e) {
+      function handleCaps(e) {
         if (typeof e.getModifierState !== "function") return;
-        const isCaps = e.getModifierState("CapsLock");
+        const on = e.getModifierState("CapsLock");
         const banner = document.getElementById("capsBanner");
-        const capsText = document.getElementById("capsText");
-
-        if (isCaps) {
-          capsText.textContent = t("caps_on");
+        const textEl = document.getElementById("capsText");
+        if (on) {
+          textEl.textContent = t("caps_on");
           banner.classList.add("show");
-          if (lastCapsState !== true) {
-            showNotice("warn", t("caps_on"));
-          }
-          lastCapsState = true;
+          if (lastCaps !== true) showNotice("warn", t("caps_on"));
+          lastCaps = true;
         } else {
           banner.classList.remove("show");
-          if (lastCapsState === true) {
-            showNotice("ok", t("caps_off"));
-          }
-          lastCapsState = false;
+          if (lastCaps === true) showNotice("ok", t("caps_off"));
+          lastCaps = false;
         }
       }
-
-      document.addEventListener("keydown", handleCapsEvent);
-      document.addEventListener("keyup", handleCapsEvent);
+      document.addEventListener("keydown", handleCaps);
+      document.addEventListener("keyup", handleCaps);
 
       const legalModal = document.getElementById("legalModal");
-      const legalTitle = document.getElementById("legalTitle");
-      const legalBody = document.getElementById("legalBody");
-
-      function openLegal(mode) {
-        if (mode === "privacy") {
-          legalTitle.textContent = t("privacy_policy");
-          legalBody.innerHTML = t("legal_privacy_html");
-        } else {
-          legalTitle.textContent = t("terms_service");
-          legalBody.innerHTML = t("legal_terms_html");
-        }
+      function openLegal(type) {
+        document.getElementById("legalTitle").textContent =
+          type === "privacy" ? t("privacy_policy") : t("terms_service");
+        document.getElementById("legalBody").innerHTML =
+          type === "privacy" ? t("legal_privacy") : t("legal_terms");
         legalModal.classList.add("open");
       }
-
       function closeLegal() {
         legalModal.classList.remove("open");
       }
-
       document.getElementById("btnShowTerms").addEventListener("click", () => openLegal("terms"));
       document.getElementById("btnShowPrivacy").addEventListener("click", () => openLegal("privacy"));
-      document.getElementById("openTermsFromRegister").addEventListener("click", () => openLegal("terms"));
       document.getElementById("closeLegalX").addEventListener("click", closeLegal);
       document.getElementById("closeLegalBtn").addEventListener("click", closeLegal);
-      document.getElementById("agreeLegalBtn").addEventListener("click", () => {
-        document.getElementById("agreePolicy").checked = true;
-        closeLegal();
-      });
       legalModal.addEventListener("click", (e) => {
         if (e.target === legalModal) closeLegal();
       });
 
-      function switchAuthTab(tab) {
-        clearNotice();
-        document.querySelectorAll(".seg-tab").forEach((btn) => {
-          btn.classList.toggle("active", btn.dataset.tab === tab);
-        });
+      function switchTab(tab) {
+        document.querySelectorAll(".seg-tab").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
         document.getElementById("loginForm").classList.toggle("active", tab === "login");
-        document.getElementById("registerBox").classList.toggle("active", tab === "register");
-        document.getElementById("forgotBox").classList.toggle("active", tab === "forgot");
+        document.getElementById("registerForm").classList.toggle("active", tab === "register");
       }
+      document.querySelectorAll(".seg-tab").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));
 
-      document.querySelectorAll(".seg-tab").forEach((btn) => {
-        btn.addEventListener("click", () => switchAuthTab(btn.dataset.tab));
-      });
-      document.querySelectorAll("[data-go-tab]").forEach((el) => {
-        el.addEventListener("click", () => switchAuthTab(el.dataset.goTab));
-      });
-
-      function isStrongPassword(pw) {
-        return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(pw);
-      }
-
-      function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      }
-
-      async function digestSha256(plain) {
-        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(plain));
-        return Array.from(new Uint8Array(buf))
-          .map((b) => b.toString(16).padStart(2, "0"))
-          .join("");
-      }
-
-      function loadUsers() {
+      function getUsers() {
         try {
-          return JSON.parse(localStorage.getItem(KEY_USERS) || "[]");
+          return JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
         } catch {
           return [];
         }
       }
-
-      function saveUsers(users) {
-        localStorage.setItem(KEY_USERS, JSON.stringify(users));
+      function saveUsers(list) {
+        localStorage.setItem(USERS_KEY, JSON.stringify(list));
+      }
+      function getSession() {
+        try {
+          return JSON.parse(localStorage.getItem(ACTIVE_SESSION_KEY) || "null");
+        } catch {
+          return null;
+        }
+      }
+      function syncSessionBadge() {
+        const s = getSession();
+        const badge = document.getElementById("sessionBadge");
+        const label = document.getElementById("sessionUser");
+        if (s && s.username) {
+          label.textContent = s.username;
+          badge.classList.add("show");
+        } else {
+          badge.classList.remove("show");
+        }
       }
 
-      function ensureNotBanned() {
-        if (securityBlockReason) {
-          showNotice("err", securityBlockReason);
+      function ensureAllowed() {
+        if (securityBlock) {
+          showNotice("err", securityBlock);
           return false;
         }
         return true;
       }
 
-      function completeLogin(displayName, email, remember, shouldRedirect = true) {
-        const data = { username: displayName, email: email || "", loginAt: new Date().toISOString() };
-        localStorage.removeItem(KEY_SESSION);
-        sessionStorage.removeItem(KEY_SESSION);
-        if (remember) localStorage.setItem(KEY_SESSION, JSON.stringify(data));
-        else sessionStorage.setItem(KEY_SESSION, JSON.stringify(data));
-        syncSessionUI();
+      function claimSessionAndRedirect(username, email, msgKey) {
+        const sessionObj = {
+          username,
+          email: email || "",
+          deviceId: DEVICE_ID,
+          at: Date.now(),
+        };
+        localStorage.setItem(ACTIVE_SESSION_KEY, JSON.stringify(sessionObj));
+        if (authChannel) {
+          authChannel.postMessage({ type: "CLAIMED", session: sessionObj });
+        }
+        syncSessionBadge();
+        showNotice("ok", t(msgKey));
+        setTimeout(() => {
+          window.location.href = REDIRECT_URL;
+        }, 450);
+      }
 
-        if (shouldRedirect && LOGIN_SUCCESS_REDIRECT_URL) {
-          showNotice("ok", `<b>${displayName}</b> — ${t("redirecting_msg")}`);
-          setTimeout(() => {
-            window.location.href = LOGIN_SUCCESS_REDIRECT_URL;
-          }, 500);
+      function handleRemoteClaim(incoming) {
+        const current = getSession();
+        if (!current || !incoming) return;
+        if (
+          incoming.username &&
+          current.username &&
+          incoming.username.toLowerCase() === current.username.toLowerCase() &&
+          incoming.deviceId !== DEVICE_ID
+        ) {
+          localStorage.removeItem(ACTIVE_SESSION_KEY);
+          syncSessionBadge();
+          switchTab("login");
+          document.getElementById("loginPassword").value = "";
+          showNotice("err", t("kicked_other"));
         }
       }
 
-      function syncSessionUI() {
-        const raw = localStorage.getItem(KEY_SESSION) || sessionStorage.getItem(KEY_SESSION);
-        const badge = document.getElementById("sessionBadge");
-        const label = document.getElementById("sessionUser");
-        if (!raw) {
-          badge.classList.remove("show");
-          return;
-        }
-        try {
-          const s = JSON.parse(raw);
-          label.textContent = s.username;
-          badge.classList.add("show");
-        } catch {
-          badge.classList.remove("show");
-        }
+      if (authChannel) {
+        authChannel.onmessage = (ev) => {
+          if (ev.data && ev.data.type === "CLAIMED") handleRemoteClaim(ev.data.session);
+        };
       }
-
-      document.getElementById("logoutBtn").addEventListener("click", () => {
-        localStorage.removeItem(KEY_SESSION);
-        sessionStorage.removeItem(KEY_SESSION);
-        syncSessionUI();
-        showNotice("ok", t("logged_out_msg"));
+      window.addEventListener("storage", (ev) => {
+        if (ev.key === ACTIVE_SESSION_KEY && ev.newValue) {
+          try {
+            handleRemoteClaim(JSON.parse(ev.newValue));
+          } catch {}
+        }
       });
 
-      async function sendOtpEmail(toEmail, username, otpCode, purpose) {
-        const ready =
-          window.emailjs &&
-          !EMAIL_CFG.publicKey.startsWith("YOUR_") &&
-          !EMAIL_CFG.serviceId.startsWith("YOUR_") &&
-          !EMAIL_CFG.userOtpTemplateId.startsWith("YOUR_");
-        if (!ready) return { sent: false };
+      const savePwToggle = document.getElementById("savePasswordToggle");
+      savePwToggle.addEventListener("change", () => {
+        if (savePwToggle.checked) {
+          localStorage.setItem(
+            SAVED_PW_KEY,
+            JSON.stringify({
+              enabled: true,
+              acc: document.getElementById("loginAccount").value.trim(),
+              pw: document.getElementById("loginPassword").value,
+            })
+          );
+          showNotice("ok", t("saved_pw_on"));
+        } else {
+          localStorage.removeItem(SAVED_PW_KEY);
+          showNotice("ok", t("saved_pw_off"));
+        }
+      });
 
-        await emailjs.send(EMAIL_CFG.serviceId, EMAIL_CFG.userOtpTemplateId, {
-          to_email: toEmail,
-          username,
-          otp_code: otpCode,
-          purpose,
-        });
-        return { sent: true };
+      function loadSavedPw() {
+        try {
+          const raw = JSON.parse(localStorage.getItem(SAVED_PW_KEY) || "null");
+          if (raw && raw.enabled) {
+            savePwToggle.checked = true;
+            if (raw.acc) document.getElementById("loginAccount").value = raw.acc;
+            if (raw.pw) document.getElementById("loginPassword").value = raw.pw;
+          }
+        } catch {}
       }
 
-      async function sendAdminNewUserEmail(userObj) {
-        const ready =
-          window.emailjs &&
-          !EMAIL_CFG.publicKey.startsWith("YOUR_") &&
-          !EMAIL_CFG.serviceId.startsWith("YOUR_") &&
-          !EMAIL_CFG.adminNoticeTemplateId.startsWith("YOUR_");
-        if (!ready) return { sent: false };
-
-        const now = new Date();
-        const pad = (n) => String(n).padStart(2, "0");
-        const time24 = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${now.toLocaleDateString("vi-VN")}`;
-
-        await emailjs.send(EMAIL_CFG.serviceId, EMAIL_CFG.adminNoticeTemplateId, {
-          admin_email: EMAIL_CFG.adminEmail,
-          username: userObj.username,
-          user_email: userObj.email,
-          ip: document.getElementById("dIp").textContent,
-          isp: document.getElementById("dIsp").textContent,
-          device: document.getElementById("dDev").textContent,
-          time: time24,
-        });
-        return { sent: true };
-      }
-
-      document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      document.getElementById("registerForm").addEventListener("submit", (e) => {
         e.preventDefault();
-        if (!ensureNotBanned()) return;
-
+        if (!ensureAllowed()) return;
         const username = document.getElementById("regName").value.trim();
         const email = document.getElementById("regEmail").value.trim().toLowerCase();
-        const pw = document.getElementById("regPassword").value;
-        const agreed = document.getElementById("agreePolicy").checked;
+        const password = document.getElementById("regPassword").value;
 
-        if (!username || !email || !pw) {
+        if (!username || !email || !password) {
           showNotice("err", t("err_empty_reg"));
           return;
         }
-        if (!isValidEmail(email)) {
-          showNotice("err", t("err_invalid_email"));
-          return;
-        }
-        if (!isStrongPassword(pw)) {
-          showNotice("err", t("err_pw_policy"));
-          return;
-        }
-        if (!agreed) {
-          showNotice("err", t("err_agree_terms"));
-          return;
-        }
-
-        const users = loadUsers();
+        const users = getUsers();
         if (users.some((u) => u.username.toLowerCase() === username.toLowerCase() || u.email === email)) {
-          showNotice("err", "Tên đăng nhập hoặc Email này đã tồn tại.");
+          showNotice("err", t("err_exists"));
           return;
         }
-
-        const otpCode = String(Math.floor(100000 + Math.random() * 900000));
-        pendingReg = {
-          username,
-          email,
-          passwordHash: await digestSha256(pw),
-          otpCode,
-          expiresAt: Date.now() + 10 * 60 * 1000,
-        };
-
-        try {
-          const res = await sendOtpEmail(email, username, otpCode, "Đăng ký tài khoản");
-          document.getElementById("registerForm").classList.remove("active");
-          document.getElementById("registerOtpForm").classList.add("active");
-
-          if (res.sent) {
-            showNotice("ok", `Đã gửi mã 6 số tới email <b>${email}</b>. Vui lòng nhập mã để hoàn tất.`);
-          } else {
-            showNotice("ok", `Mã xác nhận cho <b>${email}</b>: <b>${otpCode}</b>`);
-          }
-        } catch {
-          showNotice("err", "Không gửi được mã tới email. Kiểm tra cấu hình EmailJS hoặc mạng.");
-        }
-      });
-
-      document.getElementById("registerOtpForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        if (!ensureNotBanned()) return;
-
-        const code = document.getElementById("regOtpCode").value.trim();
-        if (!code) {
-          showNotice("err", t("err_empty_otp"));
-          return;
-        }
-        if (!pendingReg || Date.now() > pendingReg.expiresAt) {
-          showNotice("err", "Mã xác nhận đã hết hạn. Vui lòng đăng ký lại.");
-          return;
-        }
-        if (code !== pendingReg.otpCode) {
-          showNotice("err", "Mã xác nhận 6 số không đúng.");
-          return;
-        }
-
-        const users = loadUsers();
-        const newAccount = {
-          username: pendingReg.username,
-          email: pendingReg.email,
-          passwordHash: pendingReg.passwordHash,
-          createdAt: new Date().toISOString(),
-        };
-        users.push(newAccount);
+        const newUser = { username, email, password };
+        users.push(newUser);
         saveUsers(users);
-
-        pendingReg = null;
         document.getElementById("registerForm").reset();
-        document.getElementById("registerOtpForm").reset();
-        document.getElementById("registerOtpForm").classList.remove("active");
-        document.getElementById("registerForm").classList.add("active");
-
-        const adminRes = await sendAdminNewUserEmail(newAccount);
-        switchAuthTab("login");
-        document.getElementById("loginAccount").value = newAccount.username;
-        showNotice(
-          "ok",
-          `Đăng ký thành công tài khoản <b>${newAccount.username}</b>!` +
-            (adminRes.sent ? ` Đã gửi thông báo tới <b>${EMAIL_CFG.adminEmail}</b>.` : "")
-        );
+        claimSessionAndRedirect(newUser.username, newUser.email, "reg_success");
       });
 
-      document.getElementById("backRegisterBtn").addEventListener("click", () => {
-        pendingReg = null;
-        document.getElementById("registerOtpForm").classList.remove("active");
-        document.getElementById("registerForm").classList.add("active");
-        clearNotice();
-      });
-
-      document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      document.getElementById("loginForm").addEventListener("submit", (e) => {
         e.preventDefault();
-        if (!ensureNotBanned()) return;
-
+        if (!ensureAllowed()) return;
         const account = document.getElementById("loginAccount").value.trim();
-        const pw = document.getElementById("loginPassword").value;
-        const remember = document.getElementById("rememberSession").checked;
+        const password = document.getElementById("loginPassword").value;
 
-        if (!account || !pw) {
+        if (!account || !password) {
           showNotice("err", t("err_empty_login"));
           return;
         }
-
-        const users = loadUsers();
-        const pwHash = await digestSha256(pw);
+        const users = getUsers();
         const found = users.find(
           (u) =>
             (u.username.toLowerCase() === account.toLowerCase() || u.email === account.toLowerCase()) &&
-            u.passwordHash === pwHash
+            u.password === password
         );
-
         if (!found) {
-          showNotice("err", "Sai tên đăng nhập/email hoặc mật khẩu.");
+          showNotice("err", t("err_wrong_login"));
           return;
         }
-
-        completeLogin(found.username, found.email, remember, true);
+        if (savePwToggle.checked) {
+          localStorage.setItem(SAVED_PW_KEY, JSON.stringify({ enabled: true, acc: account, pw: password }));
+        }
+        claimSessionAndRedirect(found.username, found.email, "login_success");
       });
 
-      document.getElementById("forgotEmailForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        if (!ensureNotBanned()) return;
-
-        const targetEmail = document.getElementById("forgotEmailInput").value.trim().toLowerCase();
-
-        if (!targetEmail) {
-          showNotice("err", t("err_empty_forgot_email"));
-          return;
-        }
-        if (!isValidEmail(targetEmail)) {
-          showNotice("err", t("err_invalid_email"));
-          return;
-        }
-
-        const users = loadUsers();
-        const found = users.find((u) => u.email === targetEmail);
-        if (!found) {
-          showNotice("err", "Không tìm thấy tài khoản đăng ký với email này.");
-          return;
-        }
-
-        const otpCode = String(Math.floor(100000 + Math.random() * 900000));
-        pendingForgot = {
-          email: found.email,
-          username: found.username,
-          otpCode,
-          expiresAt: Date.now() + 10 * 60 * 1000,
-        };
-
-        try {
-          const res = await sendOtpEmail(found.email, found.username, otpCode, "Khôi phục mật khẩu");
-          document.getElementById("forgotEmailForm").classList.remove("active");
-          document.getElementById("forgotResetForm").classList.add("active");
-
-          if (res.sent) {
-            showNotice("ok", `Đã gửi mã 6 số tới email <b>${found.email}</b>.`);
-          } else {
-            showNotice("ok", `Mã khôi phục cho <b>${found.email}</b>: <b>${otpCode}</b>`);
-          }
-        } catch {
-          showNotice("err", "Không gửi được mã tới email. Kiểm tra cấu hình EmailJS hoặc mạng.");
-        }
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem(ACTIVE_SESSION_KEY);
+        syncSessionBadge();
+        switchTab("login");
+        showNotice("ok", t("logged_out"));
       });
-
-      document.getElementById("forgotResetForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        if (!ensureNotBanned()) return;
-
-        const code = document.getElementById("forgotOtpInput").value.trim();
-        const newPw = document.getElementById("forgotNewPass").value;
-
-        if (!code || !newPw) {
-          showNotice("err", t("err_empty_otp"));
-          return;
-        }
-        if (!isStrongPassword(newPw)) {
-          showNotice("err", t("err_pw_policy"));
-          return;
-        }
-        if (!pendingForgot || Date.now() > pendingForgot.expiresAt) {
-          showNotice("err", "Mã khôi phục đã hết hạn. Vui lòng gửi lại.");
-          return;
-        }
-        if (code !== pendingForgot.otpCode) {
-          showNotice("err", "Mã xác nhận 6 số không đúng.");
-          return;
-        }
-
-        const users = loadUsers();
-        const idx = users.findIndex((u) => u.email === pendingForgot.email);
-        if (idx === -1) {
-          showNotice("err", "Tài khoản không tồn tại.");
-          return;
-        }
-
-        users[idx].passwordHash = await digestSha256(newPw);
-        saveUsers(users);
-        pendingForgot = null;
-
-        document.getElementById("forgotEmailForm").reset();
-        document.getElementById("forgotResetForm").reset();
-        document.getElementById("forgotResetForm").classList.remove("active");
-        document.getElementById("forgotEmailForm").classList.add("active");
-
-        switchAuthTab("login");
-        document.getElementById("loginAccount").value = users[idx].email;
-        showNotice("ok", "Đặt lại mật khẩu thành công.");
-      });
-
-      document.getElementById("backForgotBtn").addEventListener("click", () => {
-        pendingForgot = null;
-        document.getElementById("forgotResetForm").classList.remove("active");
-        document.getElementById("forgotEmailForm").classList.add("active");
-        clearNotice();
-      });
-
-      function finishSocialLogin(provider) {
-        const providerAccountName = `${provider}_User`;
-        completeLogin(
-          providerAccountName,
-          `${provider.toLowerCase()}@social.local`,
-          true,
-          true
-        );
-      }
-
-      function triggerRealOrFallbackOAuth(provider) {
-        if (!ensureNotBanned()) return;
-
-        if (provider === "Google" && window.google && google.accounts && google.accounts.oauth2 && !OAUTH_CFG.googleClientId.startsWith("YOUR_")) {
-          const tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: OAUTH_CFG.googleClientId,
-            scope: "openid email profile",
-            callback: (resp) => {
-              if (resp && resp.access_token) finishSocialLogin("Google");
-              else showNotice("err", "Google login cancelled.");
-            },
-          });
-          tokenClient.requestAccessToken();
-          return;
-        }
-
-        if (provider === "Facebook" && window.FB && !OAUTH_CFG.facebookAppId.startsWith("YOUR_FACEBOOK_APP_ID")) {
-          FB.login(
-            (resp) => {
-              if (resp && resp.authResponse) finishSocialLogin("Facebook");
-              else showNotice("err", "Facebook login cancelled.");
-            },
-            { scope: "public_profile,email" }
-          );
-          return;
-        }
-
-        if (provider === "X" && !OAUTH_CFG.xClientId.startsWith("YOUR_X_CLIENT_ID")) {
-          const url =
-            "https://x.com/i/oauth2/authorize?response_type=code" +
-            `&client_id=${encodeURIComponent(OAUTH_CFG.xClientId)}` +
-            `&redirect_uri=${encodeURIComponent(OAUTH_CFG.xRedirectUri)}` +
-            "&scope=tweet.read%20users.read&state=x_login&code_challenge=challenge&code_challenge_method=plain";
-          window.open(url, "_blank", "width=520,height=640");
-          return;
-        }
-
-        if (provider === "Zalo" && !OAUTH_CFG.zaloAppId.startsWith("YOUR_ZALO_APP_ID")) {
-          const url =
-            `https://oauth.zaloapp.com/v4/permission?app_id=${encodeURIComponent(OAUTH_CFG.zaloAppId)}` +
-            `&redirect_uri=${encodeURIComponent(OAUTH_CFG.zaloCallbackUrl)}&state=zalo_login`;
-          window.open(url, "_blank", "width=520,height=640");
-          return;
-        }
-
-        finishSocialLogin(provider);
-      }
 
       document.querySelectorAll(".provider-btn").forEach((btn) => {
-        btn.addEventListener("click", () => triggerRealOrFallbackOAuth(btn.dataset.provider));
+        btn.addEventListener("click", () => {
+          if (!ensureAllowed()) return;
+          const provider = btn.dataset.provider;
+          claimSessionAndRedirect(`${provider}_User`, `${provider.toLowerCase()}@social.local`, "login_success");
+        });
       });
 
       function getWebGlRenderer() {
         try {
-          const canvas = document.createElement("canvas");
-          const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+          const c = document.createElement("canvas");
+          const gl = c.getContext("webgl") || c.getContext("experimental-webgl");
           if (!gl) return "";
           const ext = gl.getExtension("WEBGL_debug_renderer_info");
           return ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || "") : "";
@@ -2093,123 +1551,45 @@
         }
       }
 
-      function checkVirtualMachine() {
+      function checkVm() {
         const ua = navigator.userAgent || "";
         const renderer = getWebGlRenderer();
-        const vmPattern = /(vmware|virtualbox|vbox|qemu|parallels|hyper-v|genymotion|bluestacks|nox|ldplayer|memu|swiftshader|llvmpipe|angle.*virtual)/i;
-
-        if (navigator.webdriver === true) {
-          return { isVm: true, detail: "WebDriver / Automation" };
-        }
-        if (vmPattern.test(ua) || vmPattern.test(renderer)) {
-          return { isVm: true, detail: renderer || ua };
-        }
-        return { isVm: false, detail: "" };
+        const vmRe = /(vmware|virtualbox|vbox|qemu|parallels|hyper-v|genymotion|bluestacks|nox|ldplayer|memu|swiftshader|llvmpipe|angle.*virtual)/i;
+        return navigator.webdriver === true || vmRe.test(ua) || vmRe.test(renderer);
       }
 
-      function isRiskyIpOrIsp(ipInfo) {
-        const ispText = `${ipInfo.isp || ""} ${ipInfo.org || ""} ${ipInfo.asn || ""}`.toLowerCase();
-        const riskyKeywords = [
-          "vpn",
-          "proxy",
-          "tor",
-          "hosting",
-          "datacenter",
-          "data center",
-          "cloud",
-          "digitalocean",
-          "linode",
-          "vultr",
-          "amazon",
-          "aws",
-          "google cloud",
-          "microsoft azure",
-          "ovh",
-          "hetzner",
-          "choopa",
-          "m247",
-          "leaseweb",
-        ];
-        if (ipInfo.proxy === true || ipInfo.hosting === true || ipInfo.tor === true) {
-          return true;
-        }
-        return riskyKeywords.some((kw) => ispText.includes(kw));
+      function isRiskyIp(info) {
+        const txt = `${info.isp || ""} ${info.org || ""} ${info.asn || ""}`.toLowerCase();
+        const bad = ["vpn", "proxy", "tor", "hosting", "datacenter", "data center", "cloud", "digitalocean", "linode", "vultr", "aws", "azure", "ovh", "hetzner"];
+        return Boolean(info.proxy || info.hosting || info.tor) || bad.some((k) => txt.includes(k));
       }
 
-      function detectNetType() {
+      function detectNet() {
         const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
         if (!c) return "Wi-Fi / LAN";
-        const map = {
-          wifi: "Wi-Fi",
-          cellular: "Di động (3G/4G/5G)",
-          ethernet: "Ethernet",
-          none: "Offline",
-        };
-        const label = map[c.effectiveType] || map[c.type] || c.effectiveType || "Unknown";
+        const label = c.effectiveType || c.type || "Unknown";
         return typeof c.downlink === "number" ? `${label} (~${c.downlink} Mbps)` : label;
       }
 
-      function detectDeviceSoftware() {
+      function detectDev() {
         const ua = navigator.userAgent || "";
-        let dev = "PC / Mac";
-        if (/iPad|Tablet/i.test(ua)) dev = "iPad / Tablet";
-        else if (/iPhone/i.test(ua)) dev = "iPhone";
-        else if (/Android/i.test(ua)) {
-          const m = ua.match(/Android[^;)]*;\s*([^;)]+)\s*Build/i);
-          dev = m && m[1] ? m[1].trim() : "Android";
-        } else if (/Macintosh/i.test(ua)) dev = "Mac";
-        else if (/Windows/i.test(ua)) dev = "Windows";
-
-        let os = "OS";
-        if (/Windows NT 10\.0/i.test(ua)) os = "Windows 10/11";
-        else if (/iPhone OS|CPU (?:iPhone )?OS/i.test(ua)) {
-          const m = ua.match(/(?:iPhone OS|CPU (?:iPhone )?OS)\s+([\d_]+)/i);
-          os = m ? `iOS ${m[1].replace(/_/g, ".")}` : "iOS";
-        } else if (/Android\s+([\d.]+)/i.test(ua)) {
-          const m = ua.match(/Android\s+([\d.]+)/i);
-          os = `Android ${m[1]}`;
-        } else if (/Mac OS X\s+([\d_]+)/i.test(ua)) {
-          const m = ua.match(/Mac OS X\s+([\d_]+)/i);
-          os = `macOS ${m[1].replace(/_/g, ".")}`;
-        } else if (/Linux/i.test(ua)) os = "Linux";
-
-        let br = "Browser";
-        if (/Edg\//i.test(ua)) {
-          const m = ua.match(/Edg\/([\d.]+)/i);
-          br = `Edge ${m ? m[1] : ""}`.trim();
-        } else if (/OPR\/|Opera\//i.test(ua)) {
-          const m = ua.match(/(?:OPR|Opera)\/([\d.]+)/i);
-          br = `Opera ${m ? m[1] : ""}`.trim();
-        } else if (/Chrome\//i.test(ua) && !/Chromium/i.test(ua)) {
-          const m = ua.match(/Chrome\/([\d.]+)/i);
-          br = `Chrome ${m ? m[1] : ""}`.trim();
-        } else if (/Firefox\//i.test(ua)) {
-          const m = ua.match(/Firefox\/([\d.]+)/i);
-          br = `Firefox ${m ? m[1] : ""}`.trim();
-        } else if (/Safari\//i.test(ua) && !/Chrome\//i.test(ua)) {
-          const m = ua.match(/Version\/([\d.]+)/i);
-          br = `Safari ${m ? m[1] : ""}`.trim();
-        }
-
-        return `${dev} · ${os} · ${br}`;
+        if (/iPhone/i.test(ua)) return "iPhone · iOS";
+        if (/iPad/i.test(ua)) return "iPad · iPadOS";
+        if (/Android/i.test(ua)) return "Android";
+        if (/Macintosh/i.test(ua)) return "Mac · macOS";
+        if (/Windows/i.test(ua)) return "PC · Windows";
+        return "Browser";
       }
 
       function detectJbRoot() {
         const ua = navigator.userAgent || "";
-        const isIOS = /iPhone|iPad|iPod/i.test(ua);
-        const isAndroid = /Android/i.test(ua);
-        const jbHint = /(jailbreak|cydia|sileo|dopamine|palera1n|unc0ver|checkra1n|rootless)/i.test(ua);
-        const rootHint = /\b(root|superuser|magisk|su-)\b/i.test(ua);
-
-        if (isIOS) {
-          return jbHint
-            ? "Jailbreak hint detected in UA"
-            : "No jailbreak hint via browser (iOS sandbox)";
+        if (/iPhone|iPad|iPod/i.test(ua)) {
+          return /(jailbreak|cydia|sileo|dopamine|palera1n|unc0ver|checkra1n|rootless)/i.test(ua)
+            ? "Jailbreak hint detected"
+            : "iOS sandbox";
         }
-        if (isAndroid) {
-          return rootHint
-            ? "Root hint detected in UA"
-            : "No root hint via browser (Android sandbox)";
+        if (/Android/i.test(ua)) {
+          return /\b(root|superuser|magisk|su-)\b/i.test(ua) ? "Root hint detected" : "Android sandbox";
         }
         return "Desktop / N/A";
       }
@@ -2217,86 +1597,56 @@
       async function fetchIpIsp() {
         document.getElementById("dIp").textContent = "...";
         document.getElementById("dIsp").textContent = "...";
-
-        let ipPayload = null;
         try {
-          const r1 = await fetch("https://ipwho.is/", { cache: "no-store" });
-          if (r1.ok) {
-            const j1 = await r1.json();
-            if (j1 && j1.success !== false && j1.ip) {
-              ipPayload = {
-                ip: j1.ip,
-                isp: (j1.connection && (j1.connection.isp || j1.connection.org)) || "Unknown",
-                asn: (j1.connection && j1.connection.asn) || "",
-                proxy: Boolean(j1.security && (j1.security.proxy || j1.security.vpn || j1.security.tor)),
-                hosting: Boolean(j1.security && j1.security.hosting),
-              };
+          const r = await fetch("https://ipwho.is/", { cache: "no-store" });
+          if (r.ok) {
+            const j = await r.json();
+            if (j && j.success !== false && j.ip) {
+              const isp = (j.connection && (j.connection.isp || j.connection.org)) || "Unknown";
+              document.getElementById("dIp").textContent = j.ip;
+              document.getElementById("dIsp").textContent = isp;
+              if (!securityBlock && isRiskyIp({
+                isp,
+                org: j.connection && j.connection.org,
+                asn: j.connection && j.connection.asn,
+                proxy: j.security && (j.security.proxy || j.security.vpn || j.security.tor),
+                hosting: j.security && j.security.hosting,
+              })) {
+                securityBlock = t("banned_ip");
+              }
+              return;
             }
           }
-        } catch (_) {}
-
-        if (!ipPayload) {
-          try {
-            const r2 = await fetch("https://ipapi.co/json/", { cache: "no-store" });
-            if (r2.ok) {
-              const j2 = await r2.json();
-              if (j2 && j2.ip) {
-                ipPayload = {
-                  ip: j2.ip,
-                  isp: j2.org || j2.asn || "Unknown",
-                  asn: j2.asn || "",
-                  proxy: false,
-                  hosting: false,
-                };
-              }
-            }
-          } catch (_) {}
-        }
-
-        if (!ipPayload) {
-          document.getElementById("dIp").textContent = "N/A";
-          document.getElementById("dIsp").textContent = "N/A";
-          return;
-        }
-
-        document.getElementById("dIp").textContent = ipPayload.ip;
-        document.getElementById("dIsp").textContent = ipPayload.isp;
-
-        if (!securityBlockReason && isRiskyIpOrIsp(ipPayload)) {
-          securityBlockReason = t("banned_ip");
-          showNotice("err", securityBlockReason);
-        }
+        } catch {}
+        document.getElementById("dIp").textContent = "N/A";
+        document.getElementById("dIsp").textContent = "N/A";
       }
 
-      async function runDiagnostics(notifyRefresh = false) {
-        securityBlockReason = "";
-        const vmCheck = checkVirtualMachine();
-        if (vmCheck.isVm) {
-          securityBlockReason = t("banned_vm");
-        }
-
-        document.getElementById("dNet").textContent = detectNetType();
-        document.getElementById("dDev").textContent = detectDeviceSoftware();
+      async function runDiag(notify = false) {
+        securityBlock = checkVm() ? t("banned_vm") : "";
+        document.getElementById("dNet").textContent = detectNet();
+        document.getElementById("dDev").textContent = detectDev();
         document.getElementById("dJbRoot").textContent = detectJbRoot();
         await fetchIpIsp();
-
-        if (securityBlockReason) {
-          showNotice("err", securityBlockReason);
-        } else if (notifyRefresh) {
-          showNotice("ok", t("refreshed_msg"));
-        }
+        if (securityBlock) showNotice("err", securityBlock);
+        else if (notify) showNotice("ok", t("refreshed"));
       }
 
-      document.getElementById("refreshDiagBtn").addEventListener("click", () => {
-        runDiagnostics(true);
-      });
+      document.getElementById("refreshDiagBtn").addEventListener("click", () => runDiag(true));
 
-      applyTheme(localStorage.getItem(KEY_THEME) || "light", false);
-      const savedLang = localStorage.getItem(KEY_LANG) || "vi";
+      applyTheme(localStorage.getItem(THEME_KEY) || "light", false);
+      const savedLang = localStorage.getItem(LANG_KEY) || "vi";
       document.getElementById("langSelect").value = savedLang;
       applyLanguage(savedLang, false);
-      syncSessionUI();
-      runDiagnostics(false);
+      loadSavedPw();
+      syncSessionBadge();
+      runDiag(false);
+
+      // Nếu đã đăng nhập từ trước và không bị chặn thì tự giữ phiên / chuyển hướng
+      const existing = getSession();
+      if (existing && existing.username) {
+        showNotice("ok", `${existing.username}`);
+      }
     </script>
   </body>
 </html>
