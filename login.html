@@ -15,27 +15,30 @@
     <script src="https://connect.facebook.net/en_US/sdk.js" async defer></script>
     <style>
       :root[data-theme="light"] {
-        --bg-canvas: #eef2ff;
-        --bg-grad-a: rgba(99, 102, 241, 0.16);
-        --bg-grad-b: rgba(14, 165, 233, 0.14);
-        --surface: #ffffff;
-        --surface-2: #f8fafc;
+        --bg-canvas: #e5e8f0;
+        --bg-grad-a: rgba(99, 102, 241, 0.12);
+        --bg-grad-b: rgba(14, 165, 233, 0.1);
+        --surface: #f4f5f8;
+        --surface-2: #ebedf3;
         --surface-side: linear-gradient(160deg, #1e1b4b 0%, #0f172a 100%);
         --text: #0f172a;
-        --muted: #64748b;
-        --border: #e2e8f0;
+        --muted: #5b6577;
+        --border: #d4dae6;
         --primary: #4f46e5;
         --primary-hover: #4338ca;
-        --primary-ink: #ffffff;
-        --chip-bg: #f1f5f9;
-        --chip-hover: #e2e8f0;
-        --ok-bg: #ecfdf5;
-        --ok-text: #065f46;
-        --ok-border: #a7f3d0;
-        --err-bg: #fef2f2;
-        --err-text: #991b1b;
-        --err-border: #fecaca;
-        --shadow: 0 24px 64px rgba(15, 23, 42, 0.12);
+        --primary-ink: #f8fafc;
+        --chip-bg: #dfe3ec;
+        --chip-hover: #d0d6e3;
+        --ok-bg: #def7ec;
+        --ok-text: #03543f;
+        --ok-border: #84e1bc;
+        --err-bg: #fde8e8;
+        --err-text: #9b1c1c;
+        --err-border: #f8b4b4;
+        --warn-bg: #fef3c7;
+        --warn-text: #92400e;
+        --warn-border: #fcd34d;
+        --shadow: 0 24px 64px rgba(15, 23, 42, 0.14);
       }
 
       :root[data-theme="dark"] {
@@ -53,12 +56,15 @@
         --primary-ink: #ffffff;
         --chip-bg: #1e293b;
         --chip-hover: #334155;
-        --ok-bg: rgba(16, 185, 129, 0.15);
+        --ok-bg: rgba(16, 185, 129, 0.16);
         --ok-text: #6ee7b7;
         --ok-border: rgba(16, 185, 129, 0.35);
-        --err-bg: rgba(239, 68, 68, 0.15);
+        --err-bg: rgba(239, 68, 68, 0.16);
         --err-text: #fca5a5;
         --err-border: rgba(239, 68, 68, 0.35);
+        --warn-bg: rgba(245, 158, 11, 0.16);
+        --warn-text: #fcd34d;
+        --warn-border: rgba(245, 158, 11, 0.35);
         --shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
       }
 
@@ -305,6 +311,23 @@
         background: var(--chip-bg);
       }
 
+      .caps-banner {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: var(--warn-bg);
+        color: var(--warn-text);
+        border: 1px solid var(--warn-border);
+        font-size: 11.5px;
+        font-weight: 700;
+      }
+
+      .caps-banner.show {
+        display: inline-flex;
+      }
+
       .pw-rule-hint {
         font-size: 11.5px;
         color: var(--muted);
@@ -380,6 +403,12 @@
         background: var(--err-bg);
         color: var(--err-text);
         border: 1px solid var(--err-border);
+      }
+
+      .notice-box.warn {
+        background: var(--warn-bg);
+        color: var(--warn-text);
+        border: 1px solid var(--warn-border);
       }
 
       .social-sep {
@@ -469,7 +498,6 @@
         text-decoration: underline;
       }
 
-      /* CỘT PHẢI */
       .pane-visual {
         background: var(--surface-side);
         color: #f8fafc;
@@ -623,7 +651,6 @@
         word-break: break-word;
       }
 
-      /* MODAL */
       .modal-overlay {
         position: fixed;
         inset: 0;
@@ -641,7 +668,7 @@
 
       .modal-dialog {
         width: 100%;
-        max-width: 560px;
+        max-width: 580px;
         background: var(--surface);
         color: var(--text);
         border: 1px solid var(--border);
@@ -683,7 +710,7 @@
       .modal-content {
         overflow-y: auto;
         font-size: 13.5px;
-        line-height: 1.6;
+        line-height: 1.65;
         color: var(--muted);
         display: flex;
         flex-direction: column;
@@ -774,6 +801,11 @@
               </div>
             </div>
 
+            <div id="capsBanner" class="caps-banner">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span id="capsText"></span>
+            </div>
+
             <div class="options-row">
               <label class="check-item">
                 <input id="rememberSession" type="checkbox" />
@@ -797,7 +829,7 @@
               <div class="field-group">
                 <label for="regName" data-i18n="lbl_username">Tên đăng nhập</label>
                 <div class="input-shell">
-                  <input id="regName" class="no-eye" type="text" data-i18n-ph="ph_username" placeholder="Nhập tên đăng nhập (vd: longmenjb)" />
+                  <input id="regName" class="no-eye" type="text" data-i18n-ph="ph_username" placeholder="Nhập tên đăng nhập" />
                 </div>
               </div>
 
@@ -817,7 +849,7 @@
                   </button>
                 </div>
                 <div class="pw-rule-hint" data-i18n="pw_rule">
-                  Mật khẩu phải gồm ít nhất 8 ký tự, có chữ cái, chữ số và ký tự đặc biệt (vd: Longmen@2026).
+                  Mật khẩu phải có ít nhất 8 ký tự, gồm chữ cái, chữ số và ký tự đặc biệt.
                 </div>
               </div>
 
@@ -970,7 +1002,7 @@
       </aside>
     </main>
 
-    <!-- MODAL ĐIỀU KHOẢN & BẢO MẬT -->
+    <!-- MODAL ĐIỀU KHOẢN & CHÍNH SÁCH BẢO MẬT -->
     <div id="legalModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
       <div class="modal-dialog">
         <div class="modal-top">
@@ -986,7 +1018,8 @@
     </div>
 
     <script>
-      // 1. Cấu hình EmailJS & OAuth thật cho Facebook, Google, X, Zalo
+      const LOGIN_SUCCESS_REDIRECT_URL = "https://longmen06.github.io/";
+
       const EMAIL_CFG = {
         publicKey: "YOUR_EMAILJS_PUBLIC_KEY",
         serviceId: "YOUR_EMAILJS_SERVICE_ID",
@@ -1004,21 +1037,22 @@
         zaloCallbackUrl: window.location.origin + window.location.pathname,
       };
 
-      const DEFAULT_SOCIAL_ACCOUNT_NAME = "longmenjb";
-      const KEY_USERS = "lm_v4_users";
-      const KEY_SESSION = "lm_v4_session";
-      const KEY_THEME = "lm_v4_theme";
-      const KEY_LANG = "lm_v4_lang";
+      const KEY_USERS = "lm_v7_users";
+      const KEY_SESSION = "lm_v7_session";
+      const KEY_THEME = "lm_v7_theme";
+      const KEY_LANG = "lm_v7_lang";
 
       let pendingReg = null;
       let pendingForgot = null;
+      let lastCapsState = null;
+      let securityBlockReason = "";
 
-      // 2. Từ điển 5 ngôn ngữ: vi, en, zh, ko, ja
       const I18N = {
         vi: {
           dark_mode: "Chế độ tối",
           light_mode: "Chế độ sáng",
           logout: "Đăng xuất",
+          logged_out_msg: "Đã đăng xuất",
           tab_login: "Đăng nhập",
           tab_register: "Đăng ký",
           tab_forgot: "Quên mật khẩu",
@@ -1035,7 +1069,7 @@
           register_title: "Đăng ký tài khoản",
           have_account: "Đã có tài khoản?",
           lbl_username: "Tên đăng nhập",
-          ph_username: "Nhập tên đăng nhập (vd: longmenjb)",
+          ph_username: "Nhập tên đăng nhập",
           lbl_reg_email: "Email nhận mã xác nhận",
           ph_email: "emailcuaban@example.com",
           ph_reg_pw: "Tối thiểu 8 ký tự: chữ, số và ký tự đặc biệt",
@@ -1075,9 +1109,27 @@
           err_agree_terms: "Vui lòng đồng ý Điều khoản & Bảo mật trước khi đăng ký.",
           err_empty_forgot_email: "Vui lòng nhập địa chỉ email cần gửi mã khôi phục.",
           err_empty_otp: "Vui lòng nhập đủ mã xác nhận 6 số.",
+          redirecting_msg: "Đăng nhập thành công! Đang chuyển hướng...",
+          caps_on: "Caps Lock đang BẬT",
+          caps_off: "Caps Lock đã TẮT",
+          theme_switched_dark: "Đã chuyển sang chế độ Tối",
+          theme_switched_light: "Đã chuyển sang chế độ Sáng",
+          lang_switched_msg: "Đã chuyển ngôn ngữ sang Tiếng Việt",
+          refreshed_msg: "Đã làm mới thông tin IP, mạng & thiết bị",
+          banned_vm: "Đã tự động chặn: phát hiện môi trường máy ảo / giả lập.",
+          banned_ip: "Đã tự động chặn: phát hiện IP rủi ro / proxy / datacenter.",
+          legal_terms_html: `
+            <p><strong>1. Điều khoản sử dụng:</strong> Người dùng cam kết sử dụng hệ thống đúng mục đích, không dùng công cụ tự động, máy ảo giả lập hoặc IP proxy/datacenter rủi ro để truy cập, đăng ký hay gửi mã xác thực.</p>
+            <p><strong>2. Mật khẩu &amp; Xác thực:</strong> Mật khẩu đăng ký bắt buộc tối thiểu 8 ký tự và có đủ chữ cái, chữ số, ký tự đặc biệt. Mã xác nhận 6 số được gửi tới email đã đăng ký.</p>
+            <p><strong>3. Tự động bảo vệ &amp; Thông báo:</strong> Hệ thống tự động chặn IP rủi ro và máy ảo nhằm bảo vệ dịch vụ; khi có người đăng ký thành công, thông báo được gửi về <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          `,
+          legal_privacy_html: `
+            <p><strong>1. Dữ liệu bảo mật:</strong> Mật khẩu được băm SHA-256 trên trình duyệt; thông tin IP, nhà mạng, loại kết nối mạng và thiết bị được kiểm tra để phục vụ bảo vệ chống giả mạo và hỗ trợ kỹ thuật.</p>
+            <p><strong>2. Quyền riêng tư &amp; Thông báo quản trị:</strong> Email người dùng chỉ dùng cho mục đích xác nhận tài khoản/khôi phục mật khẩu; thông báo đăng ký mới gửi về <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          `,
           slides: [
             "Cập nhật các Tinh Chỉnh Thường Xuyên",
-            "Hỗ Trợ Nhiệt Tình 24/24",
+            "Kho Tinh Chỉnh Cydia & Sileo Ổn Định",
             "Nhóm Giải Đáp về Thủ thuật Jailbreak",
           ],
         },
@@ -1085,6 +1137,7 @@
           dark_mode: "Dark mode",
           light_mode: "Light mode",
           logout: "Log out",
+          logged_out_msg: "Logged out",
           tab_login: "Sign In",
           tab_register: "Sign Up",
           tab_forgot: "Forgot Password",
@@ -1101,7 +1154,7 @@
           register_title: "Create Account",
           have_account: "Already have an account?",
           lbl_username: "Username",
-          ph_username: "Enter username (e.g. longmenjb)",
+          ph_username: "Enter username",
           lbl_reg_email: "Email for verification code",
           ph_email: "you@example.com",
           ph_reg_pw: "At least 8 chars: letters, numbers & symbol",
@@ -1141,9 +1194,27 @@
           err_agree_terms: "Please agree to Terms & Privacy before signing up.",
           err_empty_forgot_email: "Please enter your email address to receive the reset code.",
           err_empty_otp: "Please enter the 6-digit verification code.",
+          redirecting_msg: "Signed in successfully! Redirecting...",
+          caps_on: "Caps Lock is ON",
+          caps_off: "Caps Lock is OFF",
+          theme_switched_dark: "Switched to Dark mode",
+          theme_switched_light: "Switched to Light mode",
+          lang_switched_msg: "Language switched to English",
+          refreshed_msg: "Refreshed IP, network & device info",
+          banned_vm: "Auto-blocked: virtual machine or emulator environment detected.",
+          banned_ip: "Auto-blocked: high-risk / proxy / datacenter IP detected.",
+          legal_terms_html: `
+            <p><strong>1. Terms of Use:</strong> Do not use automated tools, virtual machines/emulators, or high-risk proxy/datacenter IPs to access, register, or request codes.</p>
+            <p><strong>2. Password &amp; Verification:</strong> Registration passwords must be at least 8 characters with letters, numbers, and a special character. A 6-digit code is sent to your email.</p>
+            <p><strong>3. Security &amp; Notifications:</strong> Risky IPs and virtual machines are auto-blocked; successful registrations notify <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          `,
+          legal_privacy_html: `
+            <p><strong>1. Security Data:</strong> Passwords are SHA-256 hashed locally; IP, ISP, network type, and device details are inspected for anti-abuse protection and support.</p>
+            <p><strong>2. Privacy &amp; Admin Alerts:</strong> User emails are used for account verification/password recovery; new registrations notify <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
+          `,
           slides: [
             "Frequent Tweak Updates",
-            "24/7 Dedicated Support",
+            "Stable Cydia & Sileo Tweak Repo",
             "Jailbreak Tips & Q&A Group",
           ],
         },
@@ -1151,6 +1222,7 @@
           dark_mode: "深色模式",
           light_mode: "浅色模式",
           logout: "退出登录",
+          logged_out_msg: "已退出登录",
           tab_login: "登录",
           tab_register: "注册",
           tab_forgot: "忘记密码",
@@ -1167,7 +1239,7 @@
           register_title: "注册新账号",
           have_account: "已有账号？",
           lbl_username: "用户名",
-          ph_username: "输入用户名（如：longmenjb）",
+          ph_username: "输入用户名",
           lbl_reg_email: "接收验证码的邮箱",
           ph_email: "name@example.com",
           ph_reg_pw: "至少8位：包含字母、数字和特殊符号",
@@ -1207,9 +1279,27 @@
           err_agree_terms: "注册前请先同意服务条款与隐私政策。",
           err_empty_forgot_email: "请输入要接收验证码的邮箱。",
           err_empty_otp: "请输入6位验证码。",
+          redirecting_msg: "登录成功！正在跳转...",
+          caps_on: "大写锁定（Caps Lock）已开启",
+          caps_off: "大写锁定（Caps Lock）已关闭",
+          theme_switched_dark: "已切换至深色模式",
+          theme_switched_light: "已切换至浅色模式",
+          lang_switched_msg: "语言已切换为简体中文",
+          refreshed_msg: "已刷新 IP、网络与设备信息",
+          banned_vm: "已自动封禁：检测到虚拟机或模拟环境。",
+          banned_ip: "已自动封禁：检测到高风险 IP / 代理 / 数据中心。",
+          legal_terms_html: `
+            <p><strong>1. 服务条款：</strong>禁止使用自动化脚本、虚拟机/模拟器或高风险代理/机房 IP 进行访问、注册或请求验证码。</p>
+            <p><strong>2. 密码与验证：</strong>注册密码至少8位且包含字母、数字和特殊字符；6位验证码将发送至注册邮箱。</p>
+            <p><strong>3. 安全防护与通知：</strong>系统自动封禁高风险 IP 与虚拟机；新用户注册成功后将通知 <strong>${EMAIL_CFG.adminEmail}</strong>。</p>
+          `,
+          legal_privacy_html: `
+            <p><strong>1. 安全数据：</strong>密码在本地进行 SHA-256 哈希；IP、运营商、网络类型和设备信息用于安全防护与技术支持。</p>
+            <p><strong>2. 隐私与通知：</strong>邮箱仅用于账号验证与密码找回；注册成功通知发送至 <strong>${EMAIL_CFG.adminEmail}</strong>。</p>
+          `,
           slides: [
             "定期更新插件与源",
-            "24/7 热情技术支持",
+            "稳定的 Cydia 与 Sileo 插件源",
             "越狱技巧与答疑群组",
           ],
         },
@@ -1217,6 +1307,7 @@
           dark_mode: "다크 모드",
           light_mode: "라이트 모드",
           logout: "로그아웃",
+          logged_out_msg: "로그아웃됨",
           tab_login: "로그인",
           tab_register: "회원가입",
           tab_forgot: "비밀번호 찾기",
@@ -1233,7 +1324,7 @@
           register_title: "계정 만들기",
           have_account: "이미 계정이 있으신가요?",
           lbl_username: "아이디",
-          ph_username: "아이디 입력 (예: longmenjb)",
+          ph_username: "아이디 입력",
           lbl_reg_email: "인증번호 받을 이메일",
           ph_email: "name@example.com",
           ph_reg_pw: "8자 이상: 영문, 숫자, 특수문자 포함",
@@ -1273,9 +1364,27 @@
           err_agree_terms: "가입 전에 이용약관 및 개인정보처리방침에 동의해 주세요.",
           err_empty_forgot_email: "재설정 코드를 받을 이메일을 입력하세요.",
           err_empty_otp: "6자리 인증번호를 입력하세요.",
+          redirecting_msg: "로그인 성공! 이동 중...",
+          caps_on: "Caps Lock이 켜져 있습니다",
+          caps_off: "Caps Lock이 꺼졌습니다",
+          theme_switched_dark: "다크 모드로 전환됨",
+          theme_switched_light: "라이트 모드로 전환됨",
+          lang_switched_msg: "한국어로 전환됨",
+          refreshed_msg: "IP, 네트워크 및 기기 정보를 새로고침했습니다",
+          banned_vm: "자동 차단됨: 가상머신 또는 에뮬레이터 환경이 감지되었습니다.",
+          banned_ip: "자동 차단됨: 위험 IP / 프록시 / 데이터센터가 감지되었습니다.",
+          legal_terms_html: `
+            <p><strong>1. 이용약관:</strong> 자동화 도구, 가상머신/에뮬레이터 또는 위험 프록시/데이터센터 IP를 통한 접속 및 가입을 금지합니다.</p>
+            <p><strong>2. 비밀번호 및 인증:</strong> 가입 비밀번호는 8자 이상(영문, 숫자, 특수문자 포함)이어야 하며 6자리 인증번호가 이메일로 발송됩니다.</p>
+            <p><strong>3. 보안 차단 및 알림:</strong> 위험 IP 및 가상머신은 자동 차단되며 가입 완료 시 <strong>${EMAIL_CFG.adminEmail}</strong>으로 알림이 전송됩니다.</p>
+          `,
+          legal_privacy_html: `
+            <p><strong>1. 보안 정보:</strong> 비밀번호는 SHA-256으로 해시되며 IP, 통신사, 네트워크 유형 및 기기 정보는 보안 보호에 활용됩니다.</p>
+            <p><strong>2. 개인정보 및 알림:</strong> 이메일은 인증 및 비밀번호 찾기에 사용되며 가입 알림은 <strong>${EMAIL_CFG.adminEmail}</strong>로 발송됩니다.</p>
+          `,
           slides: [
             "트윅 업데이트 상시 제공",
-            "24시간 친절한 지원",
+            "안정적인 Cydia 및 Sileo 트윅 저장소",
             "탈옥 팁 및 질문 그룹",
           ],
         },
@@ -1283,6 +1392,7 @@
           dark_mode: "ダークモード",
           light_mode: "ライトモード",
           logout: "ログアウト",
+          logged_out_msg: "ログアウトしました",
           tab_login: "ログイン",
           tab_register: "新規登録",
           tab_forgot: "パスワード再設定",
@@ -1299,7 +1409,7 @@
           register_title: "アカウント作成",
           have_account: "すでにアカウントをお持ちですか？",
           lbl_username: "ユーザー名",
-          ph_username: "ユーザー名を入力（例: longmenjb）",
+          ph_username: "ユーザー名を入力",
           lbl_reg_email: "認証コード受信用メール",
           ph_email: "name@example.com",
           ph_reg_pw: "8文字以上：英字・数字・記号を含める",
@@ -1339,9 +1449,27 @@
           err_agree_terms: "登録前に利用規約とプライバシーポリシーに同意してください。",
           err_empty_forgot_email: "認証コードを送るメールアドレスを入力してください。",
           err_empty_otp: "6桁の認証コードを入力してください。",
+          redirecting_msg: "ログイン成功！移動しています...",
+          caps_on: "Caps Lock がオンです",
+          caps_off: "Caps Lock がオフになりました",
+          theme_switched_dark: "ダークモードに切り替えました",
+          theme_switched_light: "ライトモードに切り替えました",
+          lang_switched_msg: "日本語に切り替えました",
+          refreshed_msg: "IP・ネットワーク・端末情報を更新しました",
+          banned_vm: "自動ブロック：仮想マシンまたはエミュレータ環境が検出されました。",
+          banned_ip: "自動ブロック：危険IP・プロキシ・データセンターが検出されました。",
+          legal_terms_html: `
+            <p><strong>1. 利用規約：</strong>自動化ツール、仮想マシン/エミュレータ、高リスクプロキシ/データセンターIPからのアクセス・登録・コード送信を禁止します。</p>
+            <p><strong>2. パスワードと認証：</strong>登録パスワードは8文字以上（英字・数字・記号を含む）とし、6桁の認証コードをメール送信します。</p>
+            <p><strong>3. セキュリティ保護と通知：</strong>危険IPや仮想マシンは自動ブロックされ、登録完了時は <strong>${EMAIL_CFG.adminEmail}</strong> に通知されます。</p>
+          `,
+          legal_privacy_html: `
+            <p><strong>1. セキュリティ情報：</strong>パスワードはSHA-256でハッシュ化され、IP・通信事業者・回線・端末情報は不正防止のために確認されます。</p>
+            <p><strong>2. プライバシーと通知：</strong>メールは認証および再設定に利用し、登録通知は <strong>${EMAIL_CFG.adminEmail}</strong> に送信されます。</p>
+          `,
           slides: [
             "Tweakアップデートを随時配信",
-            "24時間サポート対応",
+            "安定した Cydia & Sileo Tweak リポジトリ",
             "脱獄テクニック・質問グループ",
           ],
         },
@@ -1352,7 +1480,19 @@
         return (I18N[lang] && I18N[lang][key]) || I18N.vi[key] || key;
       }
 
-      function applyLanguage(lang) {
+      function showNotice(type, html) {
+        const el = document.getElementById("noticeBox");
+        el.className = `notice-box show ${type}`;
+        el.innerHTML = html;
+      }
+
+      function clearNotice() {
+        const el = document.getElementById("noticeBox");
+        el.className = "notice-box";
+        el.innerHTML = "";
+      }
+
+      function applyLanguage(lang, notifySwitch = false) {
         const code = I18N[lang] ? lang : "vi";
         document.documentElement.lang = code;
         localStorage.setItem(KEY_LANG, code);
@@ -1372,13 +1512,16 @@
           curTheme === "dark" ? t("light_mode") : t("dark_mode");
 
         showSlide(activeSlide);
+
+        if (notifySwitch) {
+          showNotice("ok", t("lang_switched_msg"));
+        }
       }
 
       document.getElementById("langSelect").addEventListener("change", (e) => {
-        applyLanguage(e.target.value);
+        applyLanguage(e.target.value, true);
       });
 
-      // 3. Khởi tạo SDK nếu có khóa thật
       if (window.emailjs && !EMAIL_CFG.publicKey.startsWith("YOUR_")) {
         emailjs.init({ publicKey: EMAIL_CFG.publicKey });
       }
@@ -1394,8 +1537,7 @@
         }
       };
 
-      // 4. Chế độ Sáng / Tối
-      function applyTheme(theme) {
+      function applyTheme(theme, notifySwitch = false) {
         const next = theme === "dark" ? "dark" : "light";
         document.documentElement.setAttribute("data-theme", next);
         localStorage.setItem(KEY_THEME, next);
@@ -1408,14 +1550,16 @@
           icon.className = "fas fa-moon";
           text.textContent = t("dark_mode");
         }
+        if (notifySwitch) {
+          showNotice("ok", next === "dark" ? t("theme_switched_dark") : t("theme_switched_light"));
+        }
       }
 
       document.getElementById("themeToggleBtn").addEventListener("click", () => {
         const cur = document.documentElement.getAttribute("data-theme") || "light";
-        applyTheme(cur === "light" ? "dark" : "light");
+        applyTheme(cur === "light" ? "dark" : "light", true);
       });
 
-      // 5. Đồng hồ định dạng 24h
       function renderClock24h() {
         const now = new Date();
         const pad = (n) => String(n).padStart(2, "0");
@@ -1425,7 +1569,6 @@
       }
       renderClock24h();
 
-      // 6. Slideshow
       const heroSlides = Array.from(document.querySelectorAll(".hero-slide"));
       const slideDots = Array.from(document.querySelectorAll(".slide-dot"));
       let activeSlide = 0;
@@ -1442,7 +1585,6 @@
       slideDots.forEach((d) => d.addEventListener("click", () => showSlide(Number(d.dataset.idx))));
       setInterval(() => showSlide(activeSlide + 1), 4000);
 
-      // 7. Nút hiện / ẩn mật khẩu
       document.querySelectorAll("[data-toggle-pw]").forEach((btn) => {
         btn.addEventListener("click", () => {
           const input = document.getElementById(btn.dataset.togglePw);
@@ -1454,7 +1596,31 @@
         });
       });
 
-      // 8. Modal Điều khoản & Bảo mật
+      function handleCapsEvent(e) {
+        if (typeof e.getModifierState !== "function") return;
+        const isCaps = e.getModifierState("CapsLock");
+        const banner = document.getElementById("capsBanner");
+        const capsText = document.getElementById("capsText");
+
+        if (isCaps) {
+          capsText.textContent = t("caps_on");
+          banner.classList.add("show");
+          if (lastCapsState !== true) {
+            showNotice("warn", t("caps_on"));
+          }
+          lastCapsState = true;
+        } else {
+          banner.classList.remove("show");
+          if (lastCapsState === true) {
+            showNotice("ok", t("caps_off"));
+          }
+          lastCapsState = false;
+        }
+      }
+
+      document.addEventListener("keydown", handleCapsEvent);
+      document.addEventListener("keyup", handleCapsEvent);
+
       const legalModal = document.getElementById("legalModal");
       const legalTitle = document.getElementById("legalTitle");
       const legalBody = document.getElementById("legalBody");
@@ -1462,17 +1628,10 @@
       function openLegal(mode) {
         if (mode === "privacy") {
           legalTitle.textContent = t("privacy_policy");
-          legalBody.innerHTML = `
-            <p><strong>1. Bảo mật tài khoản:</strong> Mật khẩu được mã hóa SHA-256; mã xác nhận gửi tới email người dùng.</p>
-            <p><strong>2. Thông báo đăng ký mới:</strong> Khi đăng ký thành công, hệ thống gửi thông báo về <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
-          `;
+          legalBody.innerHTML = t("legal_privacy_html");
         } else {
           legalTitle.textContent = t("terms_service");
-          legalBody.innerHTML = `
-            <p><strong>1. Quy định sử dụng:</strong> Không spam hoặc xâm phạm hệ thống.</p>
-            <p><strong>2. Mật khẩu đăng ký:</strong> Bắt buộc tối thiểu 8 ký tự, gồm chữ cái, chữ số và ký tự đặc biệt.</p>
-            <p><strong>3. Thông báo quản trị:</strong> Mọi đăng ký mới gửi thông báo tới <strong>${EMAIL_CFG.adminEmail}</strong>.</p>
-          `;
+          legalBody.innerHTML = t("legal_terms_html");
         }
         legalModal.classList.add("open");
       }
@@ -1494,7 +1653,6 @@
         if (e.target === legalModal) closeLegal();
       });
 
-      // 9. Chuyển tab
       function switchAuthTab(tab) {
         clearNotice();
         document.querySelectorAll(".seg-tab").forEach((btn) => {
@@ -1512,7 +1670,6 @@
         el.addEventListener("click", () => switchAuthTab(el.dataset.goTab));
       });
 
-      // 10. Storage, Hash & Kiểm tra mật khẩu mạnh (>= 8 ký tự, có chữ + số + ký tự đặc biệt)
       function isStrongPassword(pw) {
         return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(pw);
       }
@@ -1540,25 +1697,28 @@
         localStorage.setItem(KEY_USERS, JSON.stringify(users));
       }
 
-      function showNotice(type, html) {
-        const el = document.getElementById("noticeBox");
-        el.className = `notice-box show ${type}`;
-        el.innerHTML = html;
+      function ensureNotBanned() {
+        if (securityBlockReason) {
+          showNotice("err", securityBlockReason);
+          return false;
+        }
+        return true;
       }
 
-      function clearNotice() {
-        const el = document.getElementById("noticeBox");
-        el.className = "notice-box";
-        el.innerHTML = "";
-      }
-
-      function completeLogin(displayName, email, remember) {
+      function completeLogin(displayName, email, remember, shouldRedirect = true) {
         const data = { username: displayName, email: email || "", loginAt: new Date().toISOString() };
         localStorage.removeItem(KEY_SESSION);
         sessionStorage.removeItem(KEY_SESSION);
         if (remember) localStorage.setItem(KEY_SESSION, JSON.stringify(data));
         else sessionStorage.setItem(KEY_SESSION, JSON.stringify(data));
         syncSessionUI();
+
+        if (shouldRedirect && LOGIN_SUCCESS_REDIRECT_URL) {
+          showNotice("ok", `<b>${displayName}</b> — ${t("redirecting_msg")}`);
+          setTimeout(() => {
+            window.location.href = LOGIN_SUCCESS_REDIRECT_URL;
+          }, 500);
+        }
       }
 
       function syncSessionUI() {
@@ -1582,10 +1742,9 @@
         localStorage.removeItem(KEY_SESSION);
         sessionStorage.removeItem(KEY_SESSION);
         syncSessionUI();
-        showNotice("ok", t("logout") + " OK.");
+        showNotice("ok", t("logged_out_msg"));
       });
 
-      // 11. Gửi email qua EmailJS
       async function sendOtpEmail(toEmail, username, otpCode, purpose) {
         const ready =
           window.emailjs &&
@@ -1627,9 +1786,10 @@
         return { sent: true };
       }
 
-      // 12. Đăng ký - Bước 1: Kiểm tra trống + mật khẩu >= 8 ký tự (chữ, số, ký tự đặc biệt) + gửi mã tới email
       document.getElementById("registerForm").addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!ensureNotBanned()) return;
+
         const username = document.getElementById("regName").value.trim();
         const email = document.getElementById("regEmail").value.trim().toLowerCase();
         const pw = document.getElementById("regPassword").value;
@@ -1682,9 +1842,10 @@
         }
       });
 
-      // Đăng ký - Bước 2: Xác nhận mã & gửi thông báo về longmenjailbreak@gmail.com
       document.getElementById("registerOtpForm").addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!ensureNotBanned()) return;
+
         const code = document.getElementById("regOtpCode").value.trim();
         if (!code) {
           showNotice("err", t("err_empty_otp"));
@@ -1732,9 +1893,10 @@
         clearNotice();
       });
 
-      // 13. Đăng nhập - Kiểm tra trống trước
       document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!ensureNotBanned()) return;
+
         const account = document.getElementById("loginAccount").value.trim();
         const pw = document.getElementById("loginPassword").value;
         const remember = document.getElementById("rememberSession").checked;
@@ -1757,13 +1919,13 @@
           return;
         }
 
-        completeLogin(found.username, found.email, remember);
-        showNotice("ok", `Đăng nhập thành công: <b>${found.username}</b>.`);
+        completeLogin(found.username, found.email, remember, true);
       });
 
-      // 14. Quên mật khẩu - Nhập email gửi mã về email đó
       document.getElementById("forgotEmailForm").addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!ensureNotBanned()) return;
+
         const targetEmail = document.getElementById("forgotEmailInput").value.trim().toLowerCase();
 
         if (!targetEmail) {
@@ -1807,6 +1969,8 @@
 
       document.getElementById("forgotResetForm").addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!ensureNotBanned()) return;
+
         const code = document.getElementById("forgotOtpInput").value.trim();
         const newPw = document.getElementById("forgotNewPass").value;
 
@@ -1855,13 +2019,19 @@
         clearNotice();
       });
 
-      // 15. Nút Facebook, Google, Tài khoản X, Tài khoản Zalo (OAuth thật nếu có ID, hoặc đăng nhập/đăng ký tên longmenjb)
       function finishSocialLogin(provider) {
-        completeLogin(DEFAULT_SOCIAL_ACCOUNT_NAME, `${DEFAULT_SOCIAL_ACCOUNT_NAME}@${provider.toLowerCase()}.auth`, true);
-        showNotice("ok", `<b>${DEFAULT_SOCIAL_ACCOUNT_NAME}</b> (${provider})`);
+        const providerAccountName = `${provider}_User`;
+        completeLogin(
+          providerAccountName,
+          `${provider.toLowerCase()}@social.local`,
+          true,
+          true
+        );
       }
 
       function triggerRealOrFallbackOAuth(provider) {
+        if (!ensureNotBanned()) return;
+
         if (provider === "Google" && window.google && google.accounts && google.accounts.oauth2 && !OAUTH_CFG.googleClientId.startsWith("YOUR_")) {
           const tokenClient = google.accounts.oauth2.initTokenClient({
             client_id: OAUTH_CFG.googleClientId,
@@ -1911,7 +2081,61 @@
         btn.addEventListener("click", () => triggerRealOrFallbackOAuth(btn.dataset.provider));
       });
 
-      // 16. Thông tin IP, Nhà mạng, Loại mạng, Thiết bị & Phần mềm, Root / Jailbreak
+      function getWebGlRenderer() {
+        try {
+          const canvas = document.createElement("canvas");
+          const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+          if (!gl) return "";
+          const ext = gl.getExtension("WEBGL_debug_renderer_info");
+          return ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || "") : "";
+        } catch {
+          return "";
+        }
+      }
+
+      function checkVirtualMachine() {
+        const ua = navigator.userAgent || "";
+        const renderer = getWebGlRenderer();
+        const vmPattern = /(vmware|virtualbox|vbox|qemu|parallels|hyper-v|genymotion|bluestacks|nox|ldplayer|memu|swiftshader|llvmpipe|angle.*virtual)/i;
+
+        if (navigator.webdriver === true) {
+          return { isVm: true, detail: "WebDriver / Automation" };
+        }
+        if (vmPattern.test(ua) || vmPattern.test(renderer)) {
+          return { isVm: true, detail: renderer || ua };
+        }
+        return { isVm: false, detail: "" };
+      }
+
+      function isRiskyIpOrIsp(ipInfo) {
+        const ispText = `${ipInfo.isp || ""} ${ipInfo.org || ""} ${ipInfo.asn || ""}`.toLowerCase();
+        const riskyKeywords = [
+          "vpn",
+          "proxy",
+          "tor",
+          "hosting",
+          "datacenter",
+          "data center",
+          "cloud",
+          "digitalocean",
+          "linode",
+          "vultr",
+          "amazon",
+          "aws",
+          "google cloud",
+          "microsoft azure",
+          "ovh",
+          "hetzner",
+          "choopa",
+          "m247",
+          "leaseweb",
+        ];
+        if (ipInfo.proxy === true || ipInfo.hosting === true || ipInfo.tor === true) {
+          return true;
+        }
+        return riskyKeywords.some((kw) => ispText.includes(kw));
+      }
+
       function detectNetType() {
         const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
         if (!c) return "Wi-Fi / LAN";
@@ -1994,51 +2218,85 @@
         document.getElementById("dIp").textContent = "...";
         document.getElementById("dIsp").textContent = "...";
 
+        let ipPayload = null;
         try {
-          const r1 = await fetch("https://ipapi.co/json/", { cache: "no-store" });
+          const r1 = await fetch("https://ipwho.is/", { cache: "no-store" });
           if (r1.ok) {
             const j1 = await r1.json();
-            if (j1 && j1.ip) {
-              document.getElementById("dIp").textContent = j1.ip;
-              document.getElementById("dIsp").textContent = j1.org || j1.asn || "Unknown";
-              return;
+            if (j1 && j1.success !== false && j1.ip) {
+              ipPayload = {
+                ip: j1.ip,
+                isp: (j1.connection && (j1.connection.isp || j1.connection.org)) || "Unknown",
+                asn: (j1.connection && j1.connection.asn) || "",
+                proxy: Boolean(j1.security && (j1.security.proxy || j1.security.vpn || j1.security.tor)),
+                hosting: Boolean(j1.security && j1.security.hosting),
+              };
             }
           }
         } catch (_) {}
 
-        try {
-          const r2 = await fetch("https://ipwho.is/", { cache: "no-store" });
-          if (r2.ok) {
-            const j2 = await r2.json();
-            if (j2 && j2.success !== false && j2.ip) {
-              document.getElementById("dIp").textContent = j2.ip;
-              document.getElementById("dIsp").textContent =
-                (j2.connection && (j2.connection.isp || j2.connection.org)) || "Unknown";
-              return;
+        if (!ipPayload) {
+          try {
+            const r2 = await fetch("https://ipapi.co/json/", { cache: "no-store" });
+            if (r2.ok) {
+              const j2 = await r2.json();
+              if (j2 && j2.ip) {
+                ipPayload = {
+                  ip: j2.ip,
+                  isp: j2.org || j2.asn || "Unknown",
+                  asn: j2.asn || "",
+                  proxy: false,
+                  hosting: false,
+                };
+              }
             }
-          }
-        } catch (_) {}
+          } catch (_) {}
+        }
 
-        document.getElementById("dIp").textContent = "N/A";
-        document.getElementById("dIsp").textContent = "N/A";
+        if (!ipPayload) {
+          document.getElementById("dIp").textContent = "N/A";
+          document.getElementById("dIsp").textContent = "N/A";
+          return;
+        }
+
+        document.getElementById("dIp").textContent = ipPayload.ip;
+        document.getElementById("dIsp").textContent = ipPayload.isp;
+
+        if (!securityBlockReason && isRiskyIpOrIsp(ipPayload)) {
+          securityBlockReason = t("banned_ip");
+          showNotice("err", securityBlockReason);
+        }
       }
 
-      function runDiagnostics() {
+      async function runDiagnostics(notifyRefresh = false) {
+        securityBlockReason = "";
+        const vmCheck = checkVirtualMachine();
+        if (vmCheck.isVm) {
+          securityBlockReason = t("banned_vm");
+        }
+
         document.getElementById("dNet").textContent = detectNetType();
         document.getElementById("dDev").textContent = detectDeviceSoftware();
         document.getElementById("dJbRoot").textContent = detectJbRoot();
-        fetchIpIsp();
+        await fetchIpIsp();
+
+        if (securityBlockReason) {
+          showNotice("err", securityBlockReason);
+        } else if (notifyRefresh) {
+          showNotice("ok", t("refreshed_msg"));
+        }
       }
 
-      document.getElementById("refreshDiagBtn").addEventListener("click", runDiagnostics);
+      document.getElementById("refreshDiagBtn").addEventListener("click", () => {
+        runDiagnostics(true);
+      });
 
-      // Khởi tạo giao diện
-      applyTheme(localStorage.getItem(KEY_THEME) || "light");
+      applyTheme(localStorage.getItem(KEY_THEME) || "light", false);
       const savedLang = localStorage.getItem(KEY_LANG) || "vi";
       document.getElementById("langSelect").value = savedLang;
-      applyLanguage(savedLang);
+      applyLanguage(savedLang, false);
       syncSessionUI();
-      runDiagnostics();
+      runDiagnostics(false);
     </script>
   </body>
 </html>
