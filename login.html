@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Repository Cydia Sileo Long Mến - Đăng nhập &amp; Đăng kí</title>
+    <title>Repository Cydia Sileo - Đăng nhập &amp; Đăng kí</title>
     <link rel="icon" href="https://longmen06.github.io/favicon.ico" type="image/x-icon" />
     <link
       rel="stylesheet"
@@ -29,12 +29,19 @@
         --ok-bg: #def7ec;
         --ok-text: #03543f;
         --ok-border: #84e1bc;
+        --ok-bar: #10b981;
         --err-bg: #fde8e8;
         --err-text: #9b1c1c;
         --err-border: #f8b4b4;
+        --err-bar: #ef4444;
         --warn-bg: #fef3c7;
         --warn-text: #92400e;
         --warn-border: #fcd34d;
+        --warn-bar: #f59e0b;
+        --info-bg: #e0f2fe;
+        --info-text: #075985;
+        --info-border: #7dd3fc;
+        --info-bar: #0284c7;
         --shadow: 0 24px 64px rgba(15, 23, 42, 0.14);
       }
 
@@ -56,12 +63,19 @@
         --ok-bg: rgba(16, 185, 129, 0.16);
         --ok-text: #6ee7b7;
         --ok-border: rgba(16, 185, 129, 0.35);
+        --ok-bar: #34d399;
         --err-bg: rgba(239, 68, 68, 0.16);
         --err-text: #fca5a5;
         --err-border: rgba(239, 68, 68, 0.35);
+        --err-bar: #f87171;
         --warn-bg: rgba(245, 158, 11, 0.16);
         --warn-text: #fcd34d;
         --warn-border: rgba(245, 158, 11, 0.35);
+        --warn-bar: #fbbf24;
+        --info-bg: rgba(14, 165, 233, 0.16);
+        --info-text: #7dd3fc;
+        --info-border: rgba(14, 165, 233, 0.35);
+        --info-bar: #38bdf8;
         --shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
       }
 
@@ -88,7 +102,7 @@
       .app-frame {
         width: 100%;
         max-width: 1140px;
-        min-height: 690px;
+        min-height: 710px;
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 26px;
@@ -192,7 +206,7 @@
 
       .seg-tabs {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 6px;
         background: var(--chip-bg);
         padding: 5px;
@@ -205,10 +219,11 @@
         color: var(--muted);
         padding: 9px 10px;
         border-radius: 10px;
-        font-size: 13px;
+        font-size: 12.5px;
         font-weight: 700;
         cursor: pointer;
         transition: all 0.2s ease;
+        white-space: nowrap;
       }
 
       .seg-tab.active {
@@ -228,8 +243,15 @@
       }
 
       .view-title {
-        font-size: 21px;
+        font-size: 20px;
         font-weight: 800;
+      }
+
+      .view-sub {
+        font-size: 12.5px;
+        color: var(--muted);
+        line-height: 1.45;
+        margin-top: -4px;
       }
 
       .field-group {
@@ -242,6 +264,29 @@
         font-size: 12.5px;
         font-weight: 600;
         color: var(--text);
+      }
+
+      .row-between {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .link-btn {
+        background: none;
+        border: none;
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 0;
+        text-decoration: none;
+      }
+
+      .link-btn:hover {
+        text-decoration: underline;
       }
 
       .input-shell {
@@ -319,40 +364,164 @@
         font-size: 14px;
         font-weight: 700;
         cursor: pointer;
+        transition: background 0.2s ease, opacity 0.2s ease;
       }
 
       .btn-primary:hover {
         background: var(--primary-hover);
       }
 
-      .notice-box {
-        display: none;
-        padding: 10px 13px;
+      .btn-secondary {
+        padding: 10px 14px;
         border-radius: 11px;
+        border: 1px solid var(--border);
+        background: var(--surface-2);
+        color: var(--text);
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .btn-secondary:hover {
+        background: var(--chip-hover);
+      }
+
+      .otp-box {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px;
+        border-radius: 14px;
+        background: var(--surface-2);
+        border: 1px dashed var(--border);
+      }
+
+      .otp-box.show {
+        display: flex;
+      }
+
+      .otp-demo-pill {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 8px 10px;
+        border-radius: 10px;
+        background: var(--info-bg);
+        color: var(--info-text);
+        border: 1px solid var(--info-border);
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .otp-code-tag {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-weight: 800;
+        letter-spacing: 2px;
+        padding: 2px 7px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.72);
+        color: #0f172a;
+      }
+
+      .otp-input-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+
+      /* HỆ THỐNG THÔNG BÁO TỰ TẮT CHUYÊN NGHIỆP */
+      .notice-box {
+        position: relative;
+        overflow: hidden;
+        display: none;
+        padding: 11px 36px 13px 13px;
+        border-radius: 12px;
         font-size: 12.5px;
         line-height: 1.45;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity 0.24s ease, transform 0.24s ease;
       }
 
       .notice-box.show {
         display: block;
       }
 
+      .notice-box.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
       .notice-box.ok {
         background: var(--ok-bg);
         color: var(--ok-text);
         border: 1px solid var(--ok-border);
+        --notice-bar: var(--ok-bar);
       }
 
       .notice-box.err {
         background: var(--err-bg);
         color: var(--err-text);
         border: 1px solid var(--err-border);
+        --notice-bar: var(--err-bar);
       }
 
       .notice-box.warn {
         background: var(--warn-bg);
         color: var(--warn-text);
         border: 1px solid var(--warn-border);
+        --notice-bar: var(--warn-bar);
+      }
+
+      .notice-box.info {
+        background: var(--info-bg);
+        color: var(--info-text);
+        border: 1px solid var(--info-border);
+        --notice-bar: var(--info-bar);
+      }
+
+      .notice-close {
+        position: absolute;
+        top: 7px;
+        right: 8px;
+        width: 22px;
+        height: 22px;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
+        color: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        opacity: 0.75;
+      }
+
+      .notice-close:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.08);
+      }
+
+      .notice-progress {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 100%;
+        background: var(--notice-bar, var(--primary));
+        transform-origin: left center;
+      }
+
+      @keyframes shrinkNoticeBar {
+        from {
+          transform: scaleX(1);
+        }
+        to {
+          transform: scaleX(0);
+        }
       }
 
       .social-sep {
@@ -427,7 +596,8 @@
 
       .bottom-links {
         display: inline-flex;
-        gap: 10px;
+        gap: 12px;
+        flex-wrap: wrap;
       }
 
       .bottom-links button {
@@ -610,7 +780,7 @@
 
       .modal-dialog {
         width: 100%;
-        max-width: 560px;
+        max-width: 620px;
         background: var(--surface);
         color: var(--text);
         border: 1px solid var(--border);
@@ -651,12 +821,13 @@
 
       .modal-content {
         overflow-y: auto;
-        font-size: 13.5px;
-        line-height: 1.65;
+        font-size: 13px;
+        line-height: 1.68;
         color: var(--muted);
         display: flex;
         flex-direction: column;
         gap: 10px;
+        padding-right: 4px;
       }
 
       .modal-content strong {
@@ -676,6 +847,9 @@
           grid-template-columns: 1fr;
         }
         .diag-grid {
+          grid-template-columns: 1fr;
+        }
+        .seg-tabs {
           grid-template-columns: 1fr;
         }
       }
@@ -715,6 +889,7 @@
           <div class="seg-tabs" style="margin-top: 14px;">
             <button type="button" class="seg-tab active" data-tab="login" data-i18n="tab_login">Đăng nhập</button>
             <button type="button" class="seg-tab" data-tab="register" data-i18n="tab_register">Đăng ký</button>
+            <button type="button" class="seg-tab" data-tab="forgot" data-i18n="tab_forgot">Quên mật khẩu</button>
           </div>
 
           <!-- ĐĂNG NHẬP -->
@@ -729,7 +904,10 @@
             </div>
 
             <div class="field-group">
-              <label for="loginPassword" data-i18n="lbl_password">Mật khẩu</label>
+              <div class="row-between">
+                <label for="loginPassword" data-i18n="lbl_password">Mật khẩu</label>
+                <button type="button" id="openForgotInline" class="link-btn" data-i18n="forgot_link">Quên mật khẩu?</button>
+              </div>
               <div class="input-shell">
                 <input id="loginPassword" type="password" data-i18n-ph="ph_password" placeholder="Nhập mật khẩu" />
                 <button type="button" class="eye-btn" data-toggle-pw="loginPassword" aria-label="Hiện/ẩn mật khẩu">
@@ -782,7 +960,72 @@
             <button type="submit" class="btn-primary" data-i18n="btn_register">Tạo tài khoản</button>
           </form>
 
-          <div id="noticeBox" class="notice-box"></div>
+          <!-- QUÊN MẬT KHẨU -->
+          <form id="forgotForm" class="view-box" novalidate autocomplete="off" style="margin-top: 14px;">
+            <h2 class="view-title" data-i18n="forgot_title">Khôi phục mật khẩu</h2>
+            <p class="view-sub" data-i18n="forgot_desc">Nhập tên đăng nhập hoặc email đã đăng ký để nhận mã xác nhận khôi phục.</p>
+
+            <div class="field-group">
+              <label for="forgotAccount" data-i18n="lbl_account">Tên đăng nhập hoặc Email</label>
+              <div class="input-shell">
+                <input id="forgotAccount" class="no-eye" type="text" data-i18n-ph="ph_account" placeholder="Nhập tên đăng nhập hoặc email" />
+              </div>
+            </div>
+
+            <button type="button" id="sendOtpBtn" class="btn-secondary" data-i18n="btn_send_code">
+              <i class="fas fa-paper-plane"></i> <span data-i18n="btn_send_code_txt">Gửi mã xác nhận</span>
+            </button>
+
+            <div id="otpVerifyBox" class="otp-box">
+              <div class="otp-demo-pill">
+                <span id="otpTargetLabel"></span>
+                <div>
+                  <span data-i18n="otp_label">Mã</span>:
+                  <span id="otpCodePreview" class="otp-code-tag">------</span>
+                  <button type="button" id="fillOtpBtn" class="link-btn" style="margin-left: 6px;" data-i18n="btn_fill_code">Điền mã</button>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="forgotOtpInput" data-i18n="lbl_otp">Mã xác nhận (6 chữ số)</label>
+                <div class="otp-input-row">
+                  <div class="input-shell">
+                    <input id="forgotOtpInput" class="no-eye" type="text" maxlength="6" data-i18n-ph="ph_otp" placeholder="Nhập mã 6 số" />
+                  </div>
+                  <button type="button" id="resendOtpBtn" class="btn-secondary" data-i18n="btn_resend">Gửi lại</button>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="forgotNewPw" data-i18n="lbl_new_password">Mật khẩu mới</label>
+                <div class="input-shell">
+                  <input id="forgotNewPw" type="password" data-i18n-ph="ph_new_password" placeholder="Nhập mật khẩu mới" />
+                  <button type="button" class="eye-btn" data-toggle-pw="forgotNewPw" aria-label="Hiện/ẩn mật khẩu">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="forgotConfirmPw" data-i18n="lbl_confirm_password">Xác nhận mật khẩu mới</label>
+                <div class="input-shell">
+                  <input id="forgotConfirmPw" type="password" data-i18n-ph="ph_confirm_password" placeholder="Nhập lại mật khẩu mới" />
+                  <button type="button" class="eye-btn" data-toggle-pw="forgotConfirmPw" aria-label="Hiện/ẩn mật khẩu">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-primary" data-i18n="btn_reset_password">Cập nhật mật khẩu mới</button>
+            </div>
+          </form>
+
+          <!-- THÔNG BÁO TỰ TẮT -->
+          <div id="noticeBox" class="notice-box" role="status" aria-live="polite">
+            <span id="noticeText"></span>
+            <button type="button" id="noticeCloseBtn" class="notice-close" aria-label="Close notice">×</button>
+            <div id="noticeProgress" class="notice-progress"></div>
+          </div>
 
           <div>
             <div class="social-sep" data-i18n="or_continue_with">Hoặc tiếp tục với</div>
@@ -896,17 +1139,24 @@
       let lastCaps = null;
       let securityBlock = "";
       let activeSlide = 0;
+      let noticeHideTimer = null;
+      let noticeCleanupTimer = null;
+      let pendingReset = null;
 
       const I18N = {
         vi: {
           dark_mode: "Chế độ tối",
           light_mode: "Chế độ sáng",
           logout: "Đăng xuất",
-          logged_out: "Đã đăng xuất",
+          logged_out: "Đã đăng xuất khỏi phiên hiện tại",
           tab_login: "Đăng nhập",
           tab_register: "Đăng ký",
+          tab_forgot: "Quên mật khẩu",
+          forgot_link: "Quên mật khẩu?",
           login_title: "Đăng nhập",
           register_title: "Đăng ký tài khoản",
+          forgot_title: "Khôi phục mật khẩu",
+          forgot_desc: "Nhập tên đăng nhập hoặc email đã đăng ký để nhận mã xác nhận 6 số và đặt lại mật khẩu.",
           lbl_account: "Tên đăng nhập hoặc Email",
           ph_account: "Nhập tên đăng nhập hoặc email",
           lbl_username: "Tên đăng nhập",
@@ -915,6 +1165,17 @@
           ph_email: "email@example.com",
           lbl_password: "Mật khẩu",
           ph_password: "Nhập mật khẩu",
+          lbl_otp: "Mã xác nhận (6 chữ số)",
+          ph_otp: "Nhập mã 6 số",
+          lbl_new_password: "Mật khẩu mới",
+          ph_new_password: "Nhập mật khẩu mới (tối thiểu 6 ký tự)",
+          lbl_confirm_password: "Xác nhận mật khẩu mới",
+          ph_confirm_password: "Nhập lại mật khẩu mới",
+          btn_send_code_txt: "Gửi mã xác nhận",
+          btn_resend: "Gửi lại",
+          btn_fill_code: "Điền mã",
+          btn_reset_password: "Cập nhật mật khẩu mới",
+          otp_label: "Mã gửi tới",
           save_password: "Lưu mật khẩu",
           btn_login: "Đăng nhập",
           btn_register: "Tạo tài khoản",
@@ -935,9 +1196,18 @@
           err_wrong_login: "Sai tên đăng nhập/email hoặc mật khẩu.",
           err_empty_reg: "Vui lòng nhập đầy đủ tên đăng nhập, email và mật khẩu.",
           err_exists: "Tên đăng nhập hoặc email đã tồn tại.",
+          err_forgot_empty: "Vui lòng nhập tên đăng nhập hoặc email để gửi mã.",
+          err_forgot_not_found: "Không tìm thấy tài khoản khớp với tên đăng nhập hoặc email này.",
+          err_otp_missing: "Vui lòng gửi mã xác nhận trước khi đặt lại mật khẩu.",
+          err_otp_invalid: "Mã xác nhận không đúng. Vui lòng kiểm tra lại.",
+          err_new_pw_short: "Mật khẩu mới phải có ít nhất 6 ký tự.",
+          err_pw_mismatch: "Mật khẩu xác nhận không khớp với mật khẩu mới.",
+          otp_sent: "Đã gửi mã xác nhận 6 số. Hiệu lực trong 5 phút.",
+          otp_filled: "Đã tự động điền mã xác nhận",
+          reset_success: "Đặt lại mật khẩu thành công! Bạn có thể đăng nhập ngay.",
           reg_success: "Tạo tài khoản thành công! Đang chuyển hướng...",
           login_success: "Đăng nhập thành công! Đang chuyển hướng...",
-          saved_pw_on: "Đã bật lưu mật khẩu",
+          saved_pw_on: "Đã bật tự động lưu mật khẩu",
           saved_pw_off: "Đã tắt lưu mật khẩu",
           theme_dark: "Đã chuyển sang chế độ Tối",
           theme_light: "Đã chuyển sang chế độ Sáng",
@@ -949,12 +1219,16 @@
           banned_vm: "Đã tự động chặn: phát hiện môi trường máy ảo / giả lập.",
           banned_ip: "Đã tự động chặn: phát hiện IP rủi ro / proxy / datacenter.",
           legal_terms: `
-            <p><strong>1. Điều khoản sử dụng:</strong> Không sử dụng máy ảo, trình giả lập hoặc IP proxy/datacenter rủi ro khi truy cập, đăng ký hay đăng nhập.</p>
-            <p><strong>2. Phiên đăng nhập:</strong> Sau khi đăng nhập tài khoản thành công, phiên được duy trì cho đến khi đăng xuất hoặc bị đăng nhập ở nơi khác.</p>
+            <p><strong>1. Phạm vi &amp; Điều kiện sử dụng:</strong> Khi truy cập, đăng ký hoặc sử dụng tài khoản tại Repository Cydia &amp; Sileo, bạn cam kết cung cấp thông tin chính xác và tuân thủ quy định cộng đồng.</p>
+            <p><strong>2. Cấm môi trường giả lập &amp; IP rủi ro:</strong> Nghiêm cấm sử dụng máy ảo, trình giả lập, công cụ tự động hóa hoặc IP proxy/VPN/datacenter rủi ro nhằm khai thác, phá hoại hoặc giả mạo lưu lượng.</p>
+            <p><strong>3. Trách nhiệm khi cài đặt tinh chỉnh (Tweak):</strong> Việc can thiệp hệ thống, jailbreak hoặc cài đặt gói tinh chỉnh mang tính rủi ro kỹ thuật. Người dùng tự sao lưu dữ liệu và chịu trách nhiệm với thiết bị của mình.</p>
+            <p><strong>4. Quản lý phiên &amp; Quyền tạm khóa:</strong> Phiên đăng nhập được duy trì cho tới khi đăng xuất hoặc đăng nhập ở thiết bị khác. Hệ thống có quyền hạn chế phiên vi phạm điều khoản để bảo vệ dịch vụ.</p>
           `,
           legal_privacy: `
-            <p><strong>1. Bảo mật &amp; Quyền riêng tư:</strong> Thông tin tài khoản, trạng thái lưu mật khẩu và thông tin kiểm tra kết nối được xử lý phục vụ đăng nhập và bảo vệ hệ thống.</p>
-            <p><strong>2. Cảnh báo đăng nhập trùng:</strong> Khi cùng một tài khoản đăng nhập ở nơi khác, phiên trước sẽ tự ngắt và quay về màn hình đăng nhập.</p>
+            <p><strong>1. Dữ liệu được xử lý:</strong> Chúng tôi xử lý tên đăng nhập, email, trạng thái lưu mật khẩu và thông tin chẩn đoán kết nối (IP, nhà mạng, loại mạng, thiết bị, trạng thái môi trường) phục vụ xác thực và phòng chống gian lận.</p>
+            <p><strong>2. Khôi phục tài khoản &amp; Mã xác nhận:</strong> Khi yêu cầu quên mật khẩu, mã xác nhận tạm thời được tạo để xác thực quyền sở hữu tài khoản và cập nhật mật khẩu mới.</p>
+            <p><strong>3. Lưu trữ cục bộ &amp; Đồng bộ phiên:</strong> Cài đặt giao diện, ngôn ngữ, dữ liệu tài khoản thử nghiệm và trạng thái phiên được lưu trên trình duyệt/localStorage và đồng bộ giữa các tab qua kênh phiên.</p>
+            <p><strong>4. Cảnh báo đăng nhập trùng lặp:</strong> Khi cùng một tài khoản đăng nhập từ vị trí/thiết bị khác, phiên cũ sẽ tự động ngắt và đưa về màn hình đăng nhập để bảo vệ tài khoản.</p>
           `,
           slides: [
             "Kho Tinh Chỉnh Cydia & Sileo Ổn Định",
@@ -966,11 +1240,15 @@
           dark_mode: "Dark mode",
           light_mode: "Light mode",
           logout: "Log out",
-          logged_out: "Logged out",
+          logged_out: "Signed out of current session",
           tab_login: "Sign In",
           tab_register: "Sign Up",
+          tab_forgot: "Forgot Password",
+          forgot_link: "Forgot password?",
           login_title: "Sign In",
           register_title: "Create Account",
+          forgot_title: "Reset Password",
+          forgot_desc: "Enter your registered username or email to receive a 6-digit verification code and set a new password.",
           lbl_account: "Username or Email",
           ph_account: "Enter username or email",
           lbl_username: "Username",
@@ -979,6 +1257,17 @@
           ph_email: "name@example.com",
           lbl_password: "Password",
           ph_password: "Enter password",
+          lbl_otp: "Verification Code (6 digits)",
+          ph_otp: "Enter 6-digit code",
+          lbl_new_password: "New Password",
+          ph_new_password: "Enter new password (min 6 chars)",
+          lbl_confirm_password: "Confirm New Password",
+          ph_confirm_password: "Re-enter new password",
+          btn_send_code_txt: "Send Code",
+          btn_resend: "Resend",
+          btn_fill_code: "Fill Code",
+          btn_reset_password: "Update Password",
+          otp_label: "Sent to",
           save_password: "Save password",
           btn_login: "Sign In",
           btn_register: "Create Account",
@@ -999,6 +1288,15 @@
           err_wrong_login: "Invalid username/email or password.",
           err_empty_reg: "Please fill in username, email, and password.",
           err_exists: "Username or email already exists.",
+          err_forgot_empty: "Please enter your username or email to send a code.",
+          err_forgot_not_found: "No account matched that username or email.",
+          err_otp_missing: "Please send a verification code before resetting your password.",
+          err_otp_invalid: "Invalid verification code. Please try again.",
+          err_new_pw_short: "New password must be at least 6 characters.",
+          err_pw_mismatch: "Password confirmation does not match.",
+          otp_sent: "6-digit verification code sent. Valid for 5 minutes.",
+          otp_filled: "Verification code filled automatically",
+          reset_success: "Password updated! You can sign in now.",
           reg_success: "Account created! Redirecting...",
           login_success: "Signed in successfully! Redirecting...",
           saved_pw_on: "Save password enabled",
@@ -1013,12 +1311,16 @@
           banned_vm: "Auto-blocked: virtual machine or emulator environment detected.",
           banned_ip: "Auto-blocked: high-risk / proxy / datacenter IP detected.",
           legal_terms: `
-            <p><strong>1. Terms of Use:</strong> Do not use virtual machines, emulators, or high-risk proxy/datacenter IPs to access, register, or sign in.</p>
-            <p><strong>2. Session Persistence:</strong> Once signed in, your session stays active until you sign out or sign in from another location.</p>
+            <p><strong>1. Scope &amp; Acceptable Use:</strong> By accessing, registering, or using a Cydia &amp; Sileo Repository account, you agree to provide accurate details and follow community rules.</p>
+            <p><strong>2. No VMs, Emulators or Risky IPs:</strong> Virtual machines, emulators, automation tools, and high-risk proxy/VPN/datacenter IPs are prohibited during access, registration, or sign-in.</p>
+            <p><strong>3. Tweak &amp; Modification Responsibility:</strong> Jailbreaking and installing tweaks carry system risks. Back up your data and assume responsibility for your device.</p>
+            <p><strong>4. Sessions &amp; Enforcement:</strong> Sessions stay active until sign-out or sign-in elsewhere. We may restrict sessions that violate these terms to protect service stability.</p>
           `,
           legal_privacy: `
-            <p><strong>1. Security &amp; Privacy:</strong> Account credentials, saved password preference, and connection diagnostics are used for authentication and protection.</p>
-            <p><strong>2. Concurrent Sign-in:</strong> Signing in with the same account elsewhere signs out the previous session and returns to sign-in.</p>
+            <p><strong>1. Data Processed:</strong> We process username, email, saved password preference, and connection diagnostics (IP, ISP, network type, device, environment status) for authentication and security.</p>
+            <p><strong>2. Account Recovery &amp; Codes:</strong> Password recovery requests generate a temporary verification code to confirm account ownership before updating credentials.</p>
+            <p><strong>3. Browser Storage &amp; Sync:</strong> Theme, language, local account records, and active session state are stored in browser storage and synchronized across tabs.</p>
+            <p><strong>4. Concurrent Sign-in Alert:</strong> Signing in with the same account from another session automatically signs out the prior session and returns to sign-in.</p>
           `,
           slides: [
             "Stable Cydia & Sileo Tweak Repo",
@@ -1030,11 +1332,15 @@
           dark_mode: "深色模式",
           light_mode: "浅色模式",
           logout: "退出登录",
-          logged_out: "已退出登录",
+          logged_out: "已退出当前登录会话",
           tab_login: "登录",
           tab_register: "注册",
+          tab_forgot: "忘记密码",
+          forgot_link: "忘记密码？",
           login_title: "账号登录",
           register_title: "注册账号",
+          forgot_title: "找回密码",
+          forgot_desc: "输入已注册的用户名或邮箱，获取 6 位验证码并设置新密码。",
           lbl_account: "用户名或邮箱",
           ph_account: "输入用户名或邮箱",
           lbl_username: "用户名",
@@ -1043,6 +1349,17 @@
           ph_email: "name@example.com",
           lbl_password: "密码",
           ph_password: "输入密码",
+          lbl_otp: "验证码（6 位数字）",
+          ph_otp: "输入 6 位验证码",
+          lbl_new_password: "新密码",
+          ph_new_password: "输入新密码（至少 6 位）",
+          lbl_confirm_password: "确认新密码",
+          ph_confirm_password: "再次输入新密码",
+          btn_send_code_txt: "发送验证码",
+          btn_resend: "重新发送",
+          btn_fill_code: "填入验证码",
+          btn_reset_password: "更新密码",
+          otp_label: "发送至",
           save_password: "保存密码",
           btn_login: "登录",
           btn_register: "创建账号",
@@ -1063,6 +1380,15 @@
           err_wrong_login: "账号或密码错误。",
           err_empty_reg: "请完整填写用户名、邮箱和密码。",
           err_exists: "用户名或邮箱已存在。",
+          err_forgot_empty: "请输入用户名或邮箱以发送验证码。",
+          err_forgot_not_found: "未找到匹配的用户名或邮箱账号。",
+          err_otp_missing: "请先发送验证码再重置密码。",
+          err_otp_invalid: "验证码不正确，请重新输入。",
+          err_new_pw_short: "新密码至少需要 6 个字符。",
+          err_pw_mismatch: "两次输入的新密码不一致。",
+          otp_sent: "6 位验证码已发送，5 分钟内有效。",
+          otp_filled: "已自动填入验证码",
+          reset_success: "密码已重置，现在可以登录了！",
           reg_success: "注册成功！正在跳转...",
           login_success: "登录成功！正在跳转...",
           saved_pw_on: "已开启保存密码",
@@ -1077,12 +1403,16 @@
           banned_vm: "已自动封禁：检测到虚拟机或模拟环境。",
           banned_ip: "已自动封禁：检测到高风险 IP / 代理 / 数据中心。",
           legal_terms: `
-            <p><strong>1. 服务条款：</strong>禁止使用虚拟机、模拟器或高风险代理/机房 IP 进行访问、注册或登录。</p>
-            <p><strong>2. 会话保持：</strong>登录成功后将保持登录状态，直到主动退出或在其他地方登录同一账号。</p>
+            <p><strong>1. 服务范围与规范：</strong>访问、注册或使用 Cydia 与 Sileo 插件源账号时，请提供真实信息并遵守社区规则。</p>
+            <p><strong>2. 禁止虚拟机与高风险 IP：</strong>访问、注册或登录期间禁止使用虚拟机、模拟器、自动化脚本或高风险代理/VPN/机房 IP。</p>
+            <p><strong>3. 插件与系统修改风险：</strong>越狱及安装插件存在系统风险，请提前备份数据并自行承担设备风险。</p>
+            <p><strong>4. 会话管理与处置：</strong>登录状态将保持至主动退出或在其他地方登录；违规会话可能受到安全限制。</p>
           `,
           legal_privacy: `
-            <p><strong>1. 安全与隐私：</strong>账号数据、保存密码开关及连接检测信息用于身份验证与安全防护。</p>
-            <p><strong>2. 多处登录提醒：</strong>同一账号在其他地方登录时，当前会话将退出并返回登录界面。</p>
+            <p><strong>1. 处理的数据：</strong>系统会处理用户名、邮箱、保存密码偏好及连接检测信息（IP、运营商、网络类型、设备、环境状态）用于身份验证与安全防护。</p>
+            <p><strong>2. 密码找回与验证码：</strong>发起找回密码时会生成临时验证码用于确认账号归属并更新密码。</p>
+            <p><strong>3. 本地存储与多标签同步：</strong>主题、语言、本地账号记录及会话状态保存在浏览器存储中，并在多标签页间同步。</p>
+            <p><strong>4. 多处登录提醒：</strong>同一账号在其他地方登录时，先前会话将自动退出并返回登录界面。</p>
           `,
           slides: [
             "稳定的 Cydia 与 Sileo 插件源",
@@ -1094,11 +1424,15 @@
           dark_mode: "다크 모드",
           light_mode: "라이트 모드",
           logout: "로그아웃",
-          logged_out: "로그아웃됨",
+          logged_out: "현재 세션에서 로그아웃되었습니다",
           tab_login: "로그인",
           tab_register: "회원가입",
+          tab_forgot: "비밀번호 찾기",
+          forgot_link: "비밀번호를 잊으셨나요?",
           login_title: "로그인",
           register_title: "계정 만들기",
+          forgot_title: "비밀번호 재설정",
+          forgot_desc: "가입한 아이디 또는 이메일을 입력해 6자리 인증번호를 받고 새 비밀번호를 설정하세요.",
           lbl_account: "아이디 또는 이메일",
           ph_account: "아이디 또는 이메일 입력",
           lbl_username: "아이디",
@@ -1107,6 +1441,17 @@
           ph_email: "name@example.com",
           lbl_password: "비밀번호",
           ph_password: "비밀번호 입력",
+          lbl_otp: "인증번호 (6자리)",
+          ph_otp: "6자리 인증번호 입력",
+          lbl_new_password: "새 비밀번호",
+          ph_new_password: "새 비밀번호 입력 (6자 이상)",
+          lbl_confirm_password: "새 비밀번호 확인",
+          ph_confirm_password: "새 비밀번호 다시 입력",
+          btn_send_code_txt: "인증번호 발송",
+          btn_resend: "재발송",
+          btn_fill_code: "코드 입력",
+          btn_reset_password: "비밀번호 변경",
+          otp_label: "발송 대상",
           save_password: "비밀번호 저장",
           btn_login: "로그인",
           btn_register: "계정 생성",
@@ -1127,6 +1472,15 @@
           err_wrong_login: "로그인 정보가 올바르지 않습니다.",
           err_empty_reg: "아이디, 이메일, 비밀번호를 모두 입력하세요.",
           err_exists: "이미 존재하는 아이디 또는 이메일입니다.",
+          err_forgot_empty: "인증번호를 받을 아이디 또는 이메일을 입력하세요.",
+          err_forgot_not_found: "일치하는 계정을 찾을 수 없습니다.",
+          err_otp_missing: "비밀번호를 재설정하기 전에 인증번호를 발송하세요.",
+          err_otp_invalid: "인증번호가 일치하지 않습니다.",
+          err_new_pw_short: "새 비밀번호는 6자 이상이어야 합니다.",
+          err_pw_mismatch: "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.",
+          otp_sent: "6자리 인증번호가 발송되었습니다. (유효시간 5분)",
+          otp_filled: "인증번호가 자동 입력되었습니다",
+          reset_success: "비밀번호가 변경되었습니다. 이제 로그인할 수 있습니다.",
           reg_success: "계정이 생성되었습니다! 이동 중...",
           login_success: "로그인되었습니다! 이동 중...",
           saved_pw_on: "비밀번호 저장이 켜졌습니다",
@@ -1141,12 +1495,16 @@
           banned_vm: "자동 차단됨: 가상머신 또는 에뮬레이터 환경이 감지되었습니다.",
           banned_ip: "자동 차단됨: 위험 IP / 프록시 / 데이터센터가 감지되었습니다.",
           legal_terms: `
-            <p><strong>1. 이용약관:</strong> 가상머신, 에뮬레이터 또는 위험 프록시/데이터센터 IP를 통한 접속, 가입 및 로그인을 금지합니다.</p>
-            <p><strong>2. 세션 유지:</strong> 한 번 로그인하면 로그아웃하거나 다른 곳에서 로그인하기 전까지 세션이 유지됩니다.</p>
+            <p><strong>1. 이용 범위 및 준수사항:</strong> Cydia 및 Sileo 저장소 계정에 접속하거나 가입할 때 정확한 정보를 제공하고 커뮤니티 수칙을 준수해야 합니다.</p>
+            <p><strong>2. 가상환경 및 위험 IP 금지:</strong> 접속, 가입, 로그인 시 가상머신, 에뮬레이터, 자동화 도구 및 위험 프록시/VPN/데이터센터 IP 사용을 금합니다.</p>
+            <p><strong>3. 트윅 설치 책임:</strong> 탈옥 및 트윅 설치는 시스템 위험을 수반하므로 사전에 데이터를 백업하고 기기 관리 책임을 지게 됩니다.</p>
+            <p><strong>4. 세션 유지 및 제재:</strong> 세션은 로그아웃하거나 다른 곳에서 로그인할 때까지 유지되며, 약관 위반 시 세션이 제한될 수 있습니다.</p>
           `,
           legal_privacy: `
-            <p><strong>1. 보안 및 개인정보:</strong> 계정 정보, 비밀번호 저장 설정 및 연결 진단은 인증과 보안 보호에 사용됩니다.</p>
-            <p><strong>2. 중복 로그인:</strong> 다른 곳에서 같은 계정으로 로그인하면 현재 세션이 종료되고 로그인 화면으로 돌아갑니다.</p>
+            <p><strong>1. 처리하는 정보:</strong> 인증 및 보안 보호를 위해 아이디, 이메일, 비밀번호 저장 설정과 연결 진단 정보(IP, 통신사, 네트워크 유형, 기기, 환경 상태)를 처리합니다.</p>
+            <p><strong>2. 계정 복구 및 인증번호:</strong> 비밀번호 찾기 요청 시 계정 소유 확인을 위해 임시 인증번호가 생성됩니다.</p>
+            <p><strong>3. 브라우저 저장 및 동기화:</strong> 테마, 언어, 계정 정보 및 세션 상태는 브라우저 저장소에 보관되며 탭 간 동기화됩니다.</p>
+            <p><strong>4. 중복 로그인 알림:</strong> 다른 기기나 위치에서 동일 계정으로 로그인하면 기존 세션이 종료되고 로그인 화면으로 돌아갑니다.</p>
           `,
           slides: [
             "안정적인 Cydia 및 Sileo 트윅 저장소",
@@ -1158,11 +1516,15 @@
           dark_mode: "ダークモード",
           light_mode: "ライトモード",
           logout: "ログアウト",
-          logged_out: "ログアウトしました",
+          logged_out: "現在のセッションからログアウトしました",
           tab_login: "ログイン",
           tab_register: "新規登録",
+          tab_forgot: "パスワード再設定",
+          forgot_link: "パスワードをお忘れですか？",
           login_title: "ログイン",
           register_title: "アカウント作成",
+          forgot_title: "パスワード再設定",
+          forgot_desc: "登録済みのユーザー名またはメールアドレスを入力し、6桁の認証コードで新しいパスワードを設定してください。",
           lbl_account: "ユーザー名またはメール",
           ph_account: "ユーザー名またはメールを入力",
           lbl_username: "ユーザー名",
@@ -1171,6 +1533,17 @@
           ph_email: "name@example.com",
           lbl_password: "パスワード",
           ph_password: "パスワードを入力",
+          lbl_otp: "認証コード（6桁）",
+          ph_otp: "6桁のコードを入力",
+          lbl_new_password: "新しいパスワード",
+          ph_new_password: "新しいパスワードを入力（6文字以上）",
+          lbl_confirm_password: "新しいパスワード（確認）",
+          ph_confirm_password: "新しいパスワードを再入力",
+          btn_send_code_txt: "認証コードを送信",
+          btn_resend: "再送信",
+          btn_fill_code: "コード入力",
+          btn_reset_password: "パスワードを更新",
+          otp_label: "送信先",
           save_password: "パスワードを保存",
           btn_login: "ログイン",
           btn_register: "アカウント作成",
@@ -1191,6 +1564,15 @@
           err_wrong_login: "ログイン情報が正しくありません。",
           err_empty_reg: "ユーザー名・メール・パスワードを入力してください。",
           err_exists: "そのユーザー名またはメールは既に登録されています。",
+          err_forgot_empty: "認証コードを送信するユーザー名またはメールを入力してください。",
+          err_forgot_not_found: "一致するアカウントが見つかりませんでした。",
+          err_otp_missing: "パスワードを更新する前に認証コードを送信してください。",
+          err_otp_invalid: "認証コードが正しくありません。",
+          err_new_pw_short: "新しいパスワードは6文字以上で入力してください。",
+          err_pw_mismatch: "確認用パスワードが一致しません。",
+          otp_sent: "6桁の認証コードを送信しました（有効期限5分）。",
+          otp_filled: "認証コードを自動入力しました",
+          reset_success: "パスワードを更新しました。ログインできます。",
           reg_success: "アカウントを作成しました！移動しています...",
           login_success: "ログインしました！移動しています...",
           saved_pw_on: "パスワード保存をオンにしました",
@@ -1205,12 +1587,16 @@
           banned_vm: "自動ブロック：仮想マシンまたはエミュレータ環境が検出されました。",
           banned_ip: "自動ブロック：危険IP・プロキシ・データセンターが検出されました。",
           legal_terms: `
-            <p><strong>1. 利用規約：</strong>仮想マシン、エミュレータ、高リスクプロキシ/データセンターIPからのアクセス・登録・ログインを禁止します。</p>
-            <p><strong>2. セッション維持：</strong>一度ログインすると、ログアウトするか別の場所でログインするまで状態が維持されます。</p>
+            <p><strong>1. 適用範囲と利用ルール：</strong>Cydia &amp; Sileo リポジトリのアカウント利用時は、正確な情報を提供しコミュニティ規約を遵守してください。</p>
+            <p><strong>2. 仮想環境・危険IPの禁止：</strong>アクセス・登録・ログイン時の仮想マシン、エミュレータ、自動化ツール、危険プロキシ/VPN/データセンターIPの使用は禁止されています。</p>
+            <p><strong>3. Tweak導入の責任：</strong>脱獄およびTweakの導入にはシステムリスクが伴います。事前にバックアップを行い、自己責任でご利用ください。</p>
+            <p><strong>4. セッション管理と措置：</strong>ログイン状態はログアウトまたは他端末ログインまで維持され、規約違反時は制限される場合があります。</p>
           `,
           legal_privacy: `
-            <p><strong>1. セキュリティとプライバシー：</strong>アカウント情報、パスワード保存設定、接続診断情報は認証と保護に利用されます。</p>
-            <p><strong>2. 別端末ログイン：</strong>別の場所で同一アカウントにログインすると、現在のセッションは解除されログイン画面に戻ります。</p>
+            <p><strong>1. 取り扱う情報：</strong>認証とセキュリティ保護のため、ユーザー名、メール、パスワード保存設定、接続診断情報（IP・回線事業者・回線種別・端末・環境状態）を取り扱います。</p>
+            <p><strong>2. パスワード再設定と認証コード：</strong>再設定申請時に本人確認のため一時的な認証コードを発行します。</p>
+            <p><strong>3. ブラウザ保存と同期：</strong>テーマ・言語・アカウント情報・セッション状態はブラウザストレージに保存され、タブ間で同期されます。</p>
+            <p><strong>4. 複数箇所ログイン通知：</strong>別の場所で同一アカウントにログインすると、前のセッションは解除されログイン画面に戻ります。</p>
           `,
           slides: [
             "安定した Cydia & Sileo Tweak リポジトリ",
@@ -1225,11 +1611,45 @@
         return (I18N[lang] && I18N[lang][key]) || I18N.vi[key] || key;
       }
 
-      function showNotice(type, text) {
+      function hideNotice() {
         const el = document.getElementById("noticeBox");
-        el.className = `notice-box show ${type}`;
-        el.textContent = text;
+        const bar = document.getElementById("noticeProgress");
+        clearTimeout(noticeHideTimer);
+        clearTimeout(noticeCleanupTimer);
+        el.classList.remove("visible");
+        bar.style.animation = "none";
+        noticeCleanupTimer = setTimeout(() => {
+          if (!el.classList.contains("visible")) {
+            el.className = "notice-box";
+          }
+        }, 240);
       }
+
+      function showNotice(type, text, duration = 3600) {
+        const el = document.getElementById("noticeBox");
+        const textEl = document.getElementById("noticeText");
+        const bar = document.getElementById("noticeProgress");
+
+        clearTimeout(noticeHideTimer);
+        clearTimeout(noticeCleanupTimer);
+
+        textEl.textContent = text;
+        el.className = `notice-box show ${type}`;
+
+        bar.style.animation = "none";
+        void bar.offsetWidth;
+        bar.style.animation = `shrinkNoticeBar ${duration}ms linear forwards`;
+
+        requestAnimationFrame(() => {
+          el.classList.add("visible");
+        });
+
+        noticeHideTimer = setTimeout(() => {
+          hideNotice();
+        }, duration);
+      }
+
+      document.getElementById("noticeCloseBtn").addEventListener("click", hideNotice);
 
       function showSlide(i) {
         const slides = Array.from(document.querySelectorAll(".hero-slide"));
@@ -1241,6 +1661,12 @@
         const captions = t("slides");
         document.getElementById("slideCaption").textContent =
           Array.isArray(captions) ? captions[activeSlide] : "";
+      }
+
+      function updateOtpTargetLabel() {
+        const label = document.getElementById("otpTargetLabel");
+        if (!pendingReset) return;
+        label.textContent = `${t("otp_label")} ${pendingReset.email} (${pendingReset.username})`;
       }
 
       function applyLanguage(lang, notify = false) {
@@ -1262,8 +1688,9 @@
         document.getElementById("themeText").textContent =
           curTheme === "dark" ? t("light_mode") : t("dark_mode");
 
+        updateOtpTargetLabel();
         showSlide(activeSlide);
-        if (notify) showNotice("ok", t("lang_changed"));
+        if (notify) showNotice("info", t("lang_changed"));
       }
 
       document.getElementById("langSelect").addEventListener("change", (e) => {
@@ -1284,7 +1711,7 @@
           text.textContent = t("dark_mode");
         }
         if (notify) {
-          showNotice("ok", next === "dark" ? t("theme_dark") : t("theme_light"));
+          showNotice("info", next === "dark" ? t("theme_dark") : t("theme_light"));
         }
       }
 
@@ -1328,7 +1755,7 @@
           lastCaps = true;
         } else {
           banner.classList.remove("show");
-          if (lastCaps === true) showNotice("ok", t("caps_off"));
+          if (lastCaps === true) showNotice("info", t("caps_off"));
           lastCaps = false;
         }
       }
@@ -1358,8 +1785,16 @@
         document.querySelectorAll(".seg-tab").forEach((b) => b.classList.toggle("active", b.dataset.tab === tab));
         document.getElementById("loginForm").classList.toggle("active", tab === "login");
         document.getElementById("registerForm").classList.toggle("active", tab === "register");
+        document.getElementById("forgotForm").classList.toggle("active", tab === "forgot");
       }
       document.querySelectorAll(".seg-tab").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));
+      document.getElementById("openForgotInline").addEventListener("click", () => {
+        const currentAcc = document.getElementById("loginAccount").value.trim();
+        if (currentAcc) {
+          document.getElementById("forgotAccount").value = currentAcc;
+        }
+        switchTab("forgot");
+      });
 
       function getUsers() {
         try {
@@ -1392,7 +1827,7 @@
 
       function ensureAllowed() {
         if (securityBlock) {
-          showNotice("err", securityBlock);
+          showNotice("err", securityBlock, 4500);
           return false;
         }
         return true;
@@ -1410,10 +1845,10 @@
           authChannel.postMessage({ type: "CLAIMED", session: sessionObj });
         }
         syncSessionBadge();
-        showNotice("ok", t(msgKey));
+        showNotice("ok", t(msgKey), 2400);
         setTimeout(() => {
           window.location.href = REDIRECT_URL;
-        }, 450);
+        }, 550);
       }
 
       function handleRemoteClaim(incoming) {
@@ -1429,7 +1864,7 @@
           syncSessionBadge();
           switchTab("login");
           document.getElementById("loginPassword").value = "";
-          showNotice("err", t("kicked_other"));
+          showNotice("err", t("kicked_other"), 5000);
         }
       }
 
@@ -1460,7 +1895,7 @@
           showNotice("ok", t("saved_pw_on"));
         } else {
           localStorage.removeItem(SAVED_PW_KEY);
-          showNotice("ok", t("saved_pw_off"));
+          showNotice("info", t("saved_pw_off"));
         }
       });
 
@@ -1524,11 +1959,110 @@
         claimSessionAndRedirect(found.username, found.email, "login_success");
       });
 
+      function generateOtpCode() {
+        return String(Math.floor(100000 + Math.random() * 900000));
+      }
+
+      function triggerSendResetCode() {
+        if (!ensureAllowed()) return;
+        const identifier = document.getElementById("forgotAccount").value.trim().toLowerCase();
+        if (!identifier) {
+          showNotice("err", t("err_forgot_empty"));
+          return;
+        }
+        const users = getUsers();
+        const matched = users.find(
+          (u) => u.username.toLowerCase() === identifier || u.email.toLowerCase() === identifier
+        );
+        if (!matched) {
+          showNotice("err", t("err_forgot_not_found"));
+          return;
+        }
+
+        const code = generateOtpCode();
+        pendingReset = {
+          username: matched.username,
+          email: matched.email,
+          code,
+          expiresAt: Date.now() + 5 * 60 * 1000,
+        };
+
+        document.getElementById("otpCodePreview").textContent = code;
+        document.getElementById("forgotOtpInput").value = "";
+        updateOtpTargetLabel();
+        document.getElementById("otpVerifyBox").classList.add("show");
+        showNotice("ok", t("otp_sent"), 4200);
+      }
+
+      document.getElementById("sendOtpBtn").addEventListener("click", triggerSendResetCode);
+      document.getElementById("resendOtpBtn").addEventListener("click", triggerSendResetCode);
+      document.getElementById("fillOtpBtn").addEventListener("click", () => {
+        if (!pendingReset) return;
+        document.getElementById("forgotOtpInput").value = pendingReset.code;
+        showNotice("info", t("otp_filled"), 2400);
+      });
+
+      document.getElementById("forgotForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!ensureAllowed()) return;
+        if (!pendingReset) {
+          showNotice("err", t("err_otp_missing"));
+          return;
+        }
+        const enteredCode = document.getElementById("forgotOtpInput").value.trim();
+        const newPw = document.getElementById("forgotNewPw").value;
+        const confirmPw = document.getElementById("forgotConfirmPw").value;
+
+        if (!enteredCode || enteredCode !== pendingReset.code || Date.now() > pendingReset.expiresAt) {
+          showNotice("err", t("err_otp_invalid"));
+          return;
+        }
+        if (!newPw || newPw.length < 6) {
+          showNotice("err", t("err_new_pw_short"));
+          return;
+        }
+        if (newPw !== confirmPw) {
+          showNotice("err", t("err_pw_mismatch"));
+          return;
+        }
+
+        const users = getUsers();
+        const idx = users.findIndex(
+          (u) => u.username.toLowerCase() === pendingReset.username.toLowerCase()
+        );
+        if (idx === -1) {
+          showNotice("err", t("err_forgot_not_found"));
+          return;
+        }
+
+        users[idx].password = newPw;
+        saveUsers(users);
+
+        try {
+          const savedRaw = JSON.parse(localStorage.getItem(SAVED_PW_KEY) || "null");
+          if (savedRaw && savedRaw.enabled) {
+            localStorage.setItem(
+              SAVED_PW_KEY,
+              JSON.stringify({ enabled: true, acc: users[idx].username, pw: newPw })
+            );
+          }
+        } catch {}
+
+        document.getElementById("loginAccount").value = users[idx].username;
+        document.getElementById("loginPassword").value = "";
+        document.getElementById("forgotForm").reset();
+        document.getElementById("otpVerifyBox").classList.remove("show");
+        pendingReset = null;
+
+        switchTab("login");
+        showNotice("ok", t("reset_success"), 4000);
+      });
+
       document.getElementById("logoutBtn").addEventListener("click", () => {
         localStorage.removeItem(ACTIVE_SESSION_KEY);
         syncSessionBadge();
         switchTab("login");
-        showNotice("ok", t("logged_out"));
+        showNotice("info", t("logged_out"));
       });
 
       document.querySelectorAll(".provider-btn").forEach((btn) => {
@@ -1628,7 +2162,7 @@
         document.getElementById("dDev").textContent = detectDev();
         document.getElementById("dJbRoot").textContent = detectJbRoot();
         await fetchIpIsp();
-        if (securityBlock) showNotice("err", securityBlock);
+        if (securityBlock) showNotice("err", securityBlock, 4500);
         else if (notify) showNotice("ok", t("refreshed"));
       }
 
@@ -1642,10 +2176,9 @@
       syncSessionBadge();
       runDiag(false);
 
-      // Nếu đã đăng nhập từ trước và không bị chặn thì tự giữ phiên / chuyển hướng
       const existing = getSession();
       if (existing && existing.username) {
-        showNotice("ok", `${existing.username}`);
+        showNotice("info", `${existing.username}`, 3000);
       }
     </script>
   </body>
