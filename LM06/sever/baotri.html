@@ -1,91 +1,543 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="dark">
 <head>
-<meta charset="utf-8">
-<title>Bảo trì Repository Cydia Sileo Long Mến</title>
-<link rel="stylesheet" href="style.css">
-<link rel="shortcut icon" href="https://longmen06.github.io/favicon.ico" />
-<link rel="stylesheet" href="bootstrap.min.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảo trì Repository Cydia Sileo</title>
+  <link rel="shortcut icon" href="https://longmen06.github.io/favicon.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e4ebf5 100%);
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --box-bg: #f8fafc;
+      --box-border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #e11d48;
+      --accent-hover: #be123c;
+      --accent-soft: rgba(225, 29, 72, 0.1);
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --toolbar-bg: rgba(255, 255, 255, 0.8);
+      --border-subtle: rgba(15, 23, 42, 0.08);
+    }
+
+    [data-theme="dark"] {
+      --bg-gradient: linear-gradient(135deg, #090d16 0%, #111827 100%);
+      --card-bg: rgba(17, 24, 39, 0.92);
+      --box-bg: #1f2937;
+      --box-border: #374151;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #fb7185;
+      --accent-hover: #f43f5e;
+      --accent-soft: rgba(251, 113, 133, 0.14);
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      --toolbar-bg: rgba(17, 24, 39, 0.85);
+      --border-subtle: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans CJK SC", "Noto Sans CJK JP", "Noto Sans CJK KR", sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 84px 16px 36px;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    /* Thanh điều khiển trên cùng: Giờ thực - Ngôn ngữ - Chế độ sáng/tối */
+    .top-bar {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(920px, calc(100% - 24px));
+      background: var(--toolbar-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 10px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      z-index: 20;
+    }
+
+    .live-clock {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .live-clock .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(0.85); }
+    }
+
+    .live-clock .clock-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .live-clock #time {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .lang-group {
+      display: inline-flex;
+      background: var(--box-bg);
+      border: 1px solid var(--box-border);
+      border-radius: 10px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      color: var(--text-main);
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .theme-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--box-bg);
+      color: var(--text-main);
+      border: 1px solid var(--box-border);
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Card chính */
+    .maintenance-card {
+      width: 100%;
+      max-width: 720px;
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 36px 28px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    h1.title {
+      font-size: clamp(1.7rem, 4vw, 2.35rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    /* Bố cục Ngày - Giờ - Phút - Giây */
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .time-box {
+      background: var(--box-bg);
+      border: 1px solid var(--box-border);
+      border-radius: 18px;
+      padding: 20px 10px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .time-box:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+
+    .time-value {
+      font-size: clamp(1.55rem, 4vw, 2.4rem);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-main);
+      line-height: 1.15;
+    }
+
+    .time-label {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    /* Nút hành động */
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-detail {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 11px 22px;
+      border-radius: 12px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-detail:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding-top: 118px;
+      }
+
+      .maintenance-card {
+        padding: 26px 16px;
+        border-radius: 20px;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-<br>
-<h2><span>Bảo trì  </span></h2>
-<div class="countdown">
-<div id="day">Đang</div>
-<div id="hour">Kiểm</div>
-<div id="minute">Tra</div>
-<div id="second">Sever</div>
-</div>
-<div id="taitro">
-<a href="https://www.facebook.com/menlong94" class="btn btn-outline-warning btn-sm" target="_blank">Chi tiết về bảo trì</a>
-</div>
-</div>
-<script type="text/javascript">
-        var countDate = new Date('December 15, 2023 00:00:00').getTime();
+  <!-- Thanh trên: Giờ thực + Đa ngôn ngữ + Chế độ sáng/tối -->
+  <header class="top-bar">
+    <div class="live-clock">
+      <span class="dot"></span>
+      <span class="clock-label" id="clockLabel">Giờ thực:</span>
+      <span id="time">--:--:--</span>
+    </div>
 
-        function newYear() {
-            var now = new Date().getTime();
-            gap = countDate - now;
+    <div class="controls-right">
+      <div class="lang-group" role="group" aria-label="Language switcher">
+        <button type="button" class="lang-btn active" data-lang="vi">VI</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="zh">中文</button>
+        <button type="button" class="lang-btn" data-lang="ja">日本語</button>
+        <button type="button" class="lang-btn" data-lang="ko">한국어</button>
+      </div>
 
-            var second = 1000;
-            var minute = second * 60;
-            var hour = minute * 60;
-            var day = hour * 24;
+      <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle theme mode">
+        <i class="fa-solid fa-sun" id="themeIcon"></i>
+        <span id="themeText">Chế độ sáng</span>
+      </button>
+    </div>
+  </header>
 
-            var d = Math.floor(gap / (day));
-            var h = Math.floor((gap % (day)) / (hour));
-            var m = Math.floor((gap % (hour)) / (minute));
-            var s = Math.floor((gap % (minute)) / (second));
+  <!-- Nội dung chính -->
+  <main class="maintenance-card">
+    <div class="badge">
+      <i class="fa-solid fa-screwdriver-wrench"></i>
+      <span id="badgeText">Repository Cydia &amp; Sileo</span>
+    </div>
 
-            document.getElementById('day').innerText = d;
-            document.getElementById('hour').innerText = h;
-            document.getElementById('minute').innerText = m;
-            document.getElementById('second').innerText = s;
-        }
-        setInterval(function () {
-            newYear();
-        }, 1000)
-    </script>
-    <div id="time"></div>
-	<script>
-		function dongho(){
-			var today = new Date();
-			var gio = today.getHours();
-			var phut = today.getMinutes();
-			var giay = today.getSeconds();
+    <h1 class="title" id="mainTitle">Bảo trì</h1>
+    <p class="subtitle" id="sinceText">Thời gian bảo trì tính từ ngày 01-01-2016</p>
 
-			if(gio<10){
-				gio = "0" + gio;
-			}
-			if(phut<10){
-				phut = "0" + phut;
-			}
-			if(giay<10){
-				giay = "0" + giay;
-			}
-			document.getElementById("time").innerHTML = gio + ":" + phut + ":" + giay;
-			setTimeout("dongho()",1000);
-		}
-		dongho();
-    </script>
+    <section class="countdown" aria-label="Elapsed maintenance time">
+      <div class="time-box">
+        <div class="time-value" id="day">0</div>
+        <div class="time-label" id="labelDay">Ngày</div>
+      </div>
+      <div class="time-box">
+        <div class="time-value" id="hour">00</div>
+        <div class="time-label" id="labelHour">Giờ</div>
+      </div>
+      <div class="time-box">
+        <div class="time-value" id="minute">00</div>
+        <div class="time-label" id="labelMinute">Phút</div>
+      </div>
+      <div class="time-box">
+        <div class="time-value" id="second">00</div>
+        <div class="time-label" id="labelSecond">Giây</div>
+      </div>
+    </section>
 
-<div class='music-box'>
-<a title='Play music'><i class='fa fa-music'></i></a>
-</button>
-<div class='music-holder'>
-<iframe allow='autoplay; encrypted-media' allowfullscreen='' frameborder='0' height='315' src='https://www.youtube.com/embed/wo_HElRaY8c?controls=0&autoplay=1' width='560'></iframe>
-</div>
-</div>
-<!-- <script type='text/javascript'>
-        if ($(".music-box").length) {
-            var musicBtn = $(".music-box-toggle-btn")
-                musicBox = $(".music-holder");
-            musicBtn.on("click", function () {
-                musicBox.toggleClass("toggle-music-box");
-                return false;
-            })
-        }
-    </script> -->
+    <div class="actions" id="taitro">
+      <a href="https://www.facebook.com/longmenjp94" class="btn-detail" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-circle-info"></i>
+        <span id="detailBtnText">Chi tiết về bảo trì</span>
+      </a>
+    </div>
+  </main>
+
+  <script>
+    const translations = {
+      vi: {
+        pageTitle: "Bảo trì Repository Cydia Sileo",
+        badge: "Repository Cydia & Sileo",
+        title: "Bảo trì",
+        since: "Thời gian bảo trì tính từ ngày 01-01-2016",
+        day: "Ngày",
+        hour: "Giờ",
+        minute: "Phút",
+        second: "Giây",
+        clockLabel: "Giờ thực:",
+        detailBtn: "Chi tiết về bảo trì",
+        darkMode: "Chế độ tối",
+        lightMode: "Chế độ sáng",
+        locale: "vi-VN"
+      },
+      en: {
+        pageTitle: "Cydia Sileo Repository Maintenance",
+        badge: "Cydia & Sileo Repository",
+        title: "Maintenance",
+        since: "Maintenance duration since 01-01-2016",
+        day: "Days",
+        hour: "Hours",
+        minute: "Minutes",
+        second: "Seconds",
+        clockLabel: "Live Time:",
+        detailBtn: "Maintenance Details",
+        darkMode: "Dark Mode",
+        lightMode: "Light Mode",
+        locale: "en-US"
+      },
+      zh: {
+        pageTitle: "Cydia Sileo 软件源维护中",
+        badge: "Cydia & Sileo 软件源",
+        title: "系统维护中",
+        since: "维护时长自 2016-01-01 起算",
+        day: "天",
+        hour: "时",
+        minute: "分",
+        second: "秒",
+        clockLabel: "实时时间：",
+        detailBtn: "维护详情",
+        darkMode: "深色模式",
+        lightMode: "浅色模式",
+        locale: "zh-CN"
+      },
+      ja: {
+        pageTitle: "Cydia Sileo リポジトリ メンテナンス中",
+        badge: "Cydia & Sileo リポジトリ",
+        title: "メンテナンス中",
+        since: "2016-01-01 からの経過時間",
+        day: "日",
+        hour: "時間",
+        minute: "分",
+        second: "秒",
+        clockLabel: "現在時刻：",
+        detailBtn: "メンテナンス詳細",
+        darkMode: "ダークモード",
+        lightMode: "ライトモード",
+        locale: "ja-JP"
+      },
+      ko: {
+        pageTitle: "Cydia Sileo 저장소 점검 중",
+        badge: "Cydia & Sileo 저장소",
+        title: "점검 중",
+        since: "2016-01-01부터 경과된 시간",
+        day: "일",
+        hour: "시간",
+        minute: "분",
+        second: "초",
+        clockLabel: "현재 시간:",
+        detailBtn: "점검 상세 정보",
+        darkMode: "다크 모드",
+        lightMode: "라이트 모드",
+        locale: "ko-KR"
+      }
+    };
+
+    let currentLang = localStorage.getItem("siteLang") || "vi";
+    if (!translations[currentLang]) currentLang = "vi";
+
+    function pad2(num) {
+      return num < 10 ? "0" + num : String(num);
+    }
+
+    // Thời gian bảo trì chạy từ 01-01-2016
+    const startDate = new Date("2016-01-01T00:00:00").getTime();
+
+    function updateMaintenanceElapsed() {
+      const now = Date.now();
+      const elapsed = Math.max(0, now - startDate);
+
+      const second = 1000;
+      const minute = second * 60;
+      const hour = minute * 60;
+      const day = hour * 24;
+
+      const d = Math.floor(elapsed / day);
+      const h = Math.floor((elapsed % day) / hour);
+      const m = Math.floor((elapsed % hour) / minute);
+      const s = Math.floor((elapsed % minute) / second);
+
+      document.getElementById("day").innerText = d;
+      document.getElementById("hour").innerText = pad2(h);
+      document.getElementById("minute").innerText = pad2(m);
+      document.getElementById("second").innerText = pad2(s);
+    }
+
+    // Đồng hồ giờ thực
+    function updateLiveClock() {
+      const today = new Date();
+      const gio = pad2(today.getHours());
+      const phut = pad2(today.getMinutes());
+      const giay = pad2(today.getSeconds());
+      const dateStr = today.toLocaleDateString(translations[currentLang].locale, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      });
+
+      document.getElementById("time").innerText = `${gio}:${phut}:${giay} • ${dateStr}`;
+    }
+
+    // Áp dụng ngôn ngữ
+    function applyLanguage(lang) {
+      currentLang = translations[lang] ? lang : "vi";
+      localStorage.setItem("siteLang", currentLang);
+      document.documentElement.lang = currentLang;
+
+      const t = translations[currentLang];
+      document.title = t.pageTitle;
+      document.getElementById("badgeText").innerText = t.badge;
+      document.getElementById("mainTitle").innerText = t.title;
+      document.getElementById("sinceText").innerText = t.since;
+      document.getElementById("labelDay").innerText = t.day;
+      document.getElementById("labelHour").innerText = t.hour;
+      document.getElementById("labelMinute").innerText = t.minute;
+      document.getElementById("labelSecond").innerText = t.second;
+      document.getElementById("clockLabel").innerText = t.clockLabel;
+      document.getElementById("detailBtnText").innerText = t.detailBtn;
+
+      document.querySelectorAll(".lang-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.lang === currentLang);
+      });
+
+      updateThemeButtonLabel();
+      updateLiveClock();
+    }
+
+    // Chế độ tối mặc định, bấm để đổi sang chế độ sáng và ngược lại
+    function updateThemeButtonLabel() {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      const t = translations[currentLang];
+      const icon = document.getElementById("themeIcon");
+      const label = document.getElementById("themeText");
+
+      icon.className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+      label.innerText = isDark ? t.lightMode : t.darkMode;
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("siteTheme", theme);
+      updateThemeButtonLabel();
+    }
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      setTheme(isDark ? "light" : "dark");
+    });
+
+    document.querySelectorAll(".lang-btn").forEach((btn) => {
+      btn.addEventListener("click", () => applyLanguage(btn.dataset.lang));
+    });
+
+    // Khởi tạo mặc định chế độ tối ('dark')
+    const savedTheme = localStorage.getItem("siteTheme") || "dark";
+    setTheme(savedTheme);
+    applyLanguage(currentLang);
+    updateMaintenanceElapsed();
+    updateLiveClock();
+
+    setInterval(() => {
+      updateMaintenanceElapsed();
+      updateLiveClock();
+    }, 1000);
+  </script>
 </body>
 </html>
