@@ -1,37 +1,643 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Repository Cydia Sileo Long Mến - Quên mật khẩu </title>
-    <link rel="stylesheet" href="https://longmen06.github.io/style.css" />
-    <link rel="icon" href="https://longmen06.github.io/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-  </head>
-  <body>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repository Cydia Sileo - Gửi ý kiến &amp; phản hồi</title>
+  <link rel="icon" href="https://longmen06.github.io/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    :root {
+      --bg-page: #0f1117;
+      --bg-card: #171a23;
+      --bg-surface: #1e2230;
+      --bg-input: #12151d;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: #2b3144;
+      --accent: #ff6b4a;
+      --accent-hover: #ff522b;
+      --accent-soft: rgba(255, 107, 74, 0.14);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    html[data-theme="light"] {
+      --bg-page: #f4f6fb;
+      --bg-card: #ffffff;
+      --bg-surface: #f8fafc;
+      --bg-input: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #e2e8f0;
+      --accent: #ea580c;
+      --accent-hover: #c2410c;
+      --accent-soft: rgba(234, 88, 12, 0.1);
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+    }
+
+    /* Topbar */
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 12px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: var(--bg-surface);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    select, input, textarea {
+      font-family: inherit;
+      color: var(--text-main);
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .lang-select {
+      padding: 8px 12px;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .theme-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Main Grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .card + .card {
+      margin-top: 20px;
+    }
+
+    .card-header {
+      margin-bottom: 18px;
+    }
+
+    .card-header h1, .card-header h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-header h1 i, .card-header h2 i {
+      color: var(--accent);
+    }
+
+    .card-header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    label.field-label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .req {
+      color: var(--danger);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select.field-select,
+    textarea {
+      width: 100%;
+      padding: 11px 13px;
+      font-size: 0.92rem;
+    }
+
+    textarea {
+      min-height: 115px;
+      resize: vertical;
+    }
+
+    /* Device & Software Spec Box */
+    .env-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .env-box {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .env-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .env-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .env-val {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+
+    /* File Upload */
+    .upload-box {
+      display: block;
+      border: 1.5px dashed var(--border-color);
+      background: var(--bg-surface);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .upload-box:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .upload-box i {
+      font-size: 1.6rem;
+      color: var(--accent);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .upload-box span {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .upload-box small {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .hidden-file-input {
+      display: none;
+    }
+
+    .preview-wrap {
+      margin-top: 12px;
+      display: none;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      padding: 10px;
+    }
+
+    .preview-wrap.show {
+      display: block;
+    }
+
+    .preview-wrap img,
+    .preview-wrap video {
+      display: block;
+      max-height: 220px;
+      width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #090b10;
+    }
+
+    .file-card-preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 44px 10px 10px;
+      border-radius: 8px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+    }
+
+    .file-card-preview i {
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    .preview-meta {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .remove-file-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(15, 23, 42, 0.88);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    /* Highlight features panel */
+    .feature-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+    }
+
+    .feature-item i {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-top: 2px;
+    }
+
+    .feature-item strong {
+      display: block;
+      font-size: 0.92rem;
+    }
+
+    .feature-item span {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Inbox & Reply section */
+    .ticket-list {
+      display: grid;
+      gap: 14px;
+      max-height: 620px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .ticket {
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .ticket-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .ticket-time {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .ticket-author {
+      font-size: 0.84rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .ticket-env {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .ticket-msg {
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .ticket-img,
+    .ticket-video {
+      margin-top: 10px;
+      max-height: 170px;
+      max-width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      object-fit: cover;
+      display: block;
+    }
+
+    .ticket-file-chip {
+      margin-top: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      font-size: 0.8rem;
+      color: var(--text-main);
+    }
+
+    .admin-reply-box {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-left: 3px solid var(--success);
+      background: rgba(16, 185, 129, 0.08);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.86rem;
+    }
+
+    .admin-reply-label {
+      font-weight: 700;
+      color: var(--success);
+      font-size: 0.78rem;
+      margin-bottom: 2px;
+    }
+
+    .reply-form {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .reply-form input {
+      flex: 1;
+      padding: 8px 11px;
+      font-size: 0.85rem;
+    }
+
+    .btn-reply {
+      padding: 8px 13px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-reply:hover {
+      background: var(--accent-hover);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 28px 12px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 28px;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 380px;
+    }
+
+    .toast {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.warning { border-left: 4px solid var(--warning); }
+    .toast.error   { border-left: 4px solid var(--danger); }
+    .toast.info    { border-left: 4px solid var(--accent); }
+  </style>
+</head>
+<body>
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
   <!-- Messenger Plugin chat Code -->
   <div id="fb-root"></div>
-
-  <!-- Your Plugin chat code -->
-  <div id="fb-customer-chat" class="fb-customerchat">
-  </div>
-
+  <div id="fb-customer-chat" class="fb-customerchat"></div>
   <script>
     var chatbox = document.getElementById('fb-customer-chat');
     chatbox.setAttribute("page_id", "106612891580157");
     chatbox.setAttribute("attribution", "biz_inbox");
-  </script>
-
-  <!-- Your SDK code -->
-  <script>
     window.fbAsyncInit = function() {
-      FB.init({
-        xfbml            : true,
-        version          : 'v16.0'
-      });
+      FB.init({ xfbml: true, version: 'v16.0' });
     };
-
     (function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
@@ -40,81 +646,888 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   </script>
-    <main>
-      <div class="box">
-        <div class="inner-box">
-          <div class="forms-wrap">
-            <form action="https://longmen06.github.io/" autocomplete="off" class="sign-in-form">
-              <div class="logo">
-                <img src="https://longmen06.github.io/img/logo.png" alt="easyclass" />
-                <h3>Long Mến</h3>
-              </div>
 
-              <div class="heading">
-                <h2>Quên mật khẩu</h2>
-                <h6>Chưa có tài khoản?</h6>
-                <a href="https://longmen06.github.io/#" class="toggle">Đăng kí ngay</a>
-              </div>
+  <div class="container">
+    <!-- Header -->
+    <header class="topbar">
+      <a class="brand" href="https://longmen06.github.io/">
+        <img src="https://longmen06.github.io/img/logo.png" alt="Repository Logo" />
+        <div>
+          <div class="brand-title" data-i18n="brandTitle">Repository</div>
+          <div class="brand-sub" data-i18n="brandSub">Cydia &amp; Sileo</div>
+        </div>
+      </a>
 
-              <div class="actual-form">
-                <div class="input-wrap">
-                  <input
-                    type="text"
-                    minlength="4"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                  />
-                  <label>Tên đăng nhập/e-mail</label>
-                </div>
+      <div class="controls">
+        <select id="langSelect" class="lang-select" aria-label="Language">
+          <option value="vi">🇻🇳 Tiếng Việt</option>
+          <option value="en">🇺🇸 English</option>
+          <option value="zh">🇨🇳 中文</option>
+          <option value="ko">🇰🇷 한국어</option>
+          <option value="ja">🇯🇵 日本語</option>
+        </select>
 
-                <div class="input-wrap">
-                  <input
-                    type="password"
-                    minlength="4"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                  />
-                  <label>Mật khẩu mới</label>
-                </div>
-                <input type="submit" value="Gửi yêu cầu" class="sign-btn" />
-              </div>
-              <p class="mona_visitors_statistics" style="text-align: center;">Copyright © 2016 Long Mến All Rights Reserved</p>
-            </p>
-          </div>
-        </form>
+        <button id="themeToggle" type="button" class="theme-btn">
+          <i class="fas fa-sun"></i>
+          <span data-i18n="lightMode">Chế độ sáng</span>
+        </button>
       </div>
-              <div class="carousel">
-                <div class="images-wrapper">
-                  <img src="js/img/longmenlogo.JPG" class="image img-1 show" alt="" />
-                  <img src="js/img/hotro24.jpeg" class="image img-2" alt="" />
-                  <img src="js/img/ios16thuthuatjb.jpg" class="image img-3" alt="" />
-                </div>
-    
-                <div class="text-slider">
-                  <div class="text-wrap">
-                    <div class="text-group">
-                      <h2>Cập nhật các Tinh Chỉnh Thường Xuyên</h2>
-                      <h2>Hỗ Trợ Nhiệt Tình 24/24</h2>
-                      <h2>Nhóm Giải Đáp về Thủ thuật Jailbreak</h2>
-                    </div>
-                  </div>
-    
-                  <div class="bullets">
-                    <span class="active" data-value="1"></span>
-                    <span data-value="2"></span>
-                    <span data-value="3"></span>
-                  </div>
-                </div>
+    </header>
+
+    <main class="main-grid">
+      <!-- Left Column: Feedback Form -->
+      <section class="card">
+        <div class="card-header">
+          <h1><i class="fas fa-paper-plane"></i> <span data-i18n="formTitle">Gửi ý kiến &amp; phản hồi</span></h1>
+          <p data-i18n="formDesc">Gửi ý kiến, báo lỗi hoặc đề xuất trực tiếp tới hệ thống phản hồi.</p>
+        </div>
+
+        <form id="feedbackForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="field-label" for="senderName">
+                <span data-i18n="labelName">Tên của bạn</span> <span class="req">*</span>
+              </label>
+              <input type="text" id="senderName" name="name" placeholder="..." />
+            </div>
+
+            <div class="form-group">
+              <label class="field-label" for="senderEmail">
+                <span data-i18n="labelEmail">Email liên hệ</span> <span class="req">*</span>
+              </label>
+              <input type="email" id="senderEmail" name="email" placeholder="example@mail.com" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="reasonSelect">
+              <span data-i18n="labelReason">Lý do chính đáng</span> <span class="req">*</span>
+            </label>
+            <select id="reasonSelect" name="reason" class="field-select">
+              <option value="" data-i18n="reasonPlaceholder">-- Chọn lý do chính đáng --</option>
+              <option value="bug" data-i18n="reasonBug">Báo lỗi Tweak / Jailbreak kèm mô tả rõ ràng</option>
+              <option value="suggestion" data-i18n="reasonSuggestion">Đề xuất tính năng / Tweak mới cho Repo</option>
+              <option value="support" data-i18n="reasonSupport">Cần hỗ trợ kỹ thuật / tài khoản chính đáng</option>
+              <option value="other" data-i18n="reasonOther">Góp ý xây dựng cộng đồng khác</option>
+            </select>
+          </div>
+
+          <!-- Device & Software Detection -->
+          <div class="env-box" aria-label="Detected Device & Software">
+            <div class="env-item">
+              <span class="env-label" data-i18n="envDeviceLabel">Thiết bị</span>
+              <span id="envDeviceVal" class="env-val">...</span>
+            </div>
+            <div class="env-item">
+              <span class="env-label" data-i18n="envSoftwareLabel">Phần mềm &amp; Trình duyệt</span>
+              <span id="envSoftwareVal" class="env-val">...</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="messageInput">
+              <span data-i18n="labelMessage">Nội dung ý kiến / phản hồi</span> <span class="req">*</span>
+            </label>
+            <textarea id="messageInput" name="message" placeholder="..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label">
+              <span data-i18n="labelAttachment">Tải ảnh, video hoặc file lên</span>
+            </label>
+            <div id="uploadTrigger" class="upload-box" role="button" tabindex="0">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <span data-i18n="uploadText">Bấm để chọn ảnh, video hoặc file từ thiết bị</span>
+              <small data-i18n="uploadHint">Hỗ trợ ảnh, video và mọi định dạng file (tối đa 25MB)</small>
+            </div>
+            <input type="file" id="fileInput" name="attachment" accept="image/*,video/*,*/*" class="hidden-file-input" />
+
+            <div id="previewWrap" class="preview-wrap">
+              <button type="button" id="removeFileBtn" class="remove-file-btn">
+                <i class="fas fa-times"></i> <span data-i18n="removeFile">Xóa tệp</span>
+              </button>
+              <div id="previewContent"></div>
+              <div class="preview-meta">
+                <span id="previewFileName"></span>
+                <span id="previewFileSize"></span>
               </div>
             </div>
           </div>
-        </main>
-    
-        <!-- Javascript file -->
-    
-        <script src="app.js"></script>
-      </body>
-    </html>
-    
+
+          <button type="submit" id="submitBtn" class="btn-primary">
+            <i class="fas fa-paper-plane"></i>
+            <span data-i18n="btnSend">Gửi ý kiến ngay</span>
+          </button>
+        </form>
+      </section>
+
+      <!-- Right Column: Replies & Repo Highlights -->
+      <div>
+        <section class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-comments"></i> <span data-i18n="inboxTitle">Phản hồi &amp; Trả lời trực tiếp</span></h2>
+            <p data-i18n="inboxDesc">Xem ý kiến đã gửi và phản hồi trực tiếp ngay tại trang này.</p>
+          </div>
+
+          <div id="ticketList" class="ticket-list"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-bolt"></i> <span data-i18n="highlightsTitle">Thông tin Repository Cydia , Sileo</span></h2>
+          </div>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <i class="fas fa-sync-alt"></i>
+              <div>
+                <strong data-i18n="feat1Title">Cập nhật các Tinh Chỉnh Thường Xuyên</strong>
+                <span data-i18n="feat1Desc">Tối ưu ổn định cho Cydia, Sileo và các bản Jailbreak mới.</span>
+              </div>
+            </li>
+            <li class="feature-item">
+              <i class="fas fa-headset"></i>
+              <div>
+                <strong data-i18n="feat2Title">Hỗ Trợ Nhiệt Tình 24/24</strong>
+                <span data-i18n="feat2Desc">Tiếp nhận và giải đáp các yêu cầu chính đáng nhanh chóng.</span>
+              </div>
+            </li>
+            <li class="feature-item">
+              <i class="fas fa-users"></i>
+              <div>
+                <strong data-i18n="feat3Title">Nhóm Giải Đáp về Thủ thuật Jailbreak</strong>
+                <span data-i18n="feat3Desc">Chia sẻ kinh nghiệm, xử lý lỗi xung đột tweak an toàn.</span>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <p data-i18n="footerText">Copyright © 2016 - 2026  Repository  All Rights Reserved</p>
+    </footer>
+  </div>
+
+  <script>
+    const TARGET_EMAIL = "longmenjailbreak@gmail.com";
+    const STORAGE_TICKETS_KEY = "longmen_feedback_tickets_v2";
+    const STORAGE_LANG_KEY = "longmen_lang_v1";
+    const STORAGE_THEME_KEY = "longmen_theme_v1";
+    const MAX_FILE_BYTES = 25 * 1024 * 1024; // 25MB
+    const MAX_LOCAL_PREVIEW_BYTES = 2.5 * 1024 * 1024; // 2.5MB for localStorage preview
+
+    const LANG_NAMES = {
+      vi: "🇻🇳 Tiếng Việt",
+      en: "🇺🇸 English",
+      zh: "🇨🇳 中文",
+      ko: "🇰🇷 한국어",
+      ja: "🇯🇵 日本語"
+    };
+
+    const I18N = {
+      vi: {
+        pageTitle: "Repository Cydia Sileo - Gửi ý kiến & phản hồi",
+        brandTitle: "Repository",
+        brandSub: "Cydia & Sileo",
+        lightMode: "Chế độ sáng",
+        darkMode: "Chế độ tối",
+        formTitle: "Gửi ý kiến & phản hồi",
+        formDesc: "Gửi ý kiến, báo lỗi hoặc đề xuất trực tiếp tới hệ thống phản hồi.",
+        labelName: "Tên của bạn",
+        labelEmail: "Email liên hệ",
+        labelReason: "Lý do chính đáng",
+        reasonPlaceholder: "-- Chọn lý do chính đáng --",
+        reasonBug: "Báo lỗi Tweak / Jailbreak kèm mô tả rõ ràng",
+        reasonSuggestion: "Đề xuất tính năng / Tweak mới cho Repo",
+        reasonSupport: "Cần hỗ trợ kỹ thuật / tài khoản chính đáng",
+        reasonOther: "Góp ý xây dựng cộng đồng khác",
+        envDeviceLabel: "Thiết bị",
+        envSoftwareLabel: "Phần mềm & Trình duyệt",
+        labelMessage: "Nội dung ý kiến / phản hồi",
+        labelAttachment: "Tải ảnh, video hoặc file lên",
+        uploadText: "Bấm để chọn ảnh, video hoặc file từ thiết bị",
+        uploadHint: "Hỗ trợ ảnh, video và mọi định dạng file (tối đa 25MB)",
+        removeFile: "Xóa tệp",
+        btnSend: "Gửi ý kiến ngay",
+        btnSending: "Đang gửi...",
+        inboxTitle: "Phản hồi & Trả lời trực tiếp",
+        inboxDesc: "Xem ý kiến đã gửi và phản hồi trực tiếp ngay tại trang này.",
+        emptyTickets: "Chưa có ý kiến nào được lưu trên trình duyệt này.",
+        replyPlaceholder: "Nhập câu trả lời của bạn...",
+        btnReply: "Trả lời",
+        adminBadge: "Phản hồi trực tiếp",
+        toastLangChanged: "Đã chuyển ngôn ngữ sang: {lang}",
+        toastEmptyAll: "Bạn chưa điền thông tin! Vui lòng nhập đầy đủ trước khi gửi.",
+        toastMissingReason: "Vui lòng chọn lý do chính đáng trước khi gửi.",
+        toastInvalidEmail: "Địa chỉ email chưa đúng định dạng.",
+        toastFileLoaded: "Đã tải tệp lên thành công!",
+        toastFileTooLarge: "Tệp vượt quá 25MB, vui lòng chọn tệp nhỏ hơn.",
+        toastFileError: "Không thể đọc tệp này, vui lòng thử tệp khác.",
+        toastSent: "Đã gửi ý kiến thành công!",
+        toastSentLocal: "Đã lưu ý kiến vào mục phản hồi (nếu chưa kích hoạt hãy kiểm tra hộp thư).",
+        toastReplyEmpty: "Bạn chưa nhập nội dung trả lời!",
+        toastReplied: "Đã đăng phản hồi trực tiếp thành công!",
+        highlightsTitle: "Thông tin Repository Cydia , Sileo",
+        feat1Title: "Cập nhật các Tinh Chỉnh Thường Xuyên",
+        feat1Desc: "Tối ưu ổn định cho Cydia, Sileo và các bản Jailbreak mới.",
+        feat2Title: "Hỗ Trợ Nhiệt Tình 24/24",
+        feat2Desc: "Tiếp nhận và giải đáp các yêu cầu chính đáng nhanh chóng.",
+        feat3Title: "Nhóm Giải Đáp về Thủ thuật Jailbreak",
+        feat3Desc: "Chia sẻ kinh nghiệm, xử lý lỗi xung đột tweak an toàn.",
+        footerText: "Copyright © 2016 - 2026  Repository  All Rights Reserved"
+      },
+      en: {
+        pageTitle: "Repository Cydia Sileo - Feedback & Replies",
+        brandTitle: "Repository",
+        brandSub: "Cydia & Sileo",
+        lightMode: "Light Mode",
+        darkMode: "Dark Mode",
+        formTitle: "Send Feedback & Suggestions",
+        formDesc: "Send feedback, bug reports, or requests directly through the feedback form.",
+        labelName: "Your Name",
+        labelEmail: "Contact Email",
+        labelReason: "Valid Reason",
+        reasonPlaceholder: "-- Select a valid reason --",
+        reasonBug: "Tweak / Jailbreak bug report with clear details",
+        reasonSuggestion: "Suggest a new feature or tweak for the Repo",
+        reasonSupport: "Legitimate technical or account support request",
+        reasonOther: "Other constructive community feedback",
+        envDeviceLabel: "Device",
+        envSoftwareLabel: "Software & Browser",
+        labelMessage: "Feedback Message",
+        labelAttachment: "Upload Image, Video or File",
+        uploadText: "Click to choose an image, video or file from your device",
+        uploadHint: "Supports images, videos and any file type (max 25MB)",
+        removeFile: "Remove",
+        btnSend: "Send Feedback",
+        btnSending: "Sending...",
+        inboxTitle: "Feedback & Direct Replies",
+        inboxDesc: "View submitted feedback and reply directly on this page.",
+        emptyTickets: "No feedback entries stored in this browser yet.",
+        replyPlaceholder: "Write your reply...",
+        btnReply: "Reply",
+        adminBadge: "Direct Reply",
+        toastLangChanged: "Language switched to: {lang}",
+        toastEmptyAll: "Fields are empty! Please fill out the form before submitting.",
+        toastMissingReason: "Please select a valid reason before submitting.",
+        toastInvalidEmail: "Please enter a valid email address.",
+        toastFileLoaded: "File attached successfully!",
+        toastFileTooLarge: "File exceeds 25MB limit, please choose a smaller file.",
+        toastFileError: "Unable to read this file, please try another.",
+        toastSent: "Feedback sent successfully!",
+        toastSentLocal: "Saved to feedback list. Check your inbox if first-time activation is needed.",
+        toastReplyEmpty: "Please enter a reply message first!",
+        toastReplied: "Direct reply posted!",
+        highlightsTitle: "Information Repository Cydia , Sileo",
+        feat1Title: "Frequent Tweak Updates",
+        feat1Desc: "Stability improvements for Cydia, Sileo, and jailbreaks.",
+        feat2Title: "24/7 Dedicated Support",
+        feat2Desc: "Fast handling for valid questions and assistance.",
+        feat3Title: "Jailbreak Troubleshooting Group",
+        feat3Desc: "Share tips and resolve tweak conflicts safely.",
+        footerText: "Copyright © 2016 - 2026  Repository  All Rights Reserved"
+      },
+      zh: {
+        pageTitle: "Repository Cydia Sileo - 意见反馈与回复",
+        brandTitle: "Repository",
+        brandSub: "Cydia & Sileo",
+        lightMode: "浅色模式",
+        darkMode: "深色模式",
+        formTitle: "提交意见与反馈",
+        formDesc: "直接发送建议、问题反馈或合理诉求至反馈系统。",
+        labelName: "您的姓名",
+        labelEmail: "联系邮箱",
+        labelReason: "正当理由",
+        reasonPlaceholder: "-- 请选择正当理由 --",
+        reasonBug: "报告插件 / 越狱问题并附清晰说明",
+        reasonSuggestion: "为源建议新功能或新插件",
+        reasonSupport: "正当的技术支持或账号协助请求",
+        reasonOther: "其他建设性社区意见",
+        envDeviceLabel: "设备",
+        envSoftwareLabel: "软件与浏览器",
+        labelMessage: "反馈内容",
+        labelAttachment: "上传图片、视频或文件",
+        uploadText: "点击从设备选择图片、视频或文件",
+        uploadHint: "支持图片、视频及各类文件（最大 25MB）",
+        removeFile: "移除",
+        btnSend: "立即发送",
+        btnSending: "正在发送...",
+        inboxTitle: "反馈列表与在线回复",
+        inboxDesc: "查看已提交的反馈并在此页面直接回复。",
+        emptyTickets: "当前浏览器中暂无反馈记录。",
+        replyPlaceholder: "输入您的回复内容...",
+        btnReply: "回复",
+        adminBadge: "在线回复",
+        toastLangChanged: "已切换语言为：{lang}",
+        toastEmptyAll: "您尚未填写任何内容！请填写后再提交。",
+        toastMissingReason: "请选择正当理由后再提交。",
+        toastInvalidEmail: "邮箱格式不正确。",
+        toastFileLoaded: "文件已成功添加！",
+        toastFileTooLarge: "文件超过 25MB 限制，请选择更小的文件。",
+        toastFileError: "无法读取该文件，请更换文件。",
+        toastSent: "发送成功！",
+        toastSentLocal: "已保存到反馈列表（若首次使用请前往邮箱确认激活）。",
+        toastReplyEmpty: "请输入回复内容！",
+        toastReplied: "回复已发布！",
+        highlightsTitle: "信息 Repository Cydia , Sileo",
+        feat1Title: "频繁更新插件",
+        feat1Desc: "持续优化 Cydia、Sileo 与越狱环境稳定性。",
+        feat2Title: "24/24 热情支持",
+        feat2Desc: "及时处理合理诉求与技术咨询。",
+        feat3Title: "越狱技巧交流群",
+        feat3Desc: "交流经验，安全排查插件冲突。",
+        footerText: "Copyright © 2016 - 2026  Repository  All Rights Reserved"
+      },
+      ko: {
+        pageTitle: "Repository Cydia Sileo - 피드백 및 답변",
+        brandTitle: "Repository",
+        brandSub: "Cydia & Sileo",
+        lightMode: "라이트 모드",
+        darkMode: "다크 모드",
+        formTitle: "의견 및 피드백 보내기",
+        formDesc: "의견, 오류 제보 또는 요청을 피드백 시스템으로 바로 보내세요.",
+        labelName: "이름",
+        labelEmail: "이메일",
+        labelReason: "정당한 사유",
+        reasonPlaceholder: "-- 정당한 사유를 선택하세요 --",
+        reasonBug: "트윅 / 탈옥 오류 제보 및 상세 설명",
+        reasonSuggestion: "저장소 새 기능 또는 트윅 제안",
+        reasonSupport: "정당한 기술 지원 또는 계정 문의",
+        reasonOther: "기타 건설적인 커뮤니티 의견",
+        envDeviceLabel: "기기",
+        envSoftwareLabel: "소프트웨어 및 브라우저",
+        labelMessage: "피드백 내용",
+        labelAttachment: "이미지, 동영상 또는 파일 업로드",
+        uploadText: "기기에서 이미지, 동영상 또는 파일을 선택하세요",
+        uploadHint: "이미지, 동영상 및 모든 파일 형식 지원 (최대 25MB)",
+        removeFile: "삭제",
+        btnSend: "피드백 보내기",
+        btnSending: "전송 중...",
+        inboxTitle: "피드백 및 바로 답변",
+        inboxDesc: "제출된 피드백을 확인하고 이 페이지에서 바로 답변하세요.",
+        emptyTickets: "이 브라우저에 저장된 피드백이 아직 없습니다.",
+        replyPlaceholder: "답변을 입력하세요...",
+        btnReply: "답변",
+        adminBadge: "바로 답변",
+        toastLangChanged: "언어가 변경되었습니다: {lang}",
+        toastEmptyAll: "입력된 내용이 없습니다! 작성 후 전송해 주세요.",
+        toastMissingReason: "전송하기 전에 정당한 사유를 선택해 주세요.",
+        toastInvalidEmail: "올바른 이메일 형식이 아닙니다.",
+        toastFileLoaded: "파일이 첨부되었습니다!",
+        toastFileTooLarge: "파일 크기가 25MB를 초과합니다. 더 작은 파일을 선택하세요.",
+        toastFileError: "파일을 읽을 수 없습니다. 다른 파일을 선택해 주세요.",
+        toastSent: "전송되었습니다!",
+        toastSentLocal: "목록에 저장되었습니다. 첫 전송이라면 메일 인증을 확인하세요.",
+        toastReplyEmpty: "답변 내용을 먼저 입력해 주세요!",
+        toastReplied: "답변이 등록되었습니다!",
+        highlightsTitle: "정보 Repository Cydia , Sileo",
+        feat1Title: "정기적인 트윅 업데이트",
+        feat1Desc: "Cydia, Sileo 및 탈옥 환경의 안정성을 개선합니다.",
+        feat2Title: "24/24 친절한 지원",
+        feat2Desc: "정당한 요청과 문의를 빠르게 처리합니다.",
+        feat3Title: "탈옥 팁 공유 그룹",
+        feat3Desc: "노하우를 공유하고 트윅 충돌을 안전하게 해결합니다.",
+        footerText: "Copyright © 2016 - 2026  Repository  All Rights Reserved"
+      },
+      ja: {
+        pageTitle: "Repository Cydia Sileo - フィードバック＆返信",
+        brandTitle: "Repository",
+        brandSub: "Cydia & Sileo",
+        lightMode: "ライトモード",
+        darkMode: "ダークモード",
+        formTitle: "ご意見・フィードバック送信",
+        formDesc: "ご意見や不具合報告をフィードバックシステムへ直接送信します。",
+        labelName: "お名前",
+        labelEmail: "連絡先メール",
+        labelReason: "正当な理由",
+        reasonPlaceholder: "-- 正当な理由を選択してください --",
+        reasonBug: "Tweak・脱獄の不具合報告（詳細記載）",
+        reasonSuggestion: "リポジトリへの新機能・Tweak提案",
+        reasonSupport: "正当な技術サポート・アカウント相談",
+        reasonOther: "その他の建設的なご意見",
+        envDeviceLabel: "デバイス",
+        envSoftwareLabel: "ソフトウェア＆ブラウザ",
+        labelMessage: "フィードバック内容",
+        labelAttachment: "画像・動画・ファイルをアップロード",
+        uploadText: "クリックして端末から画像・動画・ファイルを選択",
+        uploadHint: "画像・動画・各種ファイル対応（最大 25MB）",
+        removeFile: "削除",
+        btnSend: "送信する",
+        btnSending: "送信中...",
+        inboxTitle: "フィードバック一覧・直接返信",
+        inboxDesc: "送信された内容を確認し、このページから直接返信できます。",
+        emptyTickets: "このブラウザに保存されたフィードバックはありません。",
+        replyPlaceholder: "返信を入力してください...",
+        btnReply: "返信",
+        adminBadge: "直接返信",
+        toastLangChanged: "言語を変更しました：{lang}",
+        toastEmptyAll: "未入力です！内容を入力してから送信してください。",
+        toastMissingReason: "送信する前に正当な理由を選択してください。",
+        toastInvalidEmail: "メールアドレスの形式が正しくありません。",
+        toastFileLoaded: "ファイルを添付しました！",
+        toastFileTooLarge: "ファイルサイズが25MBを超えています。小さいファイルを選択してください。",
+        toastFileError: "ファイルを読み込めませんでした。別のファイルをお試しください。",
+        toastSent: "送信しました！",
+        toastSentLocal: "一覧に保存しました（初回はメール認証をご確認ください）。",
+        toastReplyEmpty: "返信内容を入力してください！",
+        toastReplied: "返信を投稿しました！",
+        highlightsTitle: "情報 Repository Cydia , Sileo",
+        feat1Title: "Tweak を定期アップデート",
+        feat1Desc: "Cydia、Sileo、脱獄環境の安定性を向上させます。",
+        feat2Title: "24/24 丁寧なサポート",
+        feat2Desc: "正当なお問い合わせに迅速に対応します。",
+        feat3Title: "脱獄テクニック解説グループ",
+        feat3Desc: "情報共有や Tweak 競合の安全な解決を支援します。",
+        footerText: "Copyright © 2016 - 2026  Repository  All Rights Reserved"
+      }
+    };
+
+    let currentLang = localStorage.getItem(STORAGE_LANG_KEY) || "vi";
+    // Mặc định luôn là dark khi mới vào trang
+    let currentTheme = localStorage.getItem(STORAGE_THEME_KEY) || "dark";
+    let attachedFile = null;
+    let attachedPreviewDataUrl = "";
+    let attachedCategory = "none"; // "image" | "video" | "file"
+
+    function detectDeviceAndSoftware() {
+      const ua = navigator.userAgent || "";
+      const platform = navigator.platform || "";
+
+      let device = "Desktop / PC";
+      if (/iPhone/i.test(ua)) {
+        device = "iPhone (iOS)";
+      } else if (/iPad/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) {
+        device = "iPad (iPadOS)";
+      } else if (/iPod/i.test(ua)) {
+        device = "iPod touch";
+      } else if (/Android/i.test(ua)) {
+        device = /Mobile/i.test(ua) ? "Android Phone" : "Android Tablet";
+      } else if (/Macintosh|Mac OS X/i.test(ua)) {
+        device = "Mac";
+      } else if (/Windows/i.test(ua)) {
+        device = "Windows PC";
+      } else if (/Linux/i.test(ua)) {
+        device = "Linux";
+      }
+
+      let os = "Unknown OS";
+      const iosMatch = ua.match(/OS (\d+[_.]\d+(?:[_.]\d+)?)/i);
+      const androidMatch = ua.match(/Android (\d+(?:\.\d+)*)/i);
+      const macMatch = ua.match(/Mac OS X (\d+[_.]\d+(?:[_.]\d+)?)/i);
+
+      if (/iPhone|iPad|iPod/i.test(ua) && iosMatch) {
+        os = "iOS " + iosMatch[1].replace(/_/g, ".");
+      } else if (androidMatch) {
+        os = "Android " + androidMatch[1];
+      } else if (/Windows NT 10\.0/i.test(ua)) {
+        os = "Windows 10/11";
+      } else if (/Macintosh|Mac OS X/i.test(ua)) {
+        os = macMatch ? "macOS " + macMatch[1].replace(/_/g, ".") : "macOS";
+      } else if (/Linux/i.test(ua)) {
+        os = "Linux";
+      } else if (platform) {
+        os = platform;
+      }
+
+      let browser = "Browser";
+      let match;
+      if ((match = ua.match(/Edg\/([\d.]+)/))) {
+        browser = "Edge " + match[1].split(".")[0];
+      } else if ((match = ua.match(/OPR\/([\d.]+)/))) {
+        browser = "Opera " + match[1].split(".")[0];
+      } else if ((match = ua.match(/Firefox\/([\d.]+)/))) {
+        browser = "Firefox " + match[1].split(".")[0];
+      } else if (/CriOS/i.test(ua) && (match = ua.match(/CriOS\/([\d.]+)/))) {
+        browser = "Chrome iOS " + match[1].split(".")[0];
+      } else if ((match = ua.match(/Chrome\/([\d.]+)/)) && !/Chromium/i.test(ua)) {
+        browser = "Chrome " + match[1].split(".")[0];
+      } else if (/Safari/i.test(ua) && !/Chrome|Chromium|CriOS|FxiOS/i.test(ua)) {
+        const ver = ua.match(/Version\/([\d.]+)/);
+        browser = "Safari" + (ver ? " " + ver[1].split(".")[0] : "");
+      }
+
+      const res = `${window.screen.width}x${window.screen.height}`;
+      const softwareText = `${os} • ${browser} (${res})`;
+
+      if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+        navigator.userAgentData.getHighEntropyValues(["model", "platformVersion"]).then((info) => {
+          if (info && info.model) {
+            document.getElementById("envDeviceVal").textContent = `${device} • ${info.model}`;
+          }
+        }).catch(() => {});
+      }
+
+      return {
+        device,
+        software: softwareText,
+        combined: `${device} | ${softwareText}`
+      };
+    }
+
+    const detectedEnv = detectDeviceAndSoftware();
+    document.getElementById("envDeviceVal").textContent = detectedEnv.device;
+    document.getElementById("envSoftwareVal").textContent = detectedEnv.software;
+
+    function showToast(message, type = "info", duration = 3200) {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+
+      const iconMap = {
+        success: "fa-check-circle",
+        warning: "fa-exclamation-triangle",
+        error: "fa-times-circle",
+        info: "fa-info-circle"
+      };
+
+      toast.innerHTML = `<i class="fas ${iconMap[type] || "fa-info-circle"}"></i><span>${escapeHtml(message)}</span>`;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => toast.classList.add("show"));
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 260);
+      }, duration);
+    }
+
+    function escapeHtml(str = "") {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function formatFileSize(bytes = 0) {
+      if (bytes < 1024) return bytes + " B";
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+      return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+
+    function applyTheme(theme) {
+      currentTheme = theme === "light" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", currentTheme);
+      localStorage.setItem(STORAGE_THEME_KEY, currentTheme);
+
+      const btn = document.getElementById("themeToggle");
+      const dict = I18N[currentLang] || I18N.vi;
+      if (currentTheme === "dark") {
+        btn.innerHTML = `<i class="fas fa-sun"></i><span>${escapeHtml(dict.lightMode)}</span>`;
+      } else {
+        btn.innerHTML = `<i class="fas fa-moon"></i><span>${escapeHtml(dict.darkMode)}</span>`;
+      }
+    }
+
+    function applyLanguage(lang, notify = false) {
+      currentLang = I18N[lang] ? lang : "vi";
+      document.documentElement.lang = currentLang;
+      localStorage.setItem(STORAGE_LANG_KEY, currentLang);
+      document.getElementById("langSelect").value = currentLang;
+
+      const dict = I18N[currentLang];
+      document.title = dict.pageTitle;
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        if (dict[key]) {
+          el.textContent = dict[key];
+        }
+      });
+
+      document.getElementById("messageInput").placeholder = dict.labelMessage;
+      applyTheme(currentTheme);
+      renderTickets();
+
+      if (notify) {
+        const msg = dict.toastLangChanged.replace("{lang}", LANG_NAMES[currentLang] || currentLang);
+        showToast(msg, "info", 2500);
+      }
+    }
+
+    function loadTickets() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_TICKETS_KEY) || "[]");
+      } catch {
+        return [];
+      }
+    }
+
+    function saveTickets(tickets) {
+      try {
+        localStorage.setItem(STORAGE_TICKETS_KEY, JSON.stringify(tickets));
+      } catch {
+        // Nếu vượt hạn mức storage của trình duyệt, lưu bản không kèm base64 lớn
+        const slim = tickets.map((t) => ({ ...t, previewDataUrl: "" }));
+        localStorage.setItem(STORAGE_TICKETS_KEY, JSON.stringify(slim));
+      }
+    }
+
+    function getReasonLabel(reasonKey) {
+      const dict = I18N[currentLang] || I18N.vi;
+      const map = {
+        bug: dict.reasonBug,
+        suggestion: dict.reasonSuggestion,
+        support: dict.reasonSupport,
+        other: dict.reasonOther
+      };
+      return map[reasonKey] || reasonKey;
+    }
+
+    function renderTickets() {
+      const listEl = document.getElementById("ticketList");
+      const dict = I18N[currentLang] || I18N.vi;
+      const tickets = loadTickets();
+
+      if (!tickets.length) {
+        listEl.innerHTML = `<div class="empty-state">${escapeHtml(dict.emptyTickets)}</div>`;
+        return;
+      }
+
+      listEl.innerHTML = tickets.map((t) => {
+        let mediaHtml = "";
+        if (t.previewDataUrl && t.fileCategory === "image") {
+          mediaHtml = `<img class="ticket-img" src="${t.previewDataUrl}" alt="Attachment" />`;
+        } else if (t.previewDataUrl && t.fileCategory === "video") {
+          mediaHtml = `<video class="ticket-video" src="${t.previewDataUrl}" controls></video>`;
+        } else if (t.fileName) {
+          mediaHtml = `<div class="ticket-file-chip"><i class="fas fa-paperclip"></i><span>${escapeHtml(t.fileName)} (${escapeHtml(t.fileSizeText || "")})</span></div>`;
+        }
+
+        return `
+          <div class="ticket" data-id="${escapeHtml(t.id)}">
+            <div class="ticket-top">
+              <span class="badge">${escapeHtml(getReasonLabel(t.reason))}</span>
+              <span class="ticket-time">${escapeHtml(t.createdAt)}</span>
+            </div>
+            <div class="ticket-author">${escapeHtml(t.name)} (${escapeHtml(t.email)})</div>
+            ${t.envText ? `<div class="ticket-env"><i class="fas fa-laptop-code"></i> ${escapeHtml(t.envText)}</div>` : ""}
+            <div class="ticket-msg">${escapeHtml(t.message)}</div>
+            ${mediaHtml}
+
+            ${t.reply ? `
+              <div class="admin-reply-box">
+                <div class="admin-reply-label"><i class="fas fa-reply"></i> ${escapeHtml(dict.adminBadge)} • ${escapeHtml(t.repliedAt || "")}</div>
+                <div>${escapeHtml(t.reply)}</div>
+              </div>
+            ` : ""}
+
+            <form class="reply-form" onsubmit="handleReplySubmit(event, '${escapeHtml(t.id)}')">
+              <input type="text" placeholder="${escapeHtml(dict.replyPlaceholder)}" aria-label="${escapeHtml(dict.replyPlaceholder)}" />
+              <button type="submit" class="btn-reply">${escapeHtml(dict.btnReply)}</button>
+            </form>
+          </div>
+        `;
+      }).join("");
+    }
+
+    window.handleReplySubmit = function(event, ticketId) {
+      event.preventDefault();
+      const dict = I18N[currentLang] || I18N.vi;
+      const input = event.target.querySelector("input");
+      const replyText = input.value.trim();
+
+      if (!replyText) {
+        showToast(dict.toastReplyEmpty, "warning");
+        input.focus();
+        return;
+      }
+
+      const tickets = loadTickets();
+      const idx = tickets.findIndex((item) => item.id === ticketId);
+      if (idx !== -1) {
+        tickets[idx].reply = replyText;
+        tickets[idx].repliedAt = new Date().toLocaleString();
+        saveTickets(tickets);
+        input.value = "";
+        renderTickets();
+        showToast(dict.toastReplied, "success");
+      }
+    };
+
+    // File / Image / Video upload handling
+    const uploadTrigger = document.getElementById("uploadTrigger");
+    const fileInput = document.getElementById("fileInput");
+    const previewWrap = document.getElementById("previewWrap");
+    const previewContent = document.getElementById("previewContent");
+    const previewFileName = document.getElementById("previewFileName");
+    const previewFileSize = document.getElementById("previewFileSize");
+    const removeFileBtn = document.getElementById("removeFileBtn");
+
+    function clearSelectedFile() {
+      attachedFile = null;
+      attachedPreviewDataUrl = "";
+      attachedCategory = "none";
+      fileInput.value = "";
+      previewContent.innerHTML = "";
+      previewFileName.textContent = "";
+      previewFileSize.textContent = "";
+      previewWrap.classList.remove("show");
+    }
+
+    uploadTrigger.addEventListener("click", () => {
+      fileInput.click();
+    });
+
+    uploadTrigger.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        fileInput.click();
+      }
+    });
+
+    fileInput.addEventListener("change", () => {
+      const dict = I18N[currentLang] || I18N.vi;
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) return;
+
+      if (file.size > MAX_FILE_BYTES) {
+        showToast(dict.toastFileTooLarge, "error");
+        clearSelectedFile();
+        return;
+      }
+
+      attachedFile = file;
+      const isImage = file.type.startsWith("image/");
+      const isVideo = file.type.startsWith("video/");
+      attachedCategory = isImage ? "image" : (isVideo ? "video" : "file");
+
+      previewFileName.textContent = file.name;
+      previewFileSize.textContent = formatFileSize(file.size);
+
+      if ((isImage || isVideo) && file.size <= MAX_LOCAL_PREVIEW_BYTES) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const result = e.target && e.target.result;
+          attachedPreviewDataUrl = typeof result === "string" ? result : "";
+          if (isImage && attachedPreviewDataUrl) {
+            previewContent.innerHTML = `<img src="${attachedPreviewDataUrl}" alt="Preview" />`;
+          } else if (isVideo && attachedPreviewDataUrl) {
+            previewContent.innerHTML = `<video src="${attachedPreviewDataUrl}" controls></video>`;
+          } else {
+            previewContent.innerHTML = `<div class="file-card-preview"><i class="fas fa-file-alt"></i><div><strong>${escapeHtml(file.name)}</strong></div></div>`;
+          }
+          previewWrap.classList.add("show");
+          showToast(dict.toastFileLoaded, "success", 2200);
+        };
+        reader.onerror = () => {
+          showToast(dict.toastFileError, "error");
+          clearSelectedFile();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        attachedPreviewDataUrl = "";
+        const iconClass = isVideo ? "fa-file-video" : (isImage ? "fa-file-image" : "fa-file-archive");
+        previewContent.innerHTML = `<div class="file-card-preview"><i class="fas ${iconClass}"></i><div><strong>${escapeHtml(file.name)}</strong></div></div>`;
+        previewWrap.classList.add("show");
+        showToast(dict.toastFileLoaded, "success", 2200);
+      }
+    });
+
+    removeFileBtn.addEventListener("click", clearSelectedFile);
+
+    // Form submit -> AJAX to target email + local inbox
+    const feedbackForm = document.getElementById("feedbackForm");
+    const submitBtn = document.getElementById("submitBtn");
+
+    feedbackForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const dict = I18N[currentLang] || I18N.vi;
+
+      const name = document.getElementById("senderName").value.trim();
+      const email = document.getElementById("senderEmail").value.trim();
+      const reason = document.getElementById("reasonSelect").value;
+      const message = document.getElementById("messageInput").value.trim();
+
+      if (!name && !email && !reason && !message) {
+        showToast(dict.toastEmptyAll, "warning");
+        return;
+      }
+      if (!name || !message) {
+        showToast(dict.toastEmptyAll, "warning");
+        return;
+      }
+      if (!reason) {
+        showToast(dict.toastMissingReason, "warning");
+        return;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showToast(dict.toastInvalidEmail, "warning");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      const originalBtnHtml = submitBtn.innerHTML;
+      submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>${escapeHtml(dict.btnSending)}</span>`;
+
+      const newTicket = {
+        id: "tk_" + Date.now(),
+        name,
+        email,
+        reason,
+        message,
+        envText: detectedEnv.combined,
+        fileName: attachedFile ? attachedFile.name : "",
+        fileSizeText: attachedFile ? formatFileSize(attachedFile.size) : "",
+        fileCategory: attachedCategory,
+        previewDataUrl: attachedPreviewDataUrl,
+        createdAt: new Date().toLocaleString(),
+        reply: ""
+      };
+
+      const tickets = loadTickets();
+      tickets.unshift(newTicket);
+      saveTickets(tickets);
+      renderTickets();
+
+      try {
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("email", email);
+        formData.append("_replyto", email);
+        formData.append("reason", getReasonLabel(reason));
+        formData.append("device_and_software", detectedEnv.combined);
+        formData.append("message", message);
+        formData.append("_subject", `[Repository] ${getReasonLabel(reason)} - ${name}`);
+        formData.append("_captcha", "false");
+        if (attachedFile) {
+          formData.append("attachment", attachedFile, attachedFile.name);
+        }
+
+        const res = await fetch(`https://formsubmit.co/ajax/${TARGET_EMAIL}`, {
+          method: "POST",
+          body: formData
+        });
+
+        if (res.ok) {
+          showToast(dict.toastSent, "success");
+        } else {
+          showToast(dict.toastSentLocal, "info", 4200);
+        }
+      } catch {
+        showToast(dict.toastSentLocal, "info", 4200);
+      } finally {
+        feedbackForm.reset();
+        clearSelectedFile();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+        applyLanguage(currentLang, false);
+      }
+    });
+
+    // Events
+    document.getElementById("langSelect").addEventListener("change", (e) => {
+      applyLanguage(e.target.value, true);
+    });
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      applyTheme(currentTheme === "dark" ? "light" : "dark");
+    });
+
+    // Init
+    applyTheme("dark");
+    applyLanguage(currentLang, false);
+    renderTickets();
+  </script>
+</body>
+</html>
